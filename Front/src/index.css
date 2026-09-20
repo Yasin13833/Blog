@@ -1,0 +1,25 @@
+/* Css Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+  scroll-behavior: smooth;
+}
+/* Css Reset */
+
+/* Base Font */
+@font-face {
+  font-family: "Vazirmatn",sans-serif;
+  src:
+  url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.woff2") format('woff2');
+  /* url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.woff") format('woff'),
+  url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.ttf") format('truetype'); */
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+/* Base Font */
+
+
