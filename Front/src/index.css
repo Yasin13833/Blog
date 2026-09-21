@@ -1,12 +1,16 @@
+@import "tailwindcss";
+
+
+
 /* Css Reset */
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
   list-style: none;
   scroll-behavior: smooth;
-}
+} */
 /* Css Reset */
 
 /* Base Font */
@@ -22,4 +26,15 @@
 }
 /* Base Font */
 
+/* Root */
+:root{
+--primary : #96B642;
+--secondary : #0A4696;
+--accent : #EEB62A;
+}
+/* Root */
+
+* {
+  font-family: 'Vazirmatn',sans-serif;
+}
 
