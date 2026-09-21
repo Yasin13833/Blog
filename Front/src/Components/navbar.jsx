@@ -7,7 +7,7 @@ export default function Navbar() {
   const { t } = useTranslation()
   const navbar = t("navbar", { returnObjects: true })
   const location = useLocation()
-  console.log(location.pathname)
+
   return (
     <motion.header
       initial={{ y: -50 }}
@@ -20,12 +20,42 @@ export default function Navbar() {
           <FiSearch className='w-8 h-8 transition-all duration-250 hover:scale-120 absolute left-2 top-1/2 -translate-y-1/2' />
         </div>
         <ul className='flex gap-10'>
-          {Object.keys(navbar).map((item, index) => <NavLink className='text-[26px] transition-all duration-200 hover:scale-110' key={index} to={`/${item}`}>{navbar[item]}</NavLink>)}
+          {Object.keys(navbar).map((item, index) => <NavLink
+            className={
+              `text-[26px]
+    transition-all
+    duration-200
+    hover:scale-110
+    text-${location.pathname === `/${item} ` ? 'black' : 'white'}
+    relative
+    group
+    inline-block
+    after:content-['']
+    after:absolute
+    after:left-0
+    after:bottom-[0px]
+    after:w-[120%]
+    after:h-[2px]
+    after:bg-[var(--primary)]
+    after:scale-x-0
+    after:transition-transform
+    after:translate-x-[-7%]
+    after:duration-300
+    after:rounded-2xl
+    hover:after:scale-x-100`
+            }
+
+
+            key={index}
+            to={`/${item == 'home' ? '/' : item}`}
+          >
+            {navbar[item]}
+          </NavLink>)}
         </ul>
         <div className='logo-container w-12 h-12 transition-all duration-200 hover:scale-110 cursor-pointer'>
           <img src="public/Logo.png" alt="logo" className='w-full h-full ' />
         </div>
       </nav>
-    </motion.header>
+    </motion.header >
   )
 }
