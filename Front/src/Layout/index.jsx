@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <div className='w-full h-max my-[12vh]'>
+      <div className='w-full h-max'>
         <Outlet />
       </div>
       <Footer />
