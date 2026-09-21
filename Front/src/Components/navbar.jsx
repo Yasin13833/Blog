@@ -21,12 +21,11 @@ export default function Navbar() {
         </div>
         <ul className='flex gap-10'>
           {Object.keys(navbar).map((item, index) => <NavLink
-            className={
-              `text-[26px]
+            className={({ isActive }) => {
+              return `text-[26px]
     transition-all
     duration-200
     hover:scale-110
-    text-${location.pathname === `/${item} ` ? 'black' : 'white'}
     relative
     group
     inline-block
@@ -42,7 +41,11 @@ export default function Navbar() {
     after:translate-x-[-7%]
     after:duration-300
     after:rounded-2xl
-    hover:after:scale-x-100`
+    hover:after:scale-x-100
+       ${isActive ? 'text-(--secondary)' : 'text-white'}
+    `
+            }
+
             }
 
 
