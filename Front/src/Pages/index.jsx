@@ -1,6 +1,9 @@
+import Contact from "./Contact";
 import Home from "./Home";
+import Products from "./Products";
 
-export default {
+export {
     Home,
-    
+    Products,
+    Contact
 }
