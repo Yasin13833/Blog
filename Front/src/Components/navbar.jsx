@@ -7,16 +7,16 @@ export default function Navbar() {
   const { t } = useTranslation()
   const navbar = t("navbar", { returnObjects: true })
   const location = useLocation()
-console.log(location.pathname)
+  console.log(location.pathname)
   return (
-    <motion.header 
-    initial={{y:-50}}
-    animate={{y:0}}
-    transition={{duration :.5}}
-    className='w-full h-[14vh] bg-linear-to-b from-black/70 to-black/0 fixed top-0 left-0 right-0 z-50'>
+    <motion.header
+      initial={{ y: -50 }}
+      animate={{ y: 0 }}
+      transition={{ duration: .5 }}
+      className='w-full h-[14vh] bg-linear-to-b from-black/70 to-black/0 fixed top-0 left-0 right-0 z-50'>
       <nav className='h-full w-10/12 mx-auto   flex items-center justify-between'>
         <div className='search-box  cursor-pointer relative bg-red-100 h-10 rounded-2xl overflow-hidden'>
-          <input type="text" className='w-full h-full rounded-2xl' />
+          <input type="text" className='w-full h-full rounded-2xl outline-0' />
           <FiSearch className='w-8 h-8 transition-all duration-250 hover:scale-120 absolute left-2 top-1/2 -translate-y-1/2' />
         </div>
         <ul className='flex gap-10'>
