@@ -5,12 +5,29 @@
     "about": "About Us",
     "contact": "Contact Us"
   },
-  
+
   "contact": {
     "label": "Contact Us",
-    "title": "Tell us",
-    "titleHighlight": "how we can help",
+    "title": "Tell Us",
+    "titleHighlight": "How We Can Help",
     "description": "Send us your questions and requests. Our team will get back to you as soon as possible."
-  }
+  },
 
+  "slider1": {
+    "title": "Tell Us",
+    "description": "Send us your questions and requests.",
+    "button": "View Products"
+  },
+
+  "slider2": {
+    "title": "Better Solutions for Agriculture",
+    "description": "Suitable products for irrigation and agricultural systems.",
+    "button": "View Products"
+  },
+
+  "slider3": {
+    "title": "Built for Better Performance",
+    "description": "High-quality products designed for long-term use.",
+    "button": "View Products"
+  }
 }

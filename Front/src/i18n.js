@@ -3,7 +3,7 @@ import { initReactI18next } from "react-i18next";
 
 import fa from "./assets/TransLate/fa/translation.json";
 import en from "./assets/TransLate/en/translation.json";
-import tr from "./assets/TransLate/ar/translation.json";
+import ar from "./assets/TransLate/ar/translation.json";
 
 i18n
   .use(initReactI18next)
@@ -15,8 +15,8 @@ i18n
       en: {
         translation: en,
       },
-      tr: {
-        translation: tr,
+      ar: {
+        translation: ar,
       },
     },
 
