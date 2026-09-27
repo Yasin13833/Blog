@@ -11,14 +11,13 @@ export default function Slider() {
     const [activeSlide, setActiveSlide] = useState(0)
     const { t } = useTranslation()
 
-    const slider = t(
-        `slider${activeSlide + 1}`,
-        { returnObjects: true }
-    )
-
+    const sliders = t("slider", {
+        returnObjects: true
+    })
+    const slider = sliders[activeSlide]
     return (
 
-        <div className="banner w-full h-[50vh] sm:h-screen md:h-screen flex overflow-hidden border-b border-white/10" dir='rtl'>
+        <div className="banner w-full h-[70vh] sm:h-screen md:h-screen flex overflow-hidden border-b border-white/10" dir='rtl'>
 
 
 
@@ -26,7 +25,7 @@ export default function Slider() {
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-60 bg-linear-to-b from-[#0a0f16]/70 to-transparent" />
 
             {/* soft bottom fade (next section) */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-linear-to-t from-[#0a0f16] to-transparent" />
+
 
             {/* soft right fade */}
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-1/6 bg-linear-to-l from-[#0a0f16]/80 from-0% via-[#0a0f16]/30 via-50% to-transparent to-100%" />
@@ -46,7 +45,7 @@ export default function Slider() {
                     className="h-full"
                 >
 
-                    {Object.values(slider).map((item, index) => (
+                    {sliders.map((item, index) => (
                         <SwiperSlide
                             key={index}
                             className="h-screen overflow-hidden [&_img]:scale-110 [&_img]:transition-transform [&_img]:duration-[6000ms] [&_img]:ease-out [&.swiper-slide-active_img]:scale-100"
