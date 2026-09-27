@@ -14,20 +14,51 @@
   },
 
   "slider1": {
+    "label" : "About Us",
     "title": "Tell Us",
     "description": "Send us your questions and requests.",
     "button": "View Products"
   },
 
   "slider2": {
+    "label" : "About Us",
     "title": "Better Solutions for Agriculture",
     "description": "Suitable products for irrigation and agricultural systems.",
     "button": "View Products"
   },
 
   "slider3": {
+    "label" : "About Us",
     "title": "Built for Better Performance",
     "description": "High-quality products designed for long-term use.",
     "button": "View Products"
-  }
+  },
+  "product": {
+  "smallTitle": "Our Products",
+  "bigTitle": "Smart Solutions for Modern Agriculture",
+  "viewAll": "View All Products",
+  "productCart": [
+    {
+      "title": "PVC-U Pressure Pipe PN16",
+      "description": "Rigid pressure pipe for main irrigation lines and pump stations.",
+      "category": "Water Supply Pipes",
+      "tags": ["PVC", "PN16", "20–160 mm"],
+      "viewDetails": "View Details"
+    },
+    {
+      "title": "PVC-U Irrigation Pipe",
+      "description": "Durable piping solution for reliable agricultural irrigation systems.",
+      "category": "Irrigation Pipes",
+      "tags": ["PVC", "Irrigation", "20–160 mm"],
+      "viewDetails": "View Details"
+    },
+    {
+      "title": "Drip Irrigation Pipe",
+      "description": "Efficient irrigation pipe designed for precise water distribution.",
+      "category": "Irrigation Systems",
+      "tags": ["Drip", "Agriculture", "Water Saving"],
+      "viewDetails": "View Details"
+    }
+  ]
+}
 }

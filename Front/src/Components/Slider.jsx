@@ -86,6 +86,12 @@ export default function Slider() {
         pt-15
     "
             >
+                <motion.p className=" font-medium tracking-wide text-lime-400"
+                    initial={{ y: -50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.7 }}>
+                    ○ {slider.label}
+                </motion.p>
                 <motion.h1
                     className="w-10/12 sm:text-3xl sm:leading-15 lg:text-4xl  h-max text-center "
                     initial={{ y: -50, opacity: 0 }}
