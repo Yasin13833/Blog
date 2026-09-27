@@ -6,11 +6,61 @@
     "contact": "Contact Us"
   },
 
-  "contact": {
+   "contact": {
     "label": "Contact Us",
-    "title": "Tell Us",
-    "titleHighlight": "How We Can Help",
-    "description": "Send us your questions and requests. Our team will get back to you as soon as possible."
+    "title": "Tell us",
+    "titleHighlight": "how we can help.",
+    "description": "Send us your questions and we will get back to you as soon as possible.",
+
+    "form": {
+      "title": "Send a Message",
+      "description": "Please complete the required information so we can respond to you faster.",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Your Message",
+      "send": "Send Message",
+      "subjects": [
+        "Question about a product",
+        "Support",
+        "Partnership",
+        "Other"
+      ]
+    },
+
+    "info": {
+      "office": {
+        "title": "Head Office",
+        "address": "Mashhad, Ibn Sina, between Ibn Sina 15 and 17"
+      },
+      "phone": {
+        "title": "Phone",
+        "numbers": [
+          "989105645615+",
+          "989029523634+"
+        ]
+      },
+      "email": {
+        "title": "Email",
+        "address": "sales@agriflow.example"
+      },
+      "hours": {
+        "title": "Working Hours",
+        "time": "Saturday - Thursday 08:00 - 16:00"
+      }
+    },
+
+    "faq": {
+      "label": "Frequently Asked Questions",
+      "title": "Before you write, read this.",
+      "items": [
+        "How do I choose the right pipe size?",
+        "Do you provide services for farms and agricultural sites?",
+        "Can I get a price quote for a project?",
+        "Do you provide installation support?"
+      ]
+    }
   },
 
   "slider": [
