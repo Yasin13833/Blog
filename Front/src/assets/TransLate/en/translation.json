@@ -145,5 +145,29 @@
     "emailValue": "info@example.com",
     "address": "Address",
     "addressValue": "Tehran, Iran"
-  }
+  },
+  "footer": {
+  "description": "Expert insights on agricultural pipes and fittings, built for performance that lasts.",
+  "productsTitle": "PRODUCTS",
+  "products": [
+    "Water Supply Pipes",
+    "Drainage Solutions",
+    "Suction & Delivery",
+    "Fittings & Connectors"
+  ],
+  "companyTitle": "COMPANY",
+  "company": [
+    "About us",
+    "Contact",
+    "All products"
+  ],
+  "legalTitle": "LEGAL",
+  "legal": [
+    "Privacy policy",
+    "Terms of use"
+  ],
+  "contactButton": "CONTACT US",
+  "copyright": "© 2026 AgriFlow. All rights reserved.",
+  "bottomText": "Pipes & fittings for agriculture"
+}
 }
