@@ -60,5 +60,40 @@
         "viewDetails": "View Details"
       }
     ]
+  },
+  "category": {
+    "smallTitle": "PIPE CATEGORIES",
+    "bigTitle": "Built for every agricultural need.",
+    "description": "Explore reliable solutions designed to support modern irrigation and agricultural systems.",
+    "viewAll": "EXPLORE ALL CATEGORIES",
+    "categoryCards": [
+      {
+        "title": "Water Supply Pipes",
+        "description": "Reliable pipes for transporting water across irrigation systems."
+      },
+      {
+        "title": "Drainage Solutions",
+        "description": "Efficient drainage solutions that help maintain healthy agricultural systems."
+      },
+      {
+        "title": "Suction & Delivery",
+        "description": "High-performance hoses and pipes for efficient water suction and delivery."
+      },
+      {
+        "title": "Fittings & Connectors",
+        "description": "Secure connections and fittings for complete irrigation systems."
+      }
+    ]
+  },
+  "contactInfo": {
+    "smallTitle": "GET IN TOUCH",
+    "bigTitle": "Let's stay connected.",
+    "description": "For more information, consultation, and details about our products and services, get in touch with us through the contact information below.",
+    "phone": "Phone",
+    "phoneValue": "+98 21 1234 5678",
+    "email": "Email",
+    "emailValue": "info@example.com",
+    "address": "Address",
+    "addressValue": "Tehran, Iran"
   }
 }

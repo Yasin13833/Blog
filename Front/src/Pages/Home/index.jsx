@@ -1,6 +1,8 @@
 import React from 'react'
 import Slider from '../../Components/Slider'
 import Products from './Products'
+import AboutProduct from './AboutProduct'
+import ContactInfo from './ContactInfo'
 
 
 export default function Home() {
@@ -8,6 +10,8 @@ export default function Home() {
     <>
       <Slider />
       <Products/>
+      <AboutProduct/>
+      <ContactInfo/>
     </>
   )
 }

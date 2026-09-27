@@ -9,7 +9,7 @@ export default function Products() {
   const product = t("product", {
     returnObjects: true
   })
-  console.log(product)
+  // console.log(product)
 
   const items = product.productCart?.map((e, index) => {
  return (
@@ -271,25 +271,130 @@ export default function Products() {
     <div className="w-full min-h-screen bg-black text-white px-6 py-16 sm:px-10 lg:px-20">
 
       {/* Header */}
-      <div className="flex flex-col gap-5 mb-12">
+   <motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{
+    once: true,
+    amount: 0.3
+  }}
+  variants={{
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  }}
+  className="flex flex-col gap-5 mb-12"
+>
 
-        <p className="text-lime-400 text-sm sm:text-base font-medium tracking-wide">
-          ○ {product.smallTitle}
-        </p>
+  {/* Small Title */}
+  <motion.p
+    variants={{
+      hidden: {
+        opacity: 0,
+        y: -25
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.6,
+          ease: "easeOut"
+        }
+      }
+    }}
+    className="
+      text-lime-400
+      text-sm
+      sm:text-base
+      font-medium
+      tracking-wide
+    "
+  >
+    ○ {product.smallTitle}
+  </motion.p>
 
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold max-w-xl leading-tight">
-          {product.bigTitle}
-        </h1>
 
-        <div className="flex items-center gap-2 text-white/60 hover:text-lime-400 transition-colors duration-300 cursor-pointer w-fit">
-          <p className="text-sm sm:text-base">
-            {product.viewAll}
-          </p>
+  {/* Big Title */}
+  <motion.h1
+    variants={{
+      hidden: {
+        opacity: 0,
+        y: 30
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.7,
+          ease: [0.22, 1, 0.36, 1]
+        }
+      }
+    }}
+    className="
+      text-3xl
+      sm:text-4xl
+      lg:text-5xl
+      font-semibold
+      max-w-xl
+      leading-tight
+    "
+  >
+    {product.bigTitle}
+  </motion.h1>
 
-          <FiArrowDownRight className="text-lg" />
-        </div>
 
-      </div>
+  {/* View All */}
+  <motion.div
+    variants={{
+      hidden: {
+        opacity: 0,
+        x: -25
+      },
+      visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: 0.6,
+          ease: "easeOut"
+        }
+      }
+    }}
+    whileHover={{
+      x: 6
+    }}
+    className="
+      flex
+      items-center
+      gap-2
+      text-white/60
+      hover:text-lime-400
+      transition-colors
+      duration-300
+      cursor-pointer
+      w-fit
+    "
+  >
+    <p className="text-sm sm:text-base">
+      {product.viewAll}
+    </p>
+
+    <motion.div
+      whileHover={{
+        rotate: -45
+      }}
+      transition={{
+        duration: 0.25
+      }}
+    >
+      <FiArrowDownRight className="text-lg" />
+    </motion.div>
+
+  </motion.div>
+
+</motion.div>
 
 
       {/* Products */}
