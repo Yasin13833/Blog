@@ -25,7 +25,7 @@ export default function Navbar() {
           {Object.keys(navbar).map((item, index) => {
             return <NavLink
               className={({ isActive }) => {
-                return `text-[18px] lg:text-[22px] text-nowrap
+                return `text-[18px] lg:text-[20px] text-nowrap
     transition-all
     duration-200
     hover:scale-110
@@ -59,10 +59,10 @@ export default function Navbar() {
             </NavLink>
           })}
         </ul>
-        <div className=' sm:gap-8 hidden gap-4 lg:flex'>
-          <img src="Arabic.png" onClick={() => i18n.changeLanguage('ar')} className='w-6 h-6 sm:w-10 sm:h-10 cursor-pointer' />
-          <img src="English.png" onClick={() => i18n.changeLanguage('en')} className='w-6 h-6 sm:w-10 sm:h-10 cursor-pointer' />
-          <img src="Persian.png" onClick={() => i18n.changeLanguage('fa')} className='w-6 h-6 sm:w-10 sm:h-10 cursor-pointer' />
+        <div className=' sm:gap-10 hidden gap-4 lg:flex'>
+          <img src="Arabic.png" onClick={() => i18n.changeLanguage('ar')} className='w-6 h-6 sm:w-8 sm:h-8 cursor-pointer' />
+          <img src="English.png" onClick={() => i18n.changeLanguage('en')} className='w-6 h-6 sm:w-8 sm:h-8 cursor-pointer' />
+          <img src="Persian.png" onClick={() => i18n.changeLanguage('fa')} className='w-6 h-6 sm:w-8 sm:h-8 cursor-pointer' />
         </div>
         <FiSearch className='w-6 h-6 lg:w-8 lg:h-8 hidden sm:flex  transition-all duration-250 hover:scale-120 text-white cursor-pointer' />
         <FiMenu
