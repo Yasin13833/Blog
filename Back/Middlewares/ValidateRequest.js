@@ -1,14 +1,17 @@
-import { validationResult } from "express-validator";
+import { ApiError } from "../Utils/Api.js";
 
-const validateRequest = (req, res, next) => {
-  const errors = validationResult(req);
-  if (errors.isEmpty()) return next();
+export const validateRequest = (validators = {}) => (req, res, next) => {
+  const errors = {};
 
-  return res.status(422).json({
-    success: false,
-    message: "Validation failed",
-    errors: errors.array({ onlyFirstError: true }),
-  });
+  for (const [source, validator] of Object.entries(validators)) {
+    if (typeof validator !== "function") continue;
+    const sourceErrors = validator(req[source] || {});
+    Object.assign(errors, sourceErrors || {});
+  }
+
+  if (Object.keys(errors).length) {
+    return next(new ApiError("Validation failed", 400, "VALIDATION_ERROR", errors));
+  }
+
+  next();
 };
-
-export default validateRequest;
