@@ -1,4 +1,3 @@
-// Default Security Configuration
 export const securityConfig = {
   allowedOperators: [
     "eq", "ne", "gt", "gte", "lt", "lte", "in", "nin", "regex", "exists", "size", "or", "and"
@@ -10,6 +9,5 @@ export const securityConfig = {
     admin: { maxLimit: 1000, allowedPopulate: ["*"] },
     superAdmin: { maxLimit: 1000, allowedPopulate: ["*"] }
   },
-  // Aggregation safeguards
   maxPipelineStages: 20
 };
