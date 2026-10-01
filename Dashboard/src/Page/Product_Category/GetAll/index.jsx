@@ -12,6 +12,7 @@ import {
   FiMoreVertical,
   FiChevronLeft,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
@@ -103,6 +104,7 @@ function CategoryIcon({ type }) {
 }
 
 export default function GetAll_Pr_Cat() {
+  const navigate = useNavigate()
   const [search, setSearch] = useState("");
 
   const filteredCategories = useMemo(() => {
@@ -148,7 +150,7 @@ export default function GetAll_Pr_Cat() {
             </p>
           </div>
 
-          <button className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-5 font-semibold text-black transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]">
+          <button onClick={()=>navigate('create')} className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-5 font-semibold text-black transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]">
             <FiPlus className="text-lg transition-transform group-hover:rotate-90" />
             افزودن دسته‌بندی
           </button>
