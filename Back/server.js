@@ -1,31 +1,40 @@
-import "./Utils/Env.js";
+import "./Config/Environment.js";
+import mongoose from "mongoose";
 import app from "./app.js";
-import { connectDatabase, disconnectDatabase } from "./Services/Database.js";
 
-const port = Number(process.env.PORT || 5000);
-
-if (!process.env.JWT_SECRET) {
-  throw new Error("JWT_SECRET is required");
+const required = ["DATA_BASE", "JWT_SECRET"];
+const missing = required.filter((key) => !process.env[key]);
+if (missing.length) {
+  throw new Error(`Missing required environment variables: ${missing.join(", ")}`);
 }
 
-await connectDatabase();
+if (process.env.JWT_SECRET.length < 32) {
+  throw new Error("JWT_SECRET must contain at least 32 characters");
+}
+
+if (
+  process.env.NODE_ENV === "production" &&
+  process.env.JWT_SECRET.startsWith("replace-with")
+) {
+  throw new Error("Replace the example JWT_SECRET before running in production");
+}
+
+const PORT = Number.parseInt(process.env.PORT, 10) || 5000;
+
+await mongoose.connect(process.env.DATA_BASE);
 console.log("Database connected successfully");
 
-const server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-  console.log(`Local uploads: http://localhost:${port}/uploads/<filename>`);
-  if (process.env.SWAGGER_ENABLED !== "false") {
-    console.log(`Swagger UI: http://localhost:${port}/api-docs`);
-  }
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 const shutdown = async (signal) => {
-  console.log(`${signal} received. Closing server...`);
+  console.log(`${signal} received. Shutting down...`);
   server.close(async () => {
-    await disconnectDatabase();
+    await mongoose.connection.close();
     process.exit(0);
   });
 };
 
-process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
