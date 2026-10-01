@@ -13,18 +13,16 @@ export const fetchData = async (url, option = {}) => {
             ...option.headers
         }
     }
-    console.log(finalOption)
+
     try {
-        const result = await fetch(`${import.meta.env.BASE_URL}${url}`, finalOption)
+        console.log(`${import.meta.env.VITE_BASE_API}${url}`)
+        const result = await fetch(`${import.meta.env.VITE_BASE_API}${url}`, finalOption)
+        console.log(result)
         const data = await result.json()
         return data
-
     } catch (error) {
-        return {
-            success: false,
-            status: false,
-            message: "ارتباط با سرور برقرار نشد",
-        };
+        console.log(error)
+
     }
 }
 
@@ -48,7 +46,7 @@ export const fetchUpload = async (url, option = {}) => {
     }
     console.log(finalOption)
     try {
-        const result = await fetch(`${import.meta.env.BASE_URL}${url}`, finalOption)
+        const result = await fetch(`${import.meta.env.VITE_BASE_URL}${url}`, finalOption)
         const data = await result.json()
         return data
 

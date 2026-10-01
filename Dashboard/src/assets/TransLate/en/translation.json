@@ -1,0 +1,173 @@
+{
+  "navbar": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact Us"
+  },
+
+   "contact": {
+    "label": "Contact Us",
+    "title": "Tell us",
+    "titleHighlight": "how we can help.",
+    "description": "Send us your questions and we will get back to you as soon as possible.",
+
+    "form": {
+      "title": "Send a Message",
+      "description": "Please complete the required information so we can respond to you faster.",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "message": "Your Message",
+      "send": "Send Message",
+      "subjects": [
+        "Question about a product",
+        "Support",
+        "Partnership",
+        "Other"
+      ]
+    },
+
+    "info": {
+      "office": {
+        "title": "Head Office",
+        "address": "Mashhad, Ibn Sina, between Ibn Sina 15 and 17"
+      },
+      "phone": {
+        "title": "Phone",
+        "numbers": [
+          "989105645615+",
+          "989029523634+"
+        ]
+      },
+      "email": {
+        "title": "Email",
+        "address": "sales@agriflow.example"
+      },
+      "hours": {
+        "title": "Working Hours",
+        "time": "Saturday - Thursday 08:00 - 16:00"
+      }
+    },
+
+    "faq": {
+      "label": "Frequently Asked Questions",
+      "title": "Before you write, read this.",
+      "items": [
+        "How do I choose the right pipe size?",
+        "Do you provide services for farms and agricultural sites?",
+        "Can I get a price quote for a project?",
+        "Do you provide installation support?"
+      ]
+    }
+  },
+
+  "slider": [
+    {
+      "label": "About Us",
+      "title": "Tell Us",
+      "description": "Send us your questions and requests.",
+      "button": "View Products"
+    },
+    {
+      "label": "About Us",
+      "title": "Better Solutions for Agriculture",
+      "description": "Suitable products for irrigation and agricultural systems.",
+      "button": "View Products"
+    },
+    {
+      "label": "About Us",
+      "title": "Built for Better Performance",
+      "description": "High-quality products designed for long-term use.",
+      "button": "View Products"
+    }
+  ],
+  "product": {
+    "smallTitle": "Our Products",
+    "bigTitle": "Smart Solutions for Modern Agriculture",
+    "viewAll": "View All Products",
+    "productCart": [
+      {
+        "title": "PVC-U Pressure Pipe PN16",
+        "description": "Rigid pressure pipe for main irrigation lines and pump stations.",
+        "category": "Water Supply Pipes",
+        "tags": ["PVC", "PN16", "20–160 mm"],
+        "viewDetails": "View Details"
+      },
+      {
+        "title": "PVC-U Irrigation Pipe",
+        "description": "Durable piping solution for reliable agricultural irrigation systems.",
+        "category": "Irrigation Pipes",
+        "tags": ["PVC", "Irrigation", "20–160 mm"],
+        "viewDetails": "View Details"
+      },
+      {
+        "title": "Drip Irrigation Pipe",
+        "description": "Efficient irrigation pipe designed for precise water distribution.",
+        "category": "Irrigation Systems",
+        "tags": ["Drip", "Agriculture", "Water Saving"],
+        "viewDetails": "View Details"
+      }
+    ]
+  },
+  "category": {
+    "smallTitle": "PIPE CATEGORIES",
+    "bigTitle": "Built for every agricultural need.",
+    "description": "Explore reliable solutions designed to support modern irrigation and agricultural systems.",
+    "viewAll": "EXPLORE ALL CATEGORIES",
+    "categoryCards": [
+      {
+        "title": "Water Supply Pipes",
+        "description": "Reliable pipes for transporting water across irrigation systems."
+      },
+      {
+        "title": "Drainage Solutions",
+        "description": "Efficient drainage solutions that help maintain healthy agricultural systems."
+      },
+      {
+        "title": "Suction & Delivery",
+        "description": "High-performance hoses and pipes for efficient water suction and delivery."
+      },
+      {
+        "title": "Fittings & Connectors",
+        "description": "Secure connections and fittings for complete irrigation systems."
+      }
+    ]
+  },
+  "contactInfo": {
+    "smallTitle": "GET IN TOUCH",
+    "bigTitle": "Let's stay connected.",
+    "description": "For more information, consultation, and details about our products and services, get in touch with us through the contact information below.",
+    "phone": "Phone",
+    "phoneValue": "+98 21 1234 5678",
+    "email": "Email",
+    "emailValue": "info@example.com",
+    "address": "Address",
+    "addressValue": "Tehran, Iran"
+  },
+  "footer": {
+  "description": "Expert insights on agricultural pipes and fittings, built for performance that lasts.",
+  "productsTitle": "PRODUCTS",
+  "products": [
+    "Water Supply Pipes",
+    "Drainage Solutions",
+    "Suction & Delivery",
+    "Fittings & Connectors"
+  ],
+  "companyTitle": "COMPANY",
+  "company": [
+    "About us",
+    "Contact",
+    "All products"
+  ],
+  "legalTitle": "LEGAL",
+  "legal": [
+    "Privacy policy",
+    "Terms of use"
+  ],
+  "contactButton": "CONTACT US",
+  "copyright": "© 2026 AgriFlow. All rights reserved.",
+  "bottomText": "Pipes & fittings for agriculture"
+}
+}

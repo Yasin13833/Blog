@@ -17,8 +17,8 @@ export default function Navbar() {
       <nav className='h-full  mx-auto   flex items-center justify-evenly relative'>
 
 
-        <div className='logo-container sm:w-12 sm:h-12 w-9 h-9 transition-all duration-200 hover:scale-110 cursor-pointer'>
-          <img src="/Logo.png" alt="logo" className='w-full h-full ' />
+        <div className='logo-container sm:w-40  w-9 h-full transition-all duration-200 hover:scale-110 cursor-pointer'>
+          <img src="/Logo.png" alt="logo" className='w-full h-full object-contain' />
         </div>
 
         <ul className='md:flex gap-15 hidden'>
