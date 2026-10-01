@@ -12,7 +12,6 @@ export default function Login() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [fields, handleChange, setFields] = useFormFields({
-        fullName: null,
         username: null,
         password: null
     })
@@ -30,6 +29,7 @@ export default function Login() {
             method: "POST",
             body: JSON.stringify(fields)
         })
+        console.log(fields)
         console.log(result)
         if (result.success) {
             Notify('success', result.message)
@@ -98,12 +98,12 @@ export default function Login() {
 
 
                 {/* رفتن به Login */}
-                <p
+                {/* <p
                     onClick={() => navigate("/auth/register")}
                     className='text-2xl text-green-300 hover:text-shadow-[#00ff5540] text-shadow-lg transition-all duration-300'
                 >
                     ثبت نام نکردی ؟
-                </p>
+                </p> */}
 
             </form>
 

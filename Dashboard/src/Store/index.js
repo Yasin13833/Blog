@@ -8,11 +8,10 @@ import storageModule from "redux-persist/lib/storage";
 import auth from "./Slice/auth.js";
 
 const storage = storageModule.default;
-
+console.log(storage)
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user" , "token"],
 };
 
 const persistedReducer = persistReducer(
