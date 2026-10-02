@@ -17,7 +17,7 @@ export const fetchData = async (url, option = {}) => {
     try {
         console.log(`${import.meta.env.VITE_BASE_API}${url}`)
         const result = await fetch(`${import.meta.env.VITE_BASE_API}${url}`, finalOption)
-        console.log(result)
+        // console.log(result)
         const data = await result.json()
         return data
     } catch (error) {

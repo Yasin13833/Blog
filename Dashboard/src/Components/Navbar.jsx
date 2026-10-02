@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const { user } = useSelector(state => state.auth)
-  console.log(user)
+  // console.log(user)
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-25 border-b border-white/10 bg-[#06131c]">
       <nav className="flex h-full items-center justify-between px-5">

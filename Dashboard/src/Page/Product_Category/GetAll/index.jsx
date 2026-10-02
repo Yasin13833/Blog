@@ -1,130 +1,72 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-  FiBox,
   FiEdit3,
   FiGrid,
   FiPlus,
   FiSearch,
-  FiTag,
   FiTrash2,
-  FiLayers,
+  FiBox,
   FiCheckCircle,
   FiMoreVertical,
   FiChevronLeft,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { fetchData } from "../../../Utils/fetchData";
+import Notify from "../../../Utils/Notify";
 
-const categories = [
-  {
-    id: 1,
-    title: "لوله‌های انتقال آب",
-    slug: "water-pipes",
-    description: "انواع لوله‌های مناسب برای انتقال و توزیع آب",
-    products: 12,
-    status: "فعال",
-    icon: "pipe",
-  },
-  {
-    id: 2,
-    title: "سیستم‌های آبیاری",
-    slug: "irrigation-systems",
-    description: "محصولات مربوط به آبیاری قطره‌ای و تحت فشار",
-    products: 8,
-    status: "فعال",
-    icon: "irrigation",
-  },
-  {
-    id: 3,
-    title: "اتصالات",
-    slug: "fittings",
-    description: "انواع اتصالات پلی‌اتیلن، PVC و برنجی",
-    products: 18,
-    status: "فعال",
-    icon: "fitting",
-  },
-  {
-    id: 4,
-    title: "پمپ و موتور",
-    slug: "pumps-motors",
-    description: "پمپ‌های آب و تجهیزات انتقال آب کشاورزی",
-    products: 6,
-    status: "فعال",
-    icon: "pump",
-  },
-  {
-    id: 5,
-    title: "تصفیه آب",
-    slug: "water-filtration",
-    description: "فیلترها و تجهیزات تصفیه و کنترل کیفیت آب",
-    products: 5,
-    status: "فعال",
-    icon: "filter",
-  },
-  {
-    id: 6,
-    title: "تجهیزات جانبی",
-    slug: "accessories",
-    description: "ابزار و تجهیزات جانبی مورد نیاز سیستم‌های آبیاری",
-    products: 3,
-    status: "غیرفعال",
-    icon: "accessory",
-  },
-];
-
-function CategoryIcon({ type }) {
-  return (
-    <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#7be35b]/10 bg-[#7be35b]/5">
-      <div className="absolute inset-0 rounded-2xl bg-[#7be35b]/5 blur-xl" />
-
-      {type === "pipe" && (
-        <FiLayers className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "irrigation" && (
-        <FiGrid className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "fitting" && (
-        <FiBox className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "pump" && (
-        <FiBox className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "filter" && (
-        <FiTag className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "accessory" && (
-        <FiGrid className="relative text-2xl text-[#7be35b]" />
-      )}
-    </div>
-  );
-}
+const categories = [];
 
 export default function GetAll_Pr_Cat() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([])
+  // const filteredCategories = useMemo(() => {
+  //   return categories.filter(
+  //     (category) =>
+  //       category.title.includes(search) ||
+  //       category.description.includes(search) ||
+  //       category.slug.includes(search)
+  //   );
+  // }, [search]);
 
-  const filteredCategories = useMemo(() => {
-    return categories.filter(
-      (category) =>
-        category.title.includes(search) ||
-        category.description.includes(search) ||
-        category.slug.includes(search)
-    );
-  }, [search]);
+  // const activeCount = categories.filter(
+  //   (item) => item.status === "فعال"
+  // ).length;
 
-  const activeCount = categories.filter(
-    (item) => item.status === "فعال"
-  ).length;
+  // const totalProducts = categories.reduce(
+  //   (total, category) => total + category.products,
+  //   0
+  // );
 
-  const totalProducts = categories.reduce(
-    (total, category) => total + category.products,
-    0
-  );
 
+  const getData = async () => {
+    try {
+      const result = await fetchData(`/admin/product-categories`)
+      console.log(result)
+      if (!result.success) {
+        Notify('error', 'خطا در بار گزاری اطلاعات')
+        return
+      }
+      setData(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(()=>{
+    getData()
+  },[])
+
+  const handleRemove = async (image, id) => {
+    const resultCatRemove = await fetchData(`/admin/product-categories/${id}`, {
+      method: 'DELETE'
+    })
+    console.log(resultCatRemove)
+    const fileName = image.split('/').pop()
+    const resultImgRemove = await fetchData(`/admin/media/${fileName}`, {
+      method: 'DELETE'
+    })
+    getData()
+  }
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#050806] px-6 py-8 text-white">
       {/* Background Glow */}
@@ -150,7 +92,10 @@ export default function GetAll_Pr_Cat() {
             </p>
           </div>
 
-          <button onClick={()=>navigate('create')} className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-5 font-semibold text-black transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]">
+          <button
+            onClick={() => navigate("create")}
+            className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-5 font-semibold text-black transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]"
+          >
             <FiPlus className="text-lg transition-transform group-hover:rotate-90" />
             افزودن دسته‌بندی
           </button>
@@ -171,7 +116,7 @@ export default function GetAll_Pr_Cat() {
             </div>
 
             <p className="text-2xl font-bold">
-              {categories.length}
+              {data.length}
             </p>
 
             <p className="mt-1 text-sm text-white/40">
@@ -192,7 +137,7 @@ export default function GetAll_Pr_Cat() {
             </div>
 
             <p className="text-2xl font-bold">
-              {activeCount}
+              {data.filter(e => e.isPublished).length}
             </p>
 
             <p className="mt-1 text-sm text-white/40">
@@ -213,7 +158,7 @@ export default function GetAll_Pr_Cat() {
             </div>
 
             <p className="text-2xl font-bold">
-              {totalProducts}
+              {/* {totalProducts} */}
             </p>
 
             <p className="mt-1 text-sm text-white/40">
@@ -245,7 +190,7 @@ export default function GetAll_Pr_Cat() {
             </h2>
 
             <p className="mt-1 text-xs text-white/30">
-              {filteredCategories.length} دسته‌بندی نمایش داده می‌شود
+              {/* {filteredCategories.length} دسته‌بندی نمایش داده می‌شود */}
             </p>
           </div>
 
@@ -256,45 +201,52 @@ export default function GetAll_Pr_Cat() {
         </div>
 
         {/* Categories */}
-        {filteredCategories.length > 0 ? (
+
+
+        {data.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {filteredCategories.map((category) => (
+            {data.map((category) => (
               <div
-                key={category.id}
+                key={category._id}
                 className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#7be35b]/20 hover:bg-[#0d1510]"
               >
                 {/* Glow */}
                 <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#7be35b]/5 blur-3xl transition-all group-hover:bg-[#7be35b]/10" />
 
-                {/* Top */}
-                <div className="relative flex items-start justify-between">
-                  <CategoryIcon type={category.icon} />
-
-                  <button className="flex h-8 w-8 items-center justify-center rounded-lg text-white/20 transition hover:bg-white/5 hover:text-white">
-                    <FiMoreVertical />
-                  </button>
+                {/* Image */}
+                <div className="relative mt-3 overflow-hidden rounded-xl border border-white/10">
+                  {category.image ? (
+                    <img
+                      src={`${import.meta.env.VITE_BASE_FILE}${category.image}`}
+                      alt={category.name.fa}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-40 w-full items-center justify-center bg-white/[0.03] text-xs text-white/20">
+                      بدون تصویر
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
                 <div className="relative mt-5">
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-semibold">
-                      {category.title}
+                      {category.name.fa}
                     </h3>
 
                     <span
-                      className={`rounded-md px-2 py-1 text-[9px] ${
-                        category.status === "فعال"
-                          ? "bg-emerald-400/10 text-emerald-400"
-                          : "bg-white/5 text-white/30"
-                      }`}
+                      className={`rounded-md px-2 py-1 text-[9px] ${category.isPublished
+                        ? "bg-emerald-400/10 text-emerald-400"
+                        : "bg-white/5 text-white/30"
+                        }`}
                     >
-                      {category.status}
+                      {category.isPublished ? "فعال" : "غیرفعال"}
                     </span>
                   </div>
 
                   <p className="mt-2 min-h-10 text-xs leading-5 text-white/35">
-                    {category.description}
+                    {category.description.fa}
                   </p>
 
                   {/* Slug */}
@@ -304,7 +256,7 @@ export default function GetAll_Pr_Cat() {
                     </span>
 
                     <p className="mt-1 text-xs text-white/45">
-                      {category.slug}
+                      {category.slug.fa}
                     </p>
                   </div>
                 </div>
@@ -321,21 +273,21 @@ export default function GetAll_Pr_Cat() {
 
                     <div>
                       <p className="text-xs font-semibold">
-                        {category.products}
+                        {category.sortOrder}
                       </p>
 
                       <p className="text-[10px] text-white/25">
-                        محصول
+                        ترتیب
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-[#7be35b]/20 hover:bg-[#7be35b]/5 hover:text-[#7be35b]">
+                    <button onClick={()=>navigate('update')} className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-[#7be35b]/20 hover:bg-[#7be35b]/5 hover:text-[#7be35b]">
                       <FiEdit3 />
                     </button>
 
-                    <button className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-400">
+                    <button onClick={() => handleRemove(category.image, category._id)} className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-400">
                       <FiTrash2 />
                     </button>
                   </div>
@@ -358,6 +310,11 @@ export default function GetAll_Pr_Cat() {
             </p>
           </div>
         )}
+
+
+
+
+
       </div>
     </section>
   );

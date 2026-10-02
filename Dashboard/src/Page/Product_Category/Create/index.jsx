@@ -76,7 +76,7 @@ export default function Create_Pr_Cat() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let imageUrl = "";
+    let imageUrl;
     if (category.image) {
       const formData = new FormData
       formData.append('file', category.image)
@@ -85,9 +85,9 @@ export default function Create_Pr_Cat() {
         body: formData
       })
       if (resultImg.success) {
-        imageUrl = resultImg.url
-      }else{
-        Notify('error','خطا در آپلود عکس')
+        imageUrl = resultImg.data.url
+      } else {
+        Notify('error', 'خطا در آپلود عکس')
         return
       }
     }
@@ -99,8 +99,8 @@ export default function Create_Pr_Cat() {
         image: imageUrl
       })
     })
-    if(result.success){
-      Notify('success','دسته بندی محصول با موفقیت انجام شد')
+    if (result.success) {
+      Notify('success', 'دسته بندی محصول با موفقیت انجام شد')
       return history.back()
     }
   }
