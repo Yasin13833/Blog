@@ -11,20 +11,7 @@ import {
 import { fetchData, fetchUpload } from "../../../Utils/fetchData";
 import Notify from "../../../Utils/Notify";
 
-const languages = [
-  {
-    key: "fa",
-    label: "فارسی",
-  },
-  {
-    key: "en",
-    label: "English",
-  },
-  {
-    key: "ar",
-    label: "العربية",
-  },
-];
+
 
 export default function Create_Pr_Cat() {
   const [category, setCategory] = useState({
@@ -67,9 +54,9 @@ export default function Create_Pr_Cat() {
       },
 
       keywords: {
-        fa: [],
-        en: [],
-        ar: [],
+        fa: ["", "", ""],
+        en: ["", "", ""],
+        ar: ["", "", ""],
       },
     },
   });
@@ -424,7 +411,7 @@ export default function Create_Pr_Cat() {
             {/* ========================= */}
 
 
-            <div className="rounded-2xl border border-white/10 bg-[#0b110e]/80 p-6 backdrop-blur-xl">
+            <div className="rounded-2xl border border-white/10 bg-[#0b110e]/80 h-120 p-6 backdrop-blur-xl">
               <div className="mb-6">
                 <h2 className="font-semibold text-white">
                   تصویر و آیکون
@@ -443,14 +430,14 @@ export default function Create_Pr_Cat() {
                     تصویر دسته‌بندی
                   </label>
 
-                  <label className="group relative flex h-44 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/[0.02] transition hover:border-[#7be35b]/40 hover:bg-[#7be35b]/[0.03]">
+                  <label className="group relative flex h-70 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-white/15 bg-white/[0.02] transition hover:border-[#7be35b]/40 hover:bg-[#7be35b]/[0.03]">
 
                     {/* اگر عکس انتخاب شده */}
                     {category.image instanceof File ? (
                       <img
                         src={URL.createObjectURL(category.image)}
                         alt="preview"
-                        className="absolute inset-0 h-full w-full object-cover opacity-70 transition group-hover:opacity-50"
+                        className="absolute inset-0 h-full w-full object-center opacity-70 transition group-hover:opacity-50"
                       />
                     ) : null}
 
@@ -767,6 +754,7 @@ export default function Create_Pr_Cat() {
                   </div>
                 </div>
 
+
                 {/* Keywords */}
 
                 <div>
@@ -776,45 +764,120 @@ export default function Create_Pr_Cat() {
 
                   <div className="space-y-6">
 
-                    {languages.map((language) => (
-                      <div key={language.key}>
+                    {/* فارسی */}
+                    <div>
+                      <span className="mb-3 block text-sm text-white/60">
+                        فارسی
+                      </span>
 
-                        <div className="mb-3 flex items-center justify-between">
-                          <span className="text-sm text-white/60">
-                            {language.label}
-                          </span>
-
-                          <button
-                            type="button"
-                            className="flex items-center gap-1.5 text-xs text-[#7be35b] transition hover:text-[#8cf56b]"
-                          >
-                            <FiPlus />
-                            افزودن کلمه
-                          </button>
-                        </div>
-
-                        <div className="flex gap-3">
-
+                      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                        {category.seo.keywords.fa.map((keyword, index) => (
                           <input
+                            key={index}
                             type="text"
-                            placeholder="مثلاً irrigation"
+                            value={keyword}
+                            onChange={(e) =>
+                              setCategory((prev) => {
+                                const keywords = [...prev.seo.keywords.fa];
+                                keywords[index] = e.target.value;
+
+                                return {
+                                  ...prev,
+                                  seo: {
+                                    ...prev.seo,
+                                    keywords: {
+                                      ...prev.seo.keywords,
+                                      fa: keywords,
+                                    },
+                                  },
+                                };
+                              })
+                            }
+                            placeholder={`کلمه کلیدی ${index + 1}`}
                             className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
                           />
-
-                          <button
-                            type="button"
-                            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-red-500/20 bg-red-500/5 text-red-400 transition hover:bg-red-500/10"
-                          >
-                            <FiTrash2 />
-                          </button>
-
-                        </div>
-
+                        ))}
                       </div>
-                    ))}
+                    </div>
+
+
+                    {/* English */}
+                    <div>
+                      <span className="mb-3 block text-sm text-white/60">
+                        English
+                      </span>
+
+                      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                        {category.seo.keywords.en.map((keyword, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={keyword}
+                            onChange={(e) =>
+                              setCategory((prev) => {
+                                const keywords = [...prev.seo.keywords.en];
+                                keywords[index] = e.target.value;
+
+                                return {
+                                  ...prev,
+                                  seo: {
+                                    ...prev.seo,
+                                    keywords: {
+                                      ...prev.seo.keywords,
+                                      en: keywords,
+                                    },
+                                  },
+                                };
+                              })
+                            }
+                            placeholder={`Keyword ${index + 1}`}
+                            className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+
+                    {/* العربية */}
+                    <div>
+                      <span className="mb-3 block text-sm text-white/60">
+                        العربية
+                      </span>
+
+                      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                        {category.seo.keywords.ar.map((keyword, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={keyword}
+                            onChange={(e) =>
+                              setCategory((prev) => {
+                                const keywords = [...prev.seo.keywords.ar];
+                                keywords[index] = e.target.value;
+
+                                return {
+                                  ...prev,
+                                  seo: {
+                                    ...prev.seo,
+                                    keywords: {
+                                      ...prev.seo.keywords,
+                                      ar: keywords,
+                                    },
+                                  },
+                                };
+                              })
+                            }
+                            placeholder={`كلمة مفتاحية ${index + 1}`}
+                            className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
+                          />
+                        ))}
+                      </div>
+                    </div>
 
                   </div>
                 </div>
+
+
 
               </div>
             </div>
@@ -826,8 +889,56 @@ export default function Create_Pr_Cat() {
             <div className="flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:justify-end">
 
               <button
+              onClick={()=>{
+                setCategory({
+    name: {
+      fa: "",
+      en: "",
+      ar: "",
+    },
+
+    slug: {
+      fa: "",
+      en: "",
+      ar: "",
+    },
+
+    description: {
+      fa: "",
+      en: "",
+      ar: "",
+    },
+
+    image: "",
+    icon: "",
+
+    isFeatured: false,
+    isPublished: true,
+    sortOrder: 0,
+
+    seo: {
+      title: {
+        fa: "",
+        en: "",
+        ar: "",
+      },
+
+      description: {
+        fa: "",
+        en: "",
+        ar: "",
+      },
+
+      keywords: {
+        fa: ["", "", ""],
+        en: ["", "", ""],
+        ar: ["", "", ""],
+      },
+    },
+  })
+              }}
                 type="button"
-                className="flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 text-sm text-white/50 transition hover:border-white/20 hover:text-white"
+                className="cursor-pointer flex h-12 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-6 text-sm text-white/50 transition hover:border-white/20 hover:text-white"
               >
                 <FiTrash2 />
                 پاک کردن فرم
@@ -835,7 +946,7 @@ export default function Create_Pr_Cat() {
 
               <button
                 type="submit"
-                className="flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-7 text-sm font-semibold text-black transition hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]"
+                className="cursor-pointer flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-7 text-sm font-semibold text-black transition hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]"
               >
                 <FiSave />
                 ایجاد دسته‌بندی

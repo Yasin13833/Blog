@@ -14,34 +14,21 @@ import { useNavigate } from "react-router-dom";
 import { fetchData } from "../../../Utils/fetchData";
 import Notify from "../../../Utils/Notify";
 
-const categories = [];
 
 export default function GetAll_Pr_Cat() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [data, setData] = useState([])
-  // const filteredCategories = useMemo(() => {
-  //   return categories.filter(
-  //     (category) =>
-  //       category.title.includes(search) ||
-  //       category.description.includes(search) ||
-  //       category.slug.includes(search)
-  //   );
-  // }, [search]);
-
-  // const activeCount = categories.filter(
-  //   (item) => item.status === "فعال"
-  // ).length;
-
-  // const totalProducts = categories.reduce(
-  //   (total, category) => total + category.products,
-  //   0
-  // );
-
-
+  const [sort, setSort] = useState('newest')
   const getData = async () => {
+    const urlParams = new URLSearchParams()
+    urlParams.append('sort', sort)
+    if (search) {
+      urlParams.append('q', search)
+    }
+    const finalUrl = `/admin/product-categories?${urlParams}`
     try {
-      const result = await fetchData(`/admin/product-categories`)
+      const result = await fetchData(finalUrl)
       console.log(result)
       if (!result.success) {
         Notify('error', 'خطا در بار گزاری اطلاعات')
@@ -52,9 +39,9 @@ export default function GetAll_Pr_Cat() {
       console.log(error)
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     getData()
-  },[])
+  }, [search, sort])
 
   const handleRemove = async (image, id) => {
     const resultCatRemove = await fetchData(`/admin/product-categories/${id}`, {
@@ -167,19 +154,43 @@ export default function GetAll_Pr_Cat() {
           </div>
         </div>
 
-        {/* Search */}
-        <div className="mb-6 rounded-2xl border border-white/10 bg-[#0a0f0c]/80 p-4 backdrop-blur-xl">
-          <div className="relative max-w-xl">
-            <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30" />
+        {/* Search & Sort */}
 
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="جستجوی دسته‌بندی..."
-              className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] pr-11 pl-4 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
-            />
+        <div className="mb-6 rounded-2xl border border-white/10 bg-[#0a0f0c]/80  p-4 backdrop-blur-xl">
+
+          <div className="flex items-center justify-around gap-4">
+
+            {/* Search */}
+            <div className="relative max-w-xl flex-1">
+
+              <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30" />
+
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="جستجوی دسته‌بندی..."
+                className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] pr-11 pl-4 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
+              />
+
+            </div>
+
+            {/* Sort */}
+            <div className="w-52">
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="cursor-pointer h-12 w-full rounded-xl border border-white/10 bg-[#101612] px-4 text-sm text-white outline-none transition-all focus:border-[#7be35b]/40"
+              >
+                <option value="newest">جدیدترین</option>
+                <option value="oldest">قدیمی‌ترین</option>
+                <option value="name">بر اساس نام</option>
+                <option value="order">بر اساس ترتیب</option>
+              </select>
+            </div>
+
           </div>
+
         </div>
 
         {/* Section Header */}
@@ -283,7 +294,7 @@ export default function GetAll_Pr_Cat() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button onClick={()=>navigate('update')} className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-[#7be35b]/20 hover:bg-[#7be35b]/5 hover:text-[#7be35b]">
+                    <button onClick={() => navigate(`update/${category._id}`)} className="cursor-pointer flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-white/30 transition hover:border-[#7be35b]/20 hover:bg-[#7be35b]/5 hover:text-[#7be35b]">
                       <FiEdit3 />
                     </button>
 

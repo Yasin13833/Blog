@@ -1,10 +1,10 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import Layout from "../Layout";
-import Auth, { Login, Register } from "../auth";
-import { Blog, Brands, Category, Home } from "../Page";
-import { store } from "../Store";
+import Auth, { Login} from "../auth";
+import { Blog, Category, Home } from "../Page";
 import { Create_Product, GetAll_Product, Update_Product } from '../Page/Product'
 import { Create_Pr_Cat, GetAll_Pr_Cat, Update_Pr_Cat } from '../Page/Product_Category'
+import { Create_Brands, GetAll_Brands, Update_Brands } from "../Page/Brands";
 
 const router = createBrowserRouter([
     {
@@ -40,7 +40,8 @@ const router = createBrowserRouter([
             {
                 path: 'category',
                 element: <Category />
-            }, {
+            },
+            {
                 path: 'product-category',
                 children: [
                     {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
                         element: <GetAll_Pr_Cat />,
                     },
                     {
-                        path: 'update',
+                        path: 'update/:id',
                         element: <Update_Pr_Cat />
                     },
                     {
@@ -60,7 +61,20 @@ const router = createBrowserRouter([
             },
             {
                 path: 'brands',
-                element: <Brands />
+                children: [
+                    {
+                        index: true,
+                        element: <GetAll_Brands />
+                    },
+                    {
+                        path: 'update',
+                        element: <Update_Brands />
+                    },
+                    {
+                        path: 'create',
+                        element: <Create_Brands />
+                    }
+                ]
             }
         ]
     },
