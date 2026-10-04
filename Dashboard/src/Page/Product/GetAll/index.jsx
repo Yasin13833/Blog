@@ -1,458 +1,52 @@
-import React, { useMemo, useState } from "react";
-import {
-  FiAlertCircle,
-  FiBox,
-  FiCheckCircle,
-  FiEdit3,
-  FiFilter,
-  FiPlus,
-  FiSearch,
-  FiTrash2,
-  FiTag,
-  FiLayers,
-  FiChevronLeft,
-} from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { FiArrowDown, FiArrowUp, FiEdit3, FiPlus, FiRefreshCw, FiSearch, FiTrash2 } from "react-icons/fi";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { fetchData, resolveMediaUrl, toQueryString } from "../../../Utils/fetchData";
+import { deleteMediaByUrl } from "../../../Utils/media";
+import Notify from "../../../Utils/Notify";
 
-const products = [
-  {
-    id: 1,
-    title: "لوله تحت فشار PVC-U PN16",
-    category: "لوله‌های انتقال آب",
-    price: "۱٬۸۵۰٬۰۰۰",
-    stock: "۱۲۰ عدد",
-    status: "منتشر شده",
-    type: "pipe",
-  },
-  {
-    id: 2,
-    title: "نوار تیپ آبیاری",
-    category: "سیستم‌های آبیاری",
-    price: "۶۴۰٬۰۰۰",
-    stock: "۳۴۰ عدد",
-    status: "منتشر شده",
-    type: "tape",
-  },
-  {
-    id: 3,
-    title: "فیلتر دیسکی ۱۳۲",
-    category: "تصفیه آب",
-    price: "۲٬۳۰۰٬۰۰۰",
-    stock: "۴۵ عدد",
-    status: "منتشر شده",
-    type: "filter",
-  },
-  {
-    id: 4,
-    title: "پمپ آب کشاورزی",
-    category: "پمپ و موتور",
-    price: "۱۴٬۵۰۰٬۰۰۰",
-    stock: "۱۲ عدد",
-    status: "منتشر شده",
-    type: "pump",
-    low: true,
-  },
-  {
-    id: 5,
-    title: "زانویی ۹۰ درجه پلی‌اتیلن",
-    category: "اتصالات",
-    price: "۹۵٬۰۰۰",
-    stock: "ناموجود",
-    status: "پیش‌نویس",
-    type: "elbow",
-    out: true,
-  },
-  {
-    id: 6,
-    title: "شیر فلکه برنجی ۲ اینچ",
-    category: "اتصالات",
-    price: "۷۸۰٬۰۰۰",
-    stock: "۶۰ عدد",
-    status: "منتشر شده",
-    type: "valve",
-  },
-];
-
-const categories = [
-  "همه",
-  "لوله‌های انتقال آب",
-  "سیستم‌های آبیاری",
-  "تصفیه آب",
-  "پمپ و موتور",
-  "اتصالات",
-];
-
-function ProductIcon({ type }) {
-  return (
-    <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#7be35b]/10 bg-[#7be35b]/5">
-      <div className="absolute inset-0 rounded-2xl bg-[#7be35b]/5 blur-xl" />
-
-      {type === "pipe" && (
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 40 40"
-          fill="none"
-          className="relative"
-        >
-          <rect
-            x="7"
-            y="12"
-            width="26"
-            height="16"
-            rx="4"
-            stroke="#7be35b"
-            strokeWidth="2"
-          />
-          <path
-            d="M13 12V28M27 12V28"
-            stroke="#7be35b"
-            strokeWidth="2"
-          />
-        </svg>
-      )}
-
-      {type === "tape" && (
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 40 40"
-          fill="none"
-          className="relative"
-        >
-          <circle
-            cx="20"
-            cy="20"
-            r="12"
-            stroke="#7be35b"
-            strokeWidth="2"
-          />
-          <circle
-            cx="20"
-            cy="20"
-            r="5"
-            stroke="#7be35b"
-            strokeWidth="2"
-          />
-          <path
-            d="M20 8V14M32 20H26M20 32V26M8 20H14"
-            stroke="#7be35b"
-            strokeWidth="2"
-          />
-        </svg>
-      )}
-
-      {type === "filter" && (
-        <FiFilter className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "pump" && (
-        <FiBox className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "elbow" && (
-        <FiLayers className="relative text-2xl text-[#7be35b]" />
-      )}
-
-      {type === "valve" && (
-        <FiTag className="relative text-2xl text-[#7be35b]" />
-      )}
-    </div>
-  );
-}
+const productMedia = (item) => [item?.thumbnail, ...(item?.images || []), ...(item?.features || []).map(x=>x.icon), ...(item?.documents || []).map(x=>x.url)].filter(Boolean);
 
 export default function GetAll_Product() {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("همه");
-const navigate = useNavigate()
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) => {
-      const matchesSearch =
-        product.title.includes(search) ||
-        product.category.includes(search);
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [items, setItems] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [meta, setMeta] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [orderDirty, setOrderDirty] = useState(false);
+  const query = useMemo(()=>({
+    page:Number(searchParams.get("page")||1), limit:12, q:searchParams.get("q")||"", status:searchParams.get("status")||"all", sort:searchParams.get("sort")||"order", brandId:searchParams.get("brandId")||"", categoryId:searchParams.get("categoryId")||"", featured:searchParams.get("featured")||"",
+  }),[searchParams]);
 
-      const matchesCategory =
-        activeCategory === "همه" ||
-        product.category === activeCategory;
+  useEffect(()=>{(async()=>{const [br,cat]=await Promise.all([fetchData("/admin/brands?limit=100&status=all&sort=name"),fetchData("/admin/product-categories?limit=100&status=all&sort=name")]);if(br?.success)setBrands(br.data||[]);if(cat?.success)setCategories(cat.data||[]);})();},[]);
+  const load=async()=>{setLoading(true);setOrderDirty(false);const r=await fetchData(`/admin/products?${toQueryString(query)}`);setLoading(false);if(!r?.success)return Notify("error",r?.message||"دریافت محصولات ناموفق بود");setItems(r.data||[]);setMeta(r.meta?.pagination||null);};
+  useEffect(()=>{load();},[query.page,query.q,query.status,query.sort,query.brandId,query.categoryId,query.featured]);
+  const canReorder=query.sort==="order"&&!query.q&&query.status==="all"&&!query.brandId&&!query.categoryId&&!query.featured;
+  const setQuery=(key,value)=>{const next=new URLSearchParams(searchParams);if(!value||(key==="status"&&value==="all"))next.delete(key);else next.set(key,value);if(key!=="page")next.set("page","1");setSearchParams(next);};
+  const publish=async(item)=>{const action=item.isPublished?"unpublish":"publish";const r=await fetchData(`/admin/products/${item._id}/${action}`,{method:"PATCH"});if(!r?.success)return Notify("error",r?.message||"تغییر وضعیت ناموفق بود");Notify("success",r.message);load();};
+  const remove=async(item)=>{if(!window.confirm(`حذف محصول «${item.name?.fa||""}»؟`))return;const detail=await fetchData(`/admin/products/${item._id}`);const media=detail?.success?productMedia(detail.data):productMedia(item);const r=await fetchData(`/admin/products/${item._id}`,{method:"DELETE"});if(!r?.success)return Notify("error",r?.message||"حذف محصول ناموفق بود");for(const url of media)await deleteMediaByUrl(url);Notify("success",r.message);load();};
+  const move=(index,delta)=>{if(!canReorder)return Notify("error","برای تغییر ترتیب، همه فیلترها را پاک کنید و Sort را روی ترتیب دستی بگذارید");const target=index+delta;if(target<0||target>=items.length)return;const next=[...items];[next[index],next[target]]=[next[target],next[index]];setItems(next);setOrderDirty(true);};
+  const saveOrder=async()=>{if(!canReorder)return;const offset=(query.page-1)*query.limit;const r=await fetchData("/admin/products/reorder",{method:"PATCH",body:JSON.stringify({items:items.map((item,index)=>({id:item._id,sortOrder:offset+index}))})});if(!r?.success)return Notify("error",r?.message||"ذخیره ترتیب ناموفق بود");Notify("success",r.message);load();};
 
-      return matchesSearch && matchesCategory;
-    });
-  }, [search, activeCategory]);
+  return <section className="min-h-screen bg-[#050806] px-6 py-8 text-white"><div className="mx-auto max-w-[1500px]">
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-4"><div><p className="text-sm text-[#7be35b]">Products</p><h1 className="mt-2 text-3xl font-bold">مدیریت محصولات</h1><p className="mt-2 text-sm text-white/35">لیست واقعی محصولات Stage3-Vanta با فیلتر، انتشار و ترتیب نمایش</p></div><div className="flex gap-2">{orderDirty&&<button onClick={saveOrder} className="rounded-xl border border-[#7be35b]/30 bg-[#7be35b]/10 px-4 py-3 text-sm text-[#7be35b]">ذخیره ترتیب</button>}<button onClick={()=>navigate("create")} className="flex items-center gap-2 rounded-xl bg-[#7be35b] px-5 py-3 font-bold text-black"><FiPlus/>افزودن محصول</button></div></div>
 
-  const publishedCount = products.filter(
-    (item) => item.status === "منتشر شده"
-  ).length;
+    <div className="mb-5 grid gap-3 rounded-2xl border border-white/10 bg-[#0b1511] p-4 xl:grid-cols-[1fr_150px_150px_170px_170px_150px_auto]">
+      <label className="flex h-11 items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3"><FiSearch className="text-white/30"/><input value={query.q} onChange={(e)=>setQuery("q",e.target.value)} className="w-full bg-transparent text-sm outline-none" placeholder="نام، مدل یا SKU..."/></label>
+      <select value={query.status} onChange={(e)=>setQuery("status",e.target.value)} className="rounded-xl border border-white/10 bg-[#0b1511] px-3 text-sm"><option value="all">همه وضعیت‌ها</option><option value="published">منتشرشده</option><option value="draft">پیش‌نویس</option></select>
+      <select value={query.sort} onChange={(e)=>setQuery("sort",e.target.value)} className="rounded-xl border border-white/10 bg-[#0b1511] px-3 text-sm"><option value="order">ترتیب دستی</option><option value="newest">جدیدترین</option><option value="oldest">قدیمی‌ترین</option><option value="name">نام</option></select>
+      <select value={query.brandId} onChange={(e)=>setQuery("brandId",e.target.value)} className="rounded-xl border border-white/10 bg-[#0b1511] px-3 text-sm"><option value="">همه برندها</option>{brands.map(b=><option key={b._id} value={b._id}>{b.name?.fa||b.name?.en}</option>)}</select>
+      <select value={query.categoryId} onChange={(e)=>setQuery("categoryId",e.target.value)} className="rounded-xl border border-white/10 bg-[#0b1511] px-3 text-sm"><option value="">همه دسته‌بندی‌ها</option>{categories.map(c=><option key={c._id} value={c._id}>{c.name?.fa||c.name?.en}</option>)}</select>
+      <select value={query.featured} onChange={(e)=>setQuery("featured",e.target.value)} className="rounded-xl border border-white/10 bg-[#0b1511] px-3 text-sm"><option value="">همه Featured</option><option value="true">فقط ویژه</option><option value="false">غیرویژه</option></select>
+      <button onClick={load} className="grid h-11 w-11 place-items-center rounded-xl border border-white/10 text-white/50"><FiRefreshCw className={loading?"animate-spin":""}/></button>
+    </div>
 
-  const draftCount = products.filter(
-    (item) => item.status === "پیش‌نویس"
-  ).length;
-
-  const lowStockCount = products.filter((item) => item.low).length;
-
-  return (
-    <section className="relative min-h-screen overflow-hidden bg-[#050806] px-6 py-8 text-white">
-      {/* Background Glow */}
-      <div className="pointer-events-none absolute -right-40 top-0 h-96 w-96 rounded-full bg-[#7be35b]/5 blur-[120px]" />
-      <div className="pointer-events-none absolute -left-40 bottom-0 h-96 w-96 rounded-full bg-[#7be35b]/5 blur-[120px]" />
-
-      <div className="relative mx-auto max-w-[1600px]">
-        {/* Header */}
-        <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
-          <div>
-            <div className="mb-3 flex items-center gap-2 text-sm text-[#7be35b]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#7be35b] shadow-[0_0_10px_#7be35b]" />
-              مدیریت محصولات
-            </div>
-
-            <h1 className="text-3xl font-bold tracking-tight">
-              محصولات
-            </h1>
-
-            <p className="mt-2 text-sm text-white/40">
-              محصولات سایت را مدیریت، ویرایش و دسته‌بندی کنید.
-            </p>
-          </div>
-
-          <button onClick={()=>navigate('create')} className="group flex h-12 items-center justify-center gap-2 rounded-xl bg-[#7be35b] px-5 font-semibold text-black transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(123,227,91,0.25)]">
-            <FiPlus className="text-lg transition-transform group-hover:rotate-90" />
-            افزودن محصول
-          </button>
-        </div>
-
-        {/* Stats */}
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-2xl border border-white/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#7be35b]/10 text-[#7be35b]">
-                <FiBox />
-              </div>
-
-              <span className="text-xs text-white/30">کل</span>
-            </div>
-
-            <p className="text-2xl font-bold">{products.length}</p>
-            <p className="mt-1 text-sm text-white/40">
-              کل محصولات
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-400">
-                <FiCheckCircle />
-              </div>
-
-              <span className="text-xs text-emerald-400/60">
-                فعال
-              </span>
-            </div>
-
-            <p className="text-2xl font-bold">{publishedCount}</p>
-            <p className="mt-1 text-sm text-white/40">
-              محصولات منتشر شده
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/60">
-                <FiEdit3 />
-              </div>
-
-              <span className="text-xs text-white/30">
-                Draft
-              </span>
-            </div>
-
-            <p className="text-2xl font-bold">{draftCount}</p>
-            <p className="mt-1 text-sm text-white/40">
-              پیش‌نویس
-            </p>
-          </div>
-
-          <div className="rounded-2xl border border-orange-400/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-400/10 text-orange-400">
-                <FiAlertCircle />
-              </div>
-
-              <span className="text-xs text-orange-400/60">
-                نیاز به بررسی
-              </span>
-            </div>
-
-            <p className="text-2xl font-bold">{lowStockCount}</p>
-            <p className="mt-1 text-sm text-white/40">
-              موجودی کم
-            </p>
-          </div>
-        </div>
-
-        {/* Search + Filter */}
-        <div className="mb-6 rounded-2xl border border-white/10 bg-[#0a0f0c]/80 p-4 backdrop-blur-xl">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            {/* Search */}
-            <div className="relative w-full xl:max-w-md">
-              <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-white/30" />
-
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="جستجوی محصول..."
-                className="h-12 w-full rounded-xl border border-white/10 bg-white/[0.03] pr-11 pl-4 text-sm text-white outline-none transition-all placeholder:text-white/25 focus:border-[#7be35b]/40 focus:bg-white/[0.05]"
-              />
-            </div>
-
-            {/* Categories */}
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {categories.map((category) => {
-                const active = activeCategory === category;
-
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-sm transition-all ${
-                      active
-                        ? "bg-[#7be35b] font-medium text-black shadow-[0_0_20px_rgba(123,227,91,0.15)]"
-                        : "border border-white/10 bg-white/[0.02] text-white/40 hover:border-white/20 hover:text-white"
-                    }`}
-                  >
-                    {category}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Results Header */}
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="font-semibold">لیست محصولات</h2>
-            <p className="mt-1 text-xs text-white/30">
-              {filteredProducts.length} محصول نمایش داده می‌شود
-            </p>
-          </div>
-
-          <button className="flex items-center gap-2 text-sm text-white/35 transition hover:text-white">
-            مرتب‌سازی
-            <FiChevronLeft />
-          </button>
-        </div>
-
-        {/* Products */}
-        {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0b110e]/80 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#7be35b]/20 hover:bg-[#0d1510]"
-              >
-                {/* Glow */}
-                <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[#7be35b]/5 blur-3xl transition-all group-hover:bg-[#7be35b]/10" />
-
-                {/* Top */}
-                <div className="relative flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <ProductIcon type={product.type} />
-
-                    <div>
-                      <span className="text-[11px] text-[#7be35b]/70">
-                        {product.category}
-                      </span>
-
-                      <h3 className="mt-1 max-w-[220px] text-sm font-semibold leading-6">
-                        {product.title}
-                      </h3>
-                    </div>
-                  </div>
-
-                  <span
-                    className={`rounded-lg px-2.5 py-1 text-[10px] ${
-                      product.status === "منتشر شده"
-                        ? "bg-emerald-400/10 text-emerald-400"
-                        : "bg-white/5 text-white/40"
-                    }`}
-                  >
-                    {product.status}
-                  </span>
-                </div>
-
-                {/* Divider */}
-                <div className="my-5 h-px bg-white/[0.06]" />
-
-                {/* Info */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="mb-1 text-[11px] text-white/25">
-                      قیمت
-                    </p>
-
-                    <p className="text-sm font-semibold">
-                      {product.price}
-                      <span className="mr-1 text-[10px] font-normal text-white/30">
-                        تومان
-                      </span>
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="mb-1 text-[11px] text-white/25">
-                      موجودی
-                    </p>
-
-                    <p
-                      className={`text-sm font-semibold ${
-                        product.out
-                          ? "text-red-400"
-                          : product.low
-                          ? "text-orange-400"
-                          : "text-white"
-                      }`}
-                    >
-                      {product.stock}
-
-                      {product.low && (
-                        <span className="mr-2 text-[10px] font-normal text-orange-400/60">
-                          کم
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="mt-5 flex items-center gap-2">
-                  <button className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] text-xs text-white/50 transition-all hover:border-[#7be35b]/20 hover:bg-[#7be35b]/5 hover:text-[#7be35b]">
-                    <FiEdit3 />
-                    ویرایش
-                  </button>
-
-                  <button className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.02] text-white/25 transition-all hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-400">
-                    <FiTrash2 />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="flex min-h-80 flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.01]">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-white/20">
-              <FiSearch className="text-xl" />
-            </div>
-
-            <h3 className="text-sm font-medium">
-              محصولی پیدا نشد
-            </h3>
-
-            <p className="mt-2 text-xs text-white/30">
-              عبارت جستجو یا دسته‌بندی را تغییر دهید.
-            </p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
+    <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0b1511]"><div className="overflow-x-auto"><table className="w-full min-w-[1100px] text-right text-sm"><thead><tr className="border-b border-white/10 text-xs text-white/35"><th className="px-4 py-4">محصول</th><th className="px-4 py-4">برند / دسته‌بندی</th><th className="px-4 py-4">مدل / SKU</th><th className="px-4 py-4">وضعیت</th><th className="px-4 py-4">ویژه</th><th className="px-4 py-4">ترتیب</th><th className="px-4 py-4">عملیات</th></tr></thead><tbody>
+      {items.map((item,index)=><tr key={item._id} className="border-b border-white/[0.05] hover:bg-white/[0.02]"><td className="px-4 py-3"><div className="flex items-center gap-3"><img src={resolveMediaUrl(item.thumbnail)} alt="" className="h-12 w-12 rounded-xl bg-white/5 object-cover"/><div><p className="font-medium">{item.name?.fa||item.name?.en||"-"}</p><p className="max-w-xs truncate text-[10px] text-white/25">{item.shortDescription?.fa||""}</p></div></div></td><td className="px-4 py-3"><p className="text-xs text-white/65">{item.brandId?.name?.fa||"-"}</p><p className="mt-1 text-[10px] text-white/30">{item.categoryId?.name?.fa||"-"}</p></td><td className="px-4 py-3"><p className="text-xs text-white/60">{item.model||"-"}</p><p className="mt-1 font-mono text-[10px] text-white/30">{item.sku||"-"}</p></td><td className="px-4 py-3"><button onClick={()=>publish(item)} className={`rounded-lg px-2 py-1 text-[10px] ${item.isPublished?"bg-emerald-400/10 text-emerald-300":"bg-amber-400/10 text-amber-300"}`}>{item.isPublished?"منتشرشده":"پیش‌نویس"}</button></td><td className="px-4 py-3 text-white/50">{item.isFeatured?"بله":"خیر"}</td><td className="px-4 py-3"><div className="flex items-center gap-1"><button disabled={!canReorder} onClick={()=>move(index,-1)} className="rounded-lg border border-white/10 p-2 text-white/45 disabled:opacity-25"><FiArrowUp/></button><button disabled={!canReorder} onClick={()=>move(index,1)} className="rounded-lg border border-white/10 p-2 text-white/45 disabled:opacity-25"><FiArrowDown/></button><span className="mr-2 text-xs text-white/35">{item.sortOrder??0}</span></div></td><td className="px-4 py-3"><div className="flex gap-2"><button onClick={()=>navigate(`update/${item._id}`)} className="rounded-lg border border-white/10 p-2 text-[#7be35b]"><FiEdit3/></button><button onClick={()=>remove(item)} className="rounded-lg border border-red-500/10 p-2 text-red-300"><FiTrash2/></button></div></td></tr>)}
+      {!loading&&!items.length&&<tr><td colSpan="7" className="py-12 text-center text-white/30">محصولی پیدا نشد.</td></tr>}{loading&&<tr><td colSpan="7" className="py-12 text-center text-white/30">در حال دریافت...</td></tr>}
+    </tbody></table></div></div>
+    {meta&&<div className="mt-5 flex items-center justify-between text-xs text-white/40"><span>کل: {meta.total} - صفحه {meta.page} از {meta.totalPages||1}</span><div className="flex gap-2"><button disabled={!meta.hasPrevPage} onClick={()=>setQuery("page",String(meta.page-1))} className="rounded-lg border border-white/10 px-3 py-2 disabled:opacity-30">قبلی</button><button disabled={!meta.hasNextPage} onClick={()=>setQuery("page",String(meta.page+1))} className="rounded-lg border border-white/10 px-3 py-2 disabled:opacity-30">بعدی</button></div></div>}
+  </div></section>;
 }
