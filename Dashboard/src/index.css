@@ -1,26 +1,24 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: "Vazirmatn",sans-serif;
-  src:
-  url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.woff2") format('woff2');
-  /* url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.woff") format('woff'),
-  url("./src/assets/Font/Vazirmatn/Vazirmatn-VariableFont_wght.ttf") format('truetype'); */
+  font-family: "Vazirmatn";
+  src: url("./assets/Vazirmatn/Vazirmatn-VariableFont_wght.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
-/* Base Font */
 
-/* Root */
 :root {
   --primary: #96B642;
   --secondary: #0A4696;
   --accent: #EEB62A;
+  color-scheme: dark;
+  font-family: "Vazirmatn", sans-serif;
+  background: #050806;
 }
-/* Root */
 
-* {
-  font-family: 'Vazirmatn',sans-serif;
-  direction: rtl;
-}
+* { box-sizing: border-box; }
+html, body, #root { min-height: 100%; margin: 0; }
+body { font-family: "Vazirmatn", sans-serif; background: #050806; }
+button, input, textarea, select { font: inherit; }
+[dir="ltr"] { direction: ltr; text-align: left; }
