@@ -44,7 +44,6 @@ export default function ContactInfo() {
             scale: 1
           }}
           viewport={{
-            once: true,
             amount: 0.3
           }}
           transition={{
@@ -68,9 +67,6 @@ export default function ContactInfo() {
             }}
             whileInView={{
               scale: 1
-            }}
-            viewport={{
-              once: true
             }}
             transition={{
               duration: 1.4,
@@ -97,7 +93,6 @@ export default function ContactInfo() {
             x: 0
           }}
           viewport={{
-            once: true,
             amount: 0.3
           }}
           transition={{

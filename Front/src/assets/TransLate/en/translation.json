@@ -6,7 +6,7 @@
     "contact": "Contact Us"
   },
 
-   "contact": {
+  "contact": {
     "label": "Contact Us",
     "title": "Tell us",
     "titleHighlight": "how we can help.",
@@ -36,10 +36,7 @@
       },
       "phone": {
         "title": "Phone",
-        "numbers": [
-          "989105645615+",
-          "989029523634+"
-        ]
+        "numbers": ["989105645615+", "989029523634+"]
       },
       "email": {
         "title": "Email",
@@ -63,26 +60,12 @@
     }
   },
 
-  "slider": [
-    {
-      "label": "About Us",
-      "title": "Tell Us",
-      "description": "Send us your questions and requests.",
-      "button": "View Products"
-    },
-    {
-      "label": "About Us",
-      "title": "Better Solutions for Agriculture",
-      "description": "Suitable products for irrigation and agricultural systems.",
-      "button": "View Products"
-    },
-    {
-      "label": "About Us",
-      "title": "Built for Better Performance",
-      "description": "High-quality products designed for long-term use.",
-      "button": "View Products"
-    }
-  ],
+  "slider": {
+    "label": "About Us",
+    "title": "Better Solutions for Agriculture",
+    "description": "Suitable products for modern irrigation and agricultural systems.",
+    "button": "View Products"
+  },
   "product": {
     "smallTitle": "Our Products",
     "bigTitle": "Smart Solutions for Modern Agriculture",
@@ -147,27 +130,20 @@
     "addressValue": "Tehran, Iran"
   },
   "footer": {
-  "description": "Expert insights on agricultural pipes and fittings, built for performance that lasts.",
-  "productsTitle": "PRODUCTS",
-  "products": [
-    "Water Supply Pipes",
-    "Drainage Solutions",
-    "Suction & Delivery",
-    "Fittings & Connectors"
-  ],
-  "companyTitle": "COMPANY",
-  "company": [
-    "About us",
-    "Contact",
-    "All products"
-  ],
-  "legalTitle": "LEGAL",
-  "legal": [
-    "Privacy policy",
-    "Terms of use"
-  ],
-  "contactButton": "CONTACT US",
-  "copyright": "© 2026 AgriFlow. All rights reserved.",
-  "bottomText": "Pipes & fittings for agriculture"
-}
+    "description": "Expert insights on agricultural pipes and fittings, built for performance that lasts.",
+    "productsTitle": "PRODUCTS",
+    "products": [
+      "Water Supply Pipes",
+      "Drainage Solutions",
+      "Suction & Delivery",
+      "Fittings & Connectors"
+    ],
+    "companyTitle": "COMPANY",
+    "company": ["About us", "Contact", "All products"],
+    "legalTitle": "LEGAL",
+    "legal": ["Privacy policy", "Terms of use"],
+    "contactButton": "CONTACT US",
+    "copyright": "© 2026 AgriFlow. All rights reserved.",
+    "bottomText": "Pipes & fittings for agriculture"
+  }
 }

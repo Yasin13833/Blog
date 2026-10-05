@@ -16,7 +16,7 @@ export default function Products() {
 
     const categories = useMemo(() => {
 
-        const allCategories = product.productCart.map(
+        const allCategories = product.productCart?.map(
             item => item.category
         );
 
@@ -25,7 +25,7 @@ export default function Products() {
     }, [product.productCart]);
 
 
-    const filteredProducts = product.productCart.filter(item => {
+    const filteredProducts = product.productCart?.filter(item => {
 
         const matchesSearch =
             item.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -218,8 +218,8 @@ export default function Products() {
 
 
                         {categories
-                            .filter(category => category !== "all")
-                            .map((category, index) => (
+                            ?.filter(category => category !== "all")
+                            ?.map((category, index) => (
 
                                 <button
                                     key={index}
@@ -298,7 +298,7 @@ export default function Products() {
           gap-6
         ">
 
-                    {filteredProducts.map((item, index) => (
+                    {filteredProducts?.map((item, index) => (
 
                         <motion.div
                             key={index}
@@ -441,7 +441,7 @@ export default function Products() {
                   mb-7
                 ">
 
-                                    {item.tags.map((tag, tagIndex) => (
+                                    {item.tags?.map((tag, tagIndex) => (
 
                                         <span
                                             key={tagIndex}
@@ -498,7 +498,7 @@ export default function Products() {
 
                 {/* ================= EMPTY ================= */}
 
-                {filteredProducts.length === 0 && (
+                {filteredProducts?.length === 0 && (
 
                     <div className="
             py-24
