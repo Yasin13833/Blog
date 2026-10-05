@@ -28,7 +28,7 @@ export default function Category() {
         `/public/product-categories?lang=${lang}`
       );
 
-      console.log(result);
+      // console.log(result);
 
       if (!result?.success) {
         Notify("error", "خطا در بارگزاری دسته بندی ها");
