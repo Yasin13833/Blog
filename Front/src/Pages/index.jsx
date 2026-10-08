@@ -1,4 +1,5 @@
 import AboutUs from "./AboutUs";
+import Categories from "./Categories";
 import Contact from "./Contact";
 import Detail_Product from "./DatailProduct";
 import Home from "./Home";
@@ -9,5 +10,6 @@ export {
     Contact,
     AboutUs,
     Products,
-    Detail_Product
+    Detail_Product,
+    Categories
 }

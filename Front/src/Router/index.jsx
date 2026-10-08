@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../Layout";
-import { AboutUs, Contact, Detail_Product, Home, Products } from "../Pages";
+import { AboutUs, Categories, Contact, Detail_Product, Home, Products } from "../Pages";
+import Detail_Categories from "../Pages/DetailCategories";
+
 
 
 const router = createBrowserRouter([
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
             {
                 path: 'detail-product/:id',
                 element: <Detail_Product />
+            },
+            {
+                path : 'categories',
+                element : <Categories/>
+            },
+            {
+                path : 'detail-categories/:id',
+                element : <Detail_Categories/>
             }
 
         ]

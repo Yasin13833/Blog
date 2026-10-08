@@ -3,7 +3,8 @@
     "home": "Home",
     "products": "Products",
     "about": "About Us",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "categories": "Category"
   },
 
   "contact": {
@@ -145,5 +146,56 @@
     "contactButton": "CONTACT US",
     "copyright": "© 2026 AgriFlow. All rights reserved.",
     "bottomText": "Pipes & fittings for agriculture"
+  },
+  "categoriesPage": {
+    "hero": {
+      "label": "Categories",
+      "title": "Explore our",
+      "titleHighlight": "categories",
+      "description": "Discover our complete range of irrigation, water transfer, fittings, valves and other solutions designed for modern water systems."
+    },
+    "section": {
+      "label": "Product Categories",
+      "title": "Find what you're looking for"
+    },
+    "card": {
+      "featured": "Featured",
+      "explore": "Explore"
+    }
+  },
+  "detailCategory": {
+    "back": "Back to Categories",
+    "products": "Products in This Category",
+    "productsCount": "Products",
+    "noProducts": "No products found in this category",
+    "description": "Description",
+    "specifications": "Specifications",
+    "features": "Features",
+    "viewProduct": "View Product",
+    "viewAll": "View All Products",
+    "featured": "Featured",
+    "notFound": "The requested category was not found",
+    "error": "Error loading category information",
+    "loading": "Loading..."
+  },
+  "search": {
+    "placeholder": "Search products, brands and categories...",
+    "title": "Search",
+    "searching": "Searching...",
+    "noResults": "No results found for your search",
+    "empty": "Enter a search term to get started",
+    "products": "Products",
+    "brands": "Brands",
+    "categories": "Categories",
+    "product": "Product",
+    "brand": "Brand",
+    "category": "Category",
+    "viewProduct": "View Product",
+    "viewBrand": "View Brand",
+    "viewCategory": "View Category",
+    "model": "Model",
+    "country": "Country",
+    "viewAll": "View All",
+    "close": "Close"
   }
 }

@@ -11,23 +11,57 @@ import {
 import { motion } from "motion/react";
 
 import { fetchData } from "../../Utils/fetchData";
+
 import Notify from "../../Utils/Notify";
+
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function Products() {
 
-    const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
 
+    const { t, i18n } = useTranslation();
     const lang = i18n.language;
 
     const product = t("product", {
         returnObjects: true,
     });
 
+    const [searchParams] = useSearchParams();
+
+    const category = searchParams.get("category");
+    const brand = searchParams.get("brand");
+
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
-    const [activeCategory, setActiveCategory] = useState("all");
+
+    const [activeCategory, setActiveCategory] = useState(
+        category || "all"
+    );
+
+    const [activeBrand, setActiveBrand] = useState(
+        brand || "all"
+    );
+
     const [loading, setLoading] = useState(true);
     const [sort, setSort] = useState("order");
+
+    const [page, setPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const LIMIT = 6;
+
+    // ================= SYNC URL FILTERS =================
+
+    useEffect(() => {
+
+        setActiveCategory(category || "all");
+        setActiveBrand(brand || "all");
+
+        setPage(1);
+
+    }, [category, brand]);
+
 
     // ================= GET PRODUCTS =================
 
@@ -43,20 +77,50 @@ export default function Products() {
 
                 params.set("lang", lang);
                 params.set("sort", sort);
+                params.set("limit", LIMIT);
+                params.set("page", page);
+
 
                 // Search
+
                 if (search.trim()) {
-                    params.set("q", search.trim());
+
+                    params.set(
+                        "q",
+                        search.trim()
+                    );
+
                 }
 
+
                 // Category
+
                 if (activeCategory !== "all") {
-                    params.set("category", activeCategory);
+
+                    params.set(
+                        "category",
+                        activeCategory
+                    );
+
                 }
+
+
+                // Brand
+
+                if (activeBrand !== "all") {
+
+                    params.set(
+                        "brand",
+                        activeBrand
+                    );
+
+                }
+
 
                 const result = await fetchData(
                     `/public/products?${params.toString()}`
                 );
+
 
                 if (!result?.success) {
 
@@ -68,9 +132,20 @@ export default function Products() {
                     setProducts([]);
 
                     return;
+
                 }
 
-                setProducts(result?.data || []);
+
+                setTotalPage(
+                    Math.ceil(
+                        result.meta.pagination.total / LIMIT
+                    )
+                );
+
+                setProducts(
+                    result?.data || []
+                );
+
 
             } catch (error) {
 
@@ -93,7 +168,15 @@ export default function Products() {
 
         getProducts();
 
-    }, [lang, sort, activeCategory, search]);
+    }, [
+        lang,
+        sort,
+        activeCategory,
+        activeBrand,
+        search,
+        LIMIT,
+        page
+    ]);
 
 
     // ================= CATEGORIES =================
@@ -101,17 +184,21 @@ export default function Products() {
     const categories = useMemo(() => {
 
         const allCategories = products
-            ?.map(
-                (item) =>
-                    item?.category?.name ||
-                    item?.category
-            )
+            ?.map((item) => item?.category)
             ?.filter(Boolean);
 
-        return [
-            "all",
-            ...new Set(allCategories),
-        ];
+
+        const uniqueCategories = allCategories.filter(
+            (category, index, self) =>
+                index ===
+                self.findIndex(
+                    (item) =>
+                        item?._id === category?._id
+                )
+        );
+
+
+        return uniqueCategories;
 
     }, [products]);
 
@@ -147,6 +234,7 @@ export default function Products() {
                     "
                 />
 
+
                 {/* Glow */}
 
                 <div
@@ -161,6 +249,7 @@ export default function Products() {
                         top-10
                     "
                 />
+
 
                 <motion.div
                     initial={{
@@ -202,6 +291,7 @@ export default function Products() {
                         ○ {product.smallTitle}
                     </p>
 
+
                     {/* Title */}
 
                     <h1
@@ -216,6 +306,7 @@ export default function Products() {
                     >
                         {product.bigTitle}
                     </h1>
+
 
                     {/* Description */}
 
@@ -296,6 +387,7 @@ export default function Products() {
                             "
                         />
 
+
                         {/* All */}
 
                         <button
@@ -322,18 +414,14 @@ export default function Products() {
 
                         {/* Categories */}
 
-                        {categories
-                            ?.filter(
-                                (category) =>
-                                    category !== "all"
-                            )
-                            ?.map((category, index) => (
+                        {categories?.map(
+                            (category) => (
 
                                 <button
-                                    key={index}
+                                    key={category?._id}
                                     onClick={() =>
                                         setActiveCategory(
-                                            category
+                                            category?._id
                                         )
                                     }
                                     className={`
@@ -344,16 +432,17 @@ export default function Products() {
                                         transition-all
                                         duration-300
                                         ${
-                                            activeCategory === category
+                                            activeCategory === category?._id
                                                 ? "bg-lime-400 text-black border-lime-400"
                                                 : "border-white/15 text-white/60 hover:border-lime-400/50"
                                         }
                                     `}
                                 >
-                                    {category}
+                                    {category?.name}
                                 </button>
 
-                            ))}
+                            )
+                        )}
 
                     </div>
 
@@ -517,6 +606,11 @@ export default function Products() {
                                 (item, index) => (
 
                                     <motion.div
+                                        onClick={() =>
+                                            navigate(
+                                                `/detail-product/${item?._id}`
+                                            )
+                                        }
                                         key={item?._id}
                                         initial={{
                                             opacity: 0,
@@ -532,13 +626,13 @@ export default function Products() {
                                         }}
                                         transition={{
                                             duration: 0.6,
-                                            delay:
-                                                index * 0.1,
+                                            delay: index * 0.1,
                                         }}
                                         whileHover={{
                                             y: -8,
                                         }}
                                         className="
+                                            cursor-pointer
                                             group
                                             relative
                                             overflow-hidden
@@ -569,8 +663,7 @@ export default function Products() {
                                                         : "/hero-image.png"
                                                 }
                                                 alt={
-                                                    item?.name ||
-                                                    ""
+                                                    item?.name || ""
                                                 }
                                                 whileHover={{
                                                     scale: 1.06,
@@ -585,6 +678,7 @@ export default function Products() {
                                                 "
                                             />
 
+
                                             {/* Overlay */}
 
                                             <div
@@ -597,6 +691,7 @@ export default function Products() {
                                                     to-transparent
                                                 "
                                             />
+
 
                                             {/* Category */}
 
@@ -712,6 +807,70 @@ export default function Products() {
                     )}
 
 
+                {/* ================= PAGINATION ================= */}
+
+                {totalPage > 1 && (
+
+                    <div
+                        className="
+                            mt-14
+                            flex
+                            items-center
+                            justify-center
+                            gap-2
+                        "
+                    >
+
+                        {Array.from({
+                            length: totalPage
+                        }).map((_, index) => (
+
+                            <button
+                                key={index}
+                                onClick={() =>
+                                    setPage(index + 1)
+                                }
+                                className={`
+                                    relative
+                                    w-10
+                                    h-10
+                                    flex
+                                    items-center
+                                    justify-center
+                                    text-sm
+                                    font-medium
+                                    border
+                                    transition-all
+                                    duration-300
+                                    ${
+                                        page === index + 1
+                                            ? `
+                                                bg-lime-400
+                                                text-black
+                                                border-lime-400
+                                                shadow-[0_0_20px_rgba(163,230,53,0.2)]
+                                            `
+                                            : `
+                                                bg-[#101720]
+                                                text-white/50
+                                                border-white/10
+                                                hover:text-lime-400
+                                                hover:border-lime-400/50
+                                                hover:bg-lime-400/5
+                                            `
+                                    }
+                                `}
+                            >
+                                {index + 1}
+                            </button>
+
+                        ))}
+
+                    </div>
+
+                )}
+
+
                 {/* ================= EMPTY ================= */}
 
                 {!loading &&
@@ -732,6 +891,5 @@ export default function Products() {
             </section>
 
         </main>
-
     );
 }

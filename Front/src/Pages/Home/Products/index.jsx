@@ -36,7 +36,7 @@ export default function Products() {
 
   const items = products?.map((e, index) => {
     return (
-      <SwiperSlide onClick={()=>navigate(`detail-product/${e._id}`)} key={e._id} className="!h-auto">
+      <SwiperSlide onClick={() => navigate(`detail-product/${e._id}`)} key={e._id} className="!h-auto">
         <motion.div
           initial={{
             opacity: 0,
@@ -417,27 +417,31 @@ export default function Products() {
       {/* Products */}
 
       <Swiper
-        dir='rtl'
-        key={products.length}
-        slidesPerView={3}
-        spaceBetween={20}
-        loop={true}
+        dir="rtl"
+        slidesPerView={1}
+        spaceBetween={12}
+        loop={products.length > 3}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,
         }}
         navigation
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Navigation]}
         breakpoints={{
           640: {
             slidesPerView: 1,
+            spaceBetween: 16,
           },
-          1000: {
+
+          768: {
             slidesPerView: 2,
+            spaceBetween: 16,
           },
-          1024 :{
-            slidesPerView: 3
-          }
+
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
         }}
       >
         {items}

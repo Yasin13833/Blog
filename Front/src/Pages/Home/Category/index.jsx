@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { fetchData } from "../../../Utils/fetchData";
 
 import Notify from "../../../Utils/Notify";
+import { useNavigate } from "react-router-dom";
 
 export default function Category() {
   const { t, i18n } = useTranslation();
@@ -21,14 +22,12 @@ export default function Category() {
   const lang = i18n.language;
 
   const [categories, setCategories] = useState([]);
-
+  const navigate = useNavigate()
   useEffect(() => {
     (async () => {
       const result = await fetchData(
         `/public/product-categories?lang=${lang}`
       );
-
-      // console.log(result);
 
       if (!result?.success) {
         Notify("error", "خطا در بارگزاری دسته بندی ها");
@@ -68,20 +67,23 @@ export default function Category() {
         items-center
       "
     >
+      {/* ================= MAIN CONTAINER ================= */}
+
       <motion.div
         initial={{
           opacity: 0,
-          x: -60,
+          y: 20,
         }}
         whileInView={{
           opacity: 1,
-          x: 0,
+          y: 0,
         }}
         viewport={{
-          amount: 0.2,
+          once: true,
+          amount: 0.15,
         }}
         transition={{
-          duration: 0.8,
+          duration: 0.45,
           ease: [0.22, 1, 0.36, 1],
         }}
         className="
@@ -110,15 +112,16 @@ export default function Category() {
           <motion.p
             initial={{
               opacity: 0,
-              y: -20,
+              y: 12,
             }}
-            whileInView={{
+            animate={{
               opacity: 1,
               y: 0,
             }}
-
             transition={{
-              duration: 0.5,
+              duration: 0.35,
+              delay: 0.08,
+              ease: "easeOut",
             }}
             className="
               text-lime-400
@@ -181,6 +184,9 @@ export default function Category() {
             whileHover={{
               x: 6,
             }}
+            transition={{
+              duration: 0.2,
+            }}
             className="
               flex
               items-center
@@ -195,7 +201,6 @@ export default function Category() {
 
               font-semibold
               tracking-wider
-
               cursor-pointer
             "
           >
@@ -207,7 +212,21 @@ export default function Category() {
 
         {/* ================= CATEGORY CARDS ================= */}
 
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.1,
+          }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.06,
+              },
+            },
+          }}
           className="
             w-full
 
@@ -235,27 +254,31 @@ export default function Category() {
           {categories.map((item, index) => (
             <motion.div
               key={item._id}
-              initial={{
-                opacity: 0,
-                y: 30,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                amount: 0.2,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: 18,
+                },
+
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.35,
+                    ease: [0.22, 1, 0.36, 1],
+                  },
+                },
               }}
               whileHover={{
                 backgroundColor: "rgba(255,255,255,0.06)",
               }}
+              transition={{
+                backgroundColor: {
+                  duration: 0.2,
+                },
+              }}
               className="
                 group
-
                 min-h-80
 
                 p-4
@@ -280,7 +303,7 @@ export default function Category() {
                 flex-col
               "
             >
-              {/* Image */}
+              {/* ================= IMAGE ================= */}
 
               <div
                 className="
@@ -310,13 +333,15 @@ export default function Category() {
                 <img
                   src={`http://localhost:5001${item.image}`}
                   alt={item.name}
+                  loading="lazy"
+                  decoding="async"
                   className="
                     w-full
                     h-full
                     object-cover
 
                     transition-transform
-                    duration-700
+                    duration-500
                     ease-out
 
                     group-hover:scale-110
@@ -339,12 +364,12 @@ export default function Category() {
                     group-hover:opacity-100
 
                     transition-opacity
-                    duration-500
+                    duration-300
                   "
                 />
               </div>
 
-              {/* Icon */}
+              {/* ================= ICON ================= */}
 
               <div
                 className="
@@ -387,7 +412,7 @@ export default function Category() {
                 {index >= 4 && <FiDroplet />}
               </div>
 
-              {/* Title */}
+              {/* ================= TITLE ================= */}
 
               <h3
                 className="
@@ -412,7 +437,7 @@ export default function Category() {
                 {item.name}
               </h3>
 
-              {/* Description */}
+              {/* ================= DESCRIPTION ================= */}
 
               <p
                 className="
@@ -432,7 +457,7 @@ export default function Category() {
                 {item.description}
               </p>
 
-              {/* Arrow */}
+              {/* ================= ARROW ================= */}
 
               <div
                 className="
@@ -469,7 +494,7 @@ export default function Category() {
                 />
               </div>
 
-              {/* Decorative Glow */}
+              {/* ================= DECORATIVE GLOW ================= */}
 
               <div
                 className="
@@ -492,14 +517,14 @@ export default function Category() {
                   group-hover:opacity-100
 
                   transition-opacity
-                  duration-500
+                  duration-300
 
                   pointer-events-none
                 "
               />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );
