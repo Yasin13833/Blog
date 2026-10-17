@@ -32,8 +32,31 @@ export default function Navbar() {
     products: [],
   });
 
-  const lang = i18n.language;
+  const lang = (i18n.resolvedLanguage || i18n.language || "fa")
+    .split("-")[0];
+
   const LIMIT = 6;
+
+  // پشتیبانی از نام و اسلاگ رشته‌ای یا چندزبانه
+  const getLocalizedValue = (value) => {
+    if (typeof value === "string") return value;
+
+    if (value && typeof value === "object") {
+      return (
+        value[lang] ||
+        value[lang.toLowerCase()] ||
+        value.en ||
+        value.fa ||
+        value.ar ||
+        Object.values(value).find(
+          (item) => typeof item === "string" && item.trim()
+        ) ||
+        ""
+      );
+    }
+
+    return "";
+  };
 
   useEffect(() => {
     if (!search.trim()) {
@@ -47,23 +70,59 @@ export default function Navbar() {
 
     const params = new URLSearchParams();
 
-    params.set("q", search);
-    params.set("limit", LIMIT);
+    params.set("q", search.trim());
+    params.set("limit", String(LIMIT));
     params.set("lang", lang);
 
+    let cancelled = false;
+
     const getSearchResult = async () => {
-      const result = await fetchData(
-        `/public/search?${params.toString()}`
-      );
+      try {
+        const result = await fetchData(
+          `/public/search?${params.toString()}`
+        );
 
-      console.log(result);
+        if (cancelled) return;
 
-      if (result?.data) {
-        setSearchResult(result.data);
+        if (result?.data) {
+          setSearchResult({
+            products: Array.isArray(result.data.products)
+              ? result.data.products
+              : [],
+            productCategories: Array.isArray(
+              result.data.productCategories
+            )
+              ? result.data.productCategories
+              : [],
+            brands: Array.isArray(result.data.brands)
+              ? result.data.brands
+              : [],
+          });
+        } else {
+          setSearchResult({
+            productCategories: [],
+            brands: [],
+            products: [],
+          });
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setSearchResult({
+            productCategories: [],
+            brands: [],
+            products: [],
+          });
+        }
+
+        console.error("Search error:", error);
       }
     };
 
     getSearchResult();
+
+    return () => {
+      cancelled = true;
+    };
   }, [search, lang]);
 
   const closeSearch = () => {
@@ -160,40 +219,36 @@ export default function Navbar() {
             {Object.keys(navbar).map((item, index) => (
               <NavLink
                 key={index}
-                className={({ isActive }) => {
-                  return `
-                    text-xs
-                    lg:text-sm
-                    xl:text-base
-                    whitespace-nowrap
-                    transition-all
-                    duration-200
-                    hover:scale-105
-                    relative
-                    group
-                    inline-block
-
-                    after:content-['']
-                    after:absolute
-                    after:left-0
-                    after:-bottom-2
-                    after:w-[120%]
-                    after:h-0.5
-                    after:bg-(--primary)
-                    after:scale-x-0
-                    after:transition-transform
-                    after:translate-x-[-7%]
-                    after:duration-300
-                    after:rounded-2xl
-                    hover:after:scale-x-100
-
-                    ${
-                      isActive
-                        ? "text-(--primary)"
-                        : "text-white"
-                    }
-                  `;
-                }}
+                className={({ isActive }) => `
+                  text-xs
+                  lg:text-sm
+                  xl:text-base
+                  whitespace-nowrap
+                  transition-all
+                  duration-200
+                  hover:scale-105
+                  relative
+                  group
+                  inline-block
+                  after:content-['']
+                  after:absolute
+                  after:left-0
+                  after:-bottom-2
+                  after:w-[120%]
+                  after:h-0.5
+                  after:bg-(--primary)
+                  after:scale-x-0
+                  after:transition-transform
+                  after:translate-x-[-7%]
+                  after:duration-300
+                  after:rounded-2xl
+                  hover:after:scale-x-100
+                  ${
+                    isActive
+                      ? "text-(--primary)"
+                      : "text-white"
+                  }
+                `}
                 to={item === "home" ? "/" : `/${item}`}
               >
                 {navbar[item]}
@@ -214,6 +269,7 @@ export default function Navbar() {
           >
             <img
               src="Arabic.png"
+              alt="العربية"
               onClick={() => i18n.changeLanguage("ar")}
               className="
                 w-6 h-6
@@ -227,6 +283,7 @@ export default function Navbar() {
 
             <img
               src="English.png"
+              alt="English"
               onClick={() => i18n.changeLanguage("en")}
               className="
                 w-6 h-6
@@ -240,6 +297,7 @@ export default function Navbar() {
 
             <img
               src="Persian.png"
+              alt="فارسی"
               onClick={() => i18n.changeLanguage("fa")}
               className="
                 w-6 h-6
@@ -340,11 +398,7 @@ export default function Navbar() {
                   {Object.keys(navbar).map((item, index) => (
                     <NavLink
                       key={index}
-                      to={
-                        item === "home"
-                          ? "/"
-                          : `/${item}`
-                      }
+                      to={item === "home" ? "/" : `/${item}`}
                       className={({ isActive }) => `
                         relative
                         flex
@@ -360,7 +414,6 @@ export default function Navbar() {
                         transition-all
                         duration-300
                         group
-
                         ${
                           isActive
                             ? "text-(--primary) bg-white/[0.07]"
@@ -382,10 +435,7 @@ export default function Navbar() {
                       </span>
 
                       <motion.span
-                        initial={{
-                          opacity: 0,
-                          x: -15,
-                        }}
+                        initial={{ opacity: 0, x: -15 }}
                         animate={{
                           opacity: open ? 1 : 0,
                           x: open ? 0 : -15,
@@ -415,10 +465,7 @@ export default function Navbar() {
 
                   {/* ================= MOBILE LANGUAGES ================= */}
                   <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
+                    initial={{ opacity: 0, y: 15 }}
                     animate={{
                       opacity: open ? 1 : 0,
                       y: open ? 0 : 15,
@@ -445,66 +492,42 @@ export default function Navbar() {
                       "
                     >
                       <button
-                        onClick={() =>
-                          i18n.changeLanguage("ar")
-                        }
+                        onClick={() => i18n.changeLanguage("ar")}
                         className="
-                          w-10
-                          h-10
-                          flex
-                          items-center
-                          justify-center
+                          w-10 h-10
+                          flex items-center justify-center
                           rounded-xl
                           hover:bg-white/10
                           transition-all
                         "
                       >
-                        <img
-                          src="Arabic.png"
-                          className="w-7 h-7"
-                        />
+                        <img src="Arabic.png" alt="العربية" className="w-7 h-7" />
                       </button>
 
                       <button
-                        onClick={() =>
-                          i18n.changeLanguage("en")
-                        }
+                        onClick={() => i18n.changeLanguage("en")}
                         className="
-                          w-10
-                          h-10
-                          flex
-                          items-center
-                          justify-center
+                          w-10 h-10
+                          flex items-center justify-center
                           rounded-xl
                           hover:bg-white/10
                           transition-all
                         "
                       >
-                        <img
-                          src="English.png"
-                          className="w-7 h-7"
-                        />
+                        <img src="English.png" alt="English" className="w-7 h-7" />
                       </button>
 
                       <button
-                        onClick={() =>
-                          i18n.changeLanguage("fa")
-                        }
+                        onClick={() => i18n.changeLanguage("fa")}
                         className="
-                          w-10
-                          h-10
-                          flex
-                          items-center
-                          justify-center
+                          w-10 h-10
+                          flex items-center justify-center
                           rounded-xl
                           hover:bg-white/10
                           transition-all
                         "
                       >
-                        <img
-                          src="Persian.png"
-                          className="w-7 h-7"
-                        />
+                        <img src="Persian.png" alt="فارسی" className="w-7 h-7" />
                       </button>
                     </div>
                   </motion.div>
@@ -589,7 +612,7 @@ export default function Navbar() {
               >
                 <div>
                   <p className="text-xs text-(--primary)">
-                    SEARCH
+                    {t("search.title")}
                   </p>
 
                   <h2
@@ -602,12 +625,13 @@ export default function Navbar() {
                       mt-1
                     "
                   >
-                    {t("navbar.search")}
+                    {t("search.title")}
                   </h2>
                 </div>
 
                 <button
                   onClick={closeSearch}
+                  aria-label={t("search.close", { defaultValue: "Close search" })}
                   className="
                     w-9
                     h-9
@@ -654,10 +678,9 @@ export default function Navbar() {
                   <input
                     type="text"
                     value={search}
-                    onChange={(e) =>
-                      setSearch(e.target.value)
-                    }
-                    placeholder={t("navbar.search")}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder={t("search.placeholder")}
+                    aria-label={t("search.placeholder")}
                     className="
                       w-full
                       bg-transparent
@@ -684,156 +707,23 @@ export default function Navbar() {
                 "
               >
                 {/* PRODUCTS */}
-                {searchResult.products?.length > 0 && (
+                {searchResult.products.length > 0 && (
                   <div className="mb-6">
                     <div className="flex items-center gap-2 mb-3">
                       <FiPackage className="text-(--primary)" />
 
                       <h3 className="text-white font-medium">
-                        Products
+                        {t("search.products")}
                       </h3>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {searchResult.products.map(
-                        (item) => (
-                          <div
-                            key={item._id}
-                            onClick={() => {
-                              navigate(
-                                `/products/${item.slug?.[lang] || item.slug?.en}`
-                              );
-                              closeSearch();
-                            }}
-                            className="
-                              flex
-                              items-center
-                              gap-3
-                              p-3
-                              rounded-xl
-                              bg-white/[0.03]
-                              border
-                              border-white/10
-                              hover:border-(--primary)
-                              cursor-pointer
-                              transition-all
-                            "
-                          >
-                            <img
-                              src={resolveMediaUrl(
-                                item.thumbnail
-                              )}
-                              alt=""
-                              className="
-                                w-12
-                                h-12
-                                rounded-lg
-                                object-cover
-                                shrink-0
-                              "
-                            />
-
-                            <div className="min-w-0">
-                              <p className="text-white text-sm truncate">
-                                {item.name?.[lang] ||
-                                  item.name?.en}
-                              </p>
-
-                              <p className="text-white/40 text-xs mt-1 truncate">
-                                {item.model}
-                              </p>
-                            </div>
-
-                            <FiArrowUpRight className="ml-auto text-white/40 shrink-0" />
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* CATEGORIES */}
-                {searchResult.productCategories?.length >
-                  0 && (
-                  <div className="mb-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <FiGrid className="text-(--primary)" />
-
-                      <h3 className="text-white font-medium">
-                        Categories
-                      </h3>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {searchResult.productCategories.map(
-                        (item) => (
-                          <div
-                            key={item._id}
-                            onClick={() => {
-                              navigate(
-                                `/products?category=${item._id}`
-                              );
-                              closeSearch();
-                            }}
-                            className="
-                              flex
-                              items-center
-                              gap-3
-                              p-3
-                              rounded-xl
-                              bg-white/[0.03]
-                              border
-                              border-white/10
-                              hover:border-(--primary)
-                              cursor-pointer
-                              transition-all
-                            "
-                          >
-                            <img
-                              src={resolveMediaUrl(
-                                item.icon || item.image
-                              )}
-                              alt=""
-                              className="
-                                w-12
-                                h-12
-                                rounded-lg
-                                object-cover
-                                shrink-0
-                              "
-                            />
-
-                            <p className="text-white text-sm truncate">
-                              {item.name?.[lang] ||
-                                item.name?.en}
-                            </p>
-
-                            <FiArrowUpRight className="ml-auto text-white/40 shrink-0" />
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* BRANDS */}
-                {searchResult.brands?.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <FiTag className="text-(--primary)" />
-
-                      <h3 className="text-white font-medium">
-                        Brands
-                      </h3>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {searchResult.brands.map((item) => (
+                      {searchResult.products.map((item) => (
                         <div
                           key={item._id}
                           onClick={() => {
                             navigate(
-                              `/products?brand=${item._id}`
+                              `/products/${getLocalizedValue(item.slug)}`
                             );
                             closeSearch();
                           }}
@@ -852,9 +742,125 @@ export default function Navbar() {
                           "
                         >
                           <img
-                            src={resolveMediaUrl(
-                              item.logo
-                            )}
+                            src={resolveMediaUrl(item.thumbnail)}
+                            alt=""
+                            className="
+                              w-12
+                              h-12
+                              rounded-lg
+                              object-cover
+                              shrink-0
+                            "
+                          />
+
+                          <div className="min-w-0">
+                            <p className="text-white text-sm truncate">
+                              {getLocalizedValue(item.name)}
+                            </p>
+
+                            <p className="text-white/40 text-xs mt-1 truncate">
+                              {getLocalizedValue(item.model)}
+                            </p>
+                          </div>
+
+                          <FiArrowUpRight className="ml-auto text-white/40 shrink-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* CATEGORIES */}
+                {searchResult.productCategories.length > 0 && (
+                  <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-3">
+                      <FiGrid className="text-(--primary)" />
+
+                      <h3 className="text-white font-medium">
+                        {t("search.categories")}
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {searchResult.productCategories.map((item) => (
+                        <div
+                          key={item._id}
+                          onClick={() => {
+                            navigate(`/products?category=${item._id}`);
+                            closeSearch();
+                          }}
+                          className="
+                            flex
+                            items-center
+                            gap-3
+                            p-3
+                            rounded-xl
+                            bg-white/[0.03]
+                            border
+                            border-white/10
+                            hover:border-(--primary)
+                            cursor-pointer
+                            transition-all
+                          "
+                        >
+                          <img
+                            src={resolveMediaUrl(item.icon || item.image)}
+                            alt=""
+                            className="
+                              w-12
+                              h-12
+                              rounded-lg
+                              object-cover
+                              shrink-0
+                            "
+                          />
+
+                          <p className="text-white text-sm truncate">
+                            {getLocalizedValue(item.name)}
+                          </p>
+
+                          <FiArrowUpRight className="ml-auto text-white/40 shrink-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* BRANDS */}
+                {searchResult.brands.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <FiTag className="text-(--primary)" />
+
+                      <h3 className="text-white font-medium">
+                        {t("search.brands")}
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {searchResult.brands.map((item) => (
+                        <div
+                          key={item._id}
+                          onClick={() => {
+                            navigate(`/products?brand=${item._id}`);
+                            closeSearch();
+                          }}
+                          className="
+                            flex
+                            items-center
+                            gap-3
+                            p-3
+                            rounded-xl
+                            bg-white/[0.03]
+                            border
+                            border-white/10
+                            hover:border-(--primary)
+                            cursor-pointer
+                            transition-all
+                          "
+                        >
+                          <img
+                            src={resolveMediaUrl(item.logo)}
                             alt=""
                             className="
                               w-12
@@ -868,8 +874,7 @@ export default function Navbar() {
                           />
 
                           <p className="text-white text-sm truncate">
-                            {item.name?.[lang] ||
-                              item.name?.en}
+                            {getLocalizedValue(item.name)}
                           </p>
 
                           <FiArrowUpRight className="ml-auto text-white/40 shrink-0" />
@@ -879,16 +884,16 @@ export default function Navbar() {
                   </div>
                 )}
 
-                {/* NO RESULT */}
+                {/* NO RESULTS */}
                 {search.trim() &&
-                  !searchResult.products?.length &&
-                  !searchResult.productCategories?.length &&
-                  !searchResult.brands?.length && (
+                  searchResult.products.length === 0 &&
+                  searchResult.productCategories.length === 0 &&
+                  searchResult.brands.length === 0 && (
                     <div className="py-12 text-center">
                       <FiSearch className="w-8 h-8 mx-auto text-white/20 mb-3" />
 
                       <p className="text-white/40 text-sm">
-                        No results found
+                        {t("search.noResults")}
                       </p>
                     </div>
                   )}
