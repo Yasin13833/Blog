@@ -171,83 +171,75 @@
   "bottomText": "Pipes & fittings for agriculture",
   
  
-
   "about": {
     "hero": {
-      "label": "About us",
-      "title": "Together, toward a better tomorrow.",
-      "description": "At Agri Flow, we provide innovative solutions in irrigation and help farmers build a more efficient, sustainable and prosperous future."
+      "label": "About Us",
+      "title": "Together, towards a better tomorrow.",
+      "description": "At Agri Flow, we provide innovative irrigation and water supply solutions that help farmers improve productivity and build a more sustainable future."
     },
-
     "story": {
-      "label": "Our story",
+      "label": "Our Story",
       "title": "From the soil, for a better future.",
-      "paragraph1": "Agri Flow began with a passion for knowledge and experience, aiming to provide smart solutions for water management and improve agricultural efficiency.",
-      "paragraph2": "We work alongside farmers and local communities to provide high-quality products, professional consulting and sustainable agricultural solutions.",
-      "button": "Our products",
-      "videoTitle": "Our mission",
-      "videoSubtitle": "Water, life, future."
+      "text1": "Agri Flow was founded with knowledge and experience, with the goal of providing smart solutions for water resource management and improving agricultural productivity.",
+      "text2": "We work alongside farmers and local communities by providing high-quality products, expert consultation and long-term support to make agriculture more efficient and sustainable.",
+      "button": "Our Products",
+      "videoTitle": "Our Mission",
+      "videoText": "Water is life. Sustainable agriculture is the future."
     },
-
     "features": {
-      "label": "Why choose Agri Flow?",
-      "title": "Real solutions for reliable results.",
-      "description": "By combining modern technologies, quality materials and professional experience, we help you build a reliable irrigation system and manage water more efficiently.",
-      "items": {
-        "quality": {
-          "title": "Quality products",
-          "description": "Reliable products with high quality and long-lasting performance."
-        },
-        "support": {
-          "title": "Professional support",
-          "description": "Professional consultation and support at every step."
-        },
-        "sustainable": {
-          "title": "Sustainable agriculture",
-          "description": "We care about saving water and protecting the future of agriculture."
-        },
-        "delivery": {
-          "title": "Fast delivery",
-          "description": "Fast delivery to different parts of the country at the right time."
-        },
-        "partnership": {
-          "title": "Working with farmers",
-          "description": "Building a better agricultural future together with farmers."
-        }
+      "label": "Why Choose Agri Flow?",
+      "title": "Reliable solutions, real results.",
+      "description": "We combine modern technology, high-quality materials and professional experience to provide reliable irrigation and water supply solutions.",
+      "quality": {
+        "title": "Quality Products",
+        "text": "Durable solutions designed for long-term use."
+      },
+      "support": {
+        "title": "Expert Support",
+        "text": "Professional consultation at every stage."
+      },
+      "sustainable": {
+        "title": "Sustainable Agriculture",
+        "text": "Protecting water resources and improving efficiency."
+      },
+      "delivery": {
+        "title": "Fast Delivery",
+        "text": "Delivery across the country in the shortest possible time."
+      },
+      "team": {
+        "title": "Working With Farmers",
+        "text": "Building a better future together."
       }
     },
-
     "stats": {
-      "label": "Numbers that tell our story",
-      "title": "Our story is told through numbers.",
-      "items": {
-        "years": {
-          "value": "15+",
-          "label": "Years of experience"
+      "label": "Our Impact",
+      "title": "The numbers tell our story.",
+      "items": [
+        {
+          "number": "15+",
+          "label": "Years of Experience"
         },
-        "customers": {
-          "value": "1,200+",
-          "label": "Happy customers"
+        {
+          "number": "1,200+",
+          "label": "Happy Customers"
         },
-        "products": {
-          "value": "50+",
-          "label": "Product types"
+        {
+          "number": "50+",
+          "label": "Product Types"
         },
-        "satisfaction": {
-          "value": "99%",
-          "label": "Customer satisfaction"
+        {
+          "number": "99%",
+          "label": "Customer Satisfaction"
         }
-      }
+      ]
     },
-
     "mission": {
-      "label": "Our mission",
+      "label": "Our Mission",
       "title": "Sustainable solutions for future generations.",
-      "description": "We are committed to providing innovative irrigation systems and helping farmers use water more efficiently while protecting natural resources.",
-      "button": "Contact us"
+      "description": "We are committed to providing innovative irrigation and water supply systems that protect natural resources and contribute to sustainable agriculture.",
+      "button": "Contact Us"
     }
   }
-
 
 
 

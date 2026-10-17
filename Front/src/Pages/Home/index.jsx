@@ -1,8 +1,8 @@
 import React from 'react'
-import Slider from '../../Components/Slider'
+import Slider from '../../Components/HeroSection'
 import Products from './Products'
-import AboutProduct from './AboutProduct'
 import ContactInfo from './ContactInfo'
+import Category from './Category'
 
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
     <>
       <Slider />
       <Products/>
-      <AboutProduct/>
+      <Category/>
       <ContactInfo/>
     </>
   )

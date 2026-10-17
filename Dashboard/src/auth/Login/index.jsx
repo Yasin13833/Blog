@@ -1,112 +1,41 @@
-import React, { useEffect, useRef } from 'react'
-
-import { Anim_Deep } from '../../Utils/deep_anim'
-import { fetchData } from '../../Utils/fetchData'
-import useFormFields from '../../Hook/useFormFields'
-import Notify from '../../Utils/Notify'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { addToken } from '../../Store/Slice/auth'
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import { fetchData } from "../../Utils/fetchData";
+import Notify from "../../Utils/Notify";
+import { addToken } from "../../Store/Slice/auth";
 
 export default function Login() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [fields, handleChange, setFields] = useFormFields({
-        username: null,
-        password: null
-    })
-    const el = useRef()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const [fields, setFields] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        Anim_Deep(el.current)
-    }, [el])
+  if (token) return <Navigate to="/" replace />;
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!fields.username.trim() || !fields.password) return Notify("error", "نام کاربری و رمز عبور را وارد کنید");
+    setLoading(true);
+    const result = await fetchData("/auth/login", { method: "POST", body: JSON.stringify(fields) });
+    setLoading(false);
+    if (!result?.success) return Notify("error", result?.message || "ورود ناموفق بود");
+    dispatch(addToken(result.data));
+    Notify("success", "ورود موفق بود");
+    navigate("/", { replace: true });
+  };
 
-
-    const handleSubmit = async e => {
-        e.preventDefault()
-        const result = await fetchData('/auth/login', {
-            method: "POST",
-            body: JSON.stringify(fields)
-        })
-        console.log(fields)
-        console.log(result)
-        if (result.success) {
-            Notify('success', result.message)
-            dispatch(addToken(result?.data))
-            navigate('/')
-            setFields(null)
-        } else {
-            Notify('error', result.message)
-            setFields(null)
-        }
-    }
-    return (
-        <div className='cursor-pointer overflow-hidden w-full h-screen bg-[url("./bg_auth.png")] bg-center bg-cover flex flex-col justify-evenly items-center transform-3d perspective-dramatic'>
-
-            <h1 className='text-4xl text-green-400 text-shadow-[#00ff5599] text-shadow-lg tracking-widest'>
-                Login
-            </h1>
-
-            <form
-                onSubmit={handleSubmit}
-                ref={el}
-                className='w-7/12 h-9/12 rounded-2xl border-2 bg-white/10 border-green-700 backdrop-blur-md shadow-[0_0_30px_rgba(34,197,94,0.25)] flex flex-col items-center justify-around'
-            >
-
-
-
-
-                {/* نام کاربری */}
-                <label className='w-8/12 flex flex-col gap-3 text-xl text-green-300'>
-                    <span>نام کاربری :</span>
-
-                    <input
-                        name='username'
-                        onChange={e => handleChange(e)}
-                        className='w-full h-14 px-5 rounded-xl bg-black/20 border border-green-700/70 text-green-100 placeholder:text-green-300/50 outline-none transition-all duration-300 focus:border-green-400 focus:shadow-[0_0_20px_rgba(34,197,94,0.25)] focus:bg-black/30'
-                        type="text"
-                        placeholder='نام کاربری'
-                    />
-                </label>
-
-
-                {/* رمز عبور */}
-                <label className='w-8/12 flex flex-col gap-3 text-xl text-green-300'>
-                    <span>رمز عبور :</span>
-
-                    <input
-                        name='password'
-                        onChange={e => handleChange(e)}
-                        className='w-full h-14 px-5 rounded-xl bg-black/20 border border-green-700/70 text-green-100 placeholder:text-green-300/50 outline-none transition-all duration-300 focus:border-green-400 focus:shadow-[0_0_20px_rgba(34,197,94,0.25)] focus:bg-black/30'
-                        type="password"
-                        placeholder='رمز عبور'
-                    />
-                </label>
-
-
-
-
-
-                {/* دکمه ثبت نام */}
-                <button
-                    type='submit'
-                    className='w-8/12 h-14 rounded-xl border border-green-500 bg-green-500/10 text-green-300 text-xl hover:bg-green-500/20 hover:text-green-200 hover:shadow-[0_0_25px_rgba(34,197,94,0.3)] transition-all duration-300'
-                >
-                    ثبت نام
-                </button>
-
-
-                {/* رفتن به Login */}
-                {/* <p
-                    onClick={() => navigate("/auth/register")}
-                    className='text-2xl text-green-300 hover:text-shadow-[#00ff5540] text-shadow-lg transition-all duration-300'
-                >
-                    ثبت نام نکردی ؟
-                </p> */}
-
-            </form>
-
-        </div>
-    )
+  return (
+    <div className="min-h-screen bg-[url('/bg_auth.png')] bg-cover bg-center px-4 py-12 text-white">
+      <div className="mx-auto flex min-h-[80vh] max-w-xl items-center justify-center">
+        <form onSubmit={handleSubmit} className="w-full rounded-3xl border border-green-500/30 bg-black/45 p-8 backdrop-blur-xl shadow-[0_0_45px_rgba(34,197,94,0.15)]">
+          <div className="mb-8 text-center"><h1 className="text-3xl font-bold text-green-400">ورود ادمین</h1><p className="mt-2 text-sm text-white/45">دسترسی به مدیریت کاتالوگ محصولات</p></div>
+          <label className="mb-5 block text-sm text-green-200">نام کاربری<input autoComplete="username" value={fields.username} onChange={(e) => setFields((p) => ({ ...p, username: e.target.value }))} className="mt-2 h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none focus:border-green-400" /></label>
+          <label className="mb-7 block text-sm text-green-200">رمز عبور<input autoComplete="current-password" type="password" value={fields.password} onChange={(e) => setFields((p) => ({ ...p, password: e.target.value }))} className="mt-2 h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 text-white outline-none focus:border-green-400" /></label>
+          <button disabled={loading} className="h-12 w-full rounded-xl bg-green-400 font-bold text-black transition hover:bg-green-300 disabled:opacity-50">{loading ? "در حال ورود..." : "ورود"}</button>
+        </form>
+      </div>
+    </div>
+  );
 }
