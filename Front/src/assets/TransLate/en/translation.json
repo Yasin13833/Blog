@@ -168,6 +168,88 @@
   ],
   "contactButton": "CONTACT US",
   "copyright": "© 2026 AgriFlow. All rights reserved.",
-  "bottomText": "Pipes & fittings for agriculture"
+  "bottomText": "Pipes & fittings for agriculture",
+  
+ 
+
+  "about": {
+    "hero": {
+      "label": "About us",
+      "title": "Together, toward a better tomorrow.",
+      "description": "At Agri Flow, we provide innovative solutions in irrigation and help farmers build a more efficient, sustainable and prosperous future."
+    },
+
+    "story": {
+      "label": "Our story",
+      "title": "From the soil, for a better future.",
+      "paragraph1": "Agri Flow began with a passion for knowledge and experience, aiming to provide smart solutions for water management and improve agricultural efficiency.",
+      "paragraph2": "We work alongside farmers and local communities to provide high-quality products, professional consulting and sustainable agricultural solutions.",
+      "button": "Our products",
+      "videoTitle": "Our mission",
+      "videoSubtitle": "Water, life, future."
+    },
+
+    "features": {
+      "label": "Why choose Agri Flow?",
+      "title": "Real solutions for reliable results.",
+      "description": "By combining modern technologies, quality materials and professional experience, we help you build a reliable irrigation system and manage water more efficiently.",
+      "items": {
+        "quality": {
+          "title": "Quality products",
+          "description": "Reliable products with high quality and long-lasting performance."
+        },
+        "support": {
+          "title": "Professional support",
+          "description": "Professional consultation and support at every step."
+        },
+        "sustainable": {
+          "title": "Sustainable agriculture",
+          "description": "We care about saving water and protecting the future of agriculture."
+        },
+        "delivery": {
+          "title": "Fast delivery",
+          "description": "Fast delivery to different parts of the country at the right time."
+        },
+        "partnership": {
+          "title": "Working with farmers",
+          "description": "Building a better agricultural future together with farmers."
+        }
+      }
+    },
+
+    "stats": {
+      "label": "Numbers that tell our story",
+      "title": "Our story is told through numbers.",
+      "items": {
+        "years": {
+          "value": "15+",
+          "label": "Years of experience"
+        },
+        "customers": {
+          "value": "1,200+",
+          "label": "Happy customers"
+        },
+        "products": {
+          "value": "50+",
+          "label": "Product types"
+        },
+        "satisfaction": {
+          "value": "99%",
+          "label": "Customer satisfaction"
+        }
+      }
+    },
+
+    "mission": {
+      "label": "Our mission",
+      "title": "Sustainable solutions for future generations.",
+      "description": "We are committed to providing innovative irrigation systems and helping farmers use water more efficiently while protecting natural resources.",
+      "button": "Contact us"
+    }
+  }
+
+
+
+
 }
 }
