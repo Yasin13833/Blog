@@ -83,7 +83,7 @@ export default function Navbar() {
         );
 
         if (cancelled) return;
-
+        console.log(result)
         if (result?.data) {
           setSearchResult({
             products: Array.isArray(result.data.products)
@@ -199,6 +199,7 @@ export default function Navbar() {
               src="/Logo.png"
               alt="logo"
               className="w-full h-full object-contain"
+              onClick={()=>navigate('/')}
             />
           </div>
 
@@ -723,7 +724,7 @@ export default function Navbar() {
                           key={item._id}
                           onClick={() => {
                             navigate(
-                              `/products/${getLocalizedValue(item.slug)}`
+                              `detail-product/${item._id}`
                             );
                             closeSearch();
                           }}
