@@ -206,15 +206,11 @@ const ShieldIcon = () => (
 // =============================
 
 export default function AboutUs() {
-  const { t, i18n } = useTranslation();
-
-  const language = i18n.language?.split("-")[0] || "en";
-
+  const { t } = useTranslation();
 
   return (
-    <main
-      className="min-h-screen overflow-hidden bg-[#031321] text-white"
-    >
+    <main className="min-h-screen overflow-hidden bg-[#031321] text-white">
+
       {/* =====================================
           HERO SECTION
       ====================================== */}
@@ -223,7 +219,6 @@ export default function AboutUs() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 lg:grid-cols-2">
 
           {/* HERO TEXT */}
-
           <div className="flex items-center px-6 py-16 sm:px-10 lg:px-16">
             <div className="max-w-[560px]">
 
@@ -244,49 +239,38 @@ export default function AboutUs() {
               </p>
 
               <div className="mt-7 h-[2px] w-20 bg-[#a7ff21]" />
-
             </div>
           </div>
 
-          {/* =================================================
-              👇👇👇 عکس شماره 1 - HERO
-              فایل:
-              public/about-hero.jpg
-          ================================================== */}
-
+          {/* HERO IMAGE */}
           <div className="min-h-[330px] lg:min-h-[430px]">
-
             <img
-              src="/about-hero.jpg"
+              src="/img.png"
               alt={t("about.hero.title")}
               className="h-full min-h-[330px] w-full object-cover lg:min-h-[430px]"
             />
-
           </div>
 
         </div>
       </section>
+
 
       {/* =====================================
           STORY SECTION
       ====================================== */}
 
       <section className="border-b border-[#203445]">
-
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.7fr_1.3fr] lg:px-16 lg:py-8">
 
           {/* STORY TEXT */}
-
           <div className="order-2 lg:order-1">
 
             <div className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
-
               <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
               <span>
                 {t("about.story.label")}
               </span>
-
             </div>
 
             <h2 className="max-w-[500px] text-3xl font-bold leading-[1.4] sm:text-4xl">
@@ -318,30 +302,20 @@ export default function AboutUs() {
 
           </div>
 
-          {/* =================================================
-              👇👇👇 عکس شماره 2 - STORY
-              فایل:
-              public/about-story.jpg
-          ================================================== */}
 
+          {/* STORY IMAGE */}
           <div className="order-1 lg:order-2">
-
             <div className="relative overflow-hidden">
 
               <img
-                src="/about-story.jpg"
+                src="/img.png"
                 alt={t("about.story.title")}
                 className="aspect-[1.7/1] w-full object-cover"
               />
 
-              <div
-                className={`absolute top-5 flex items-center gap-4 ${
-                  isRTL ? "left-5" : "right-5"
-                }`}
-              >
+              <div className="absolute right-5 top-5 flex items-center gap-4">
 
-                <div className={isRTL ? "text-left" : "text-right"}>
-
+                <div className="text-right">
                   <p className="text-sm font-bold text-[#a7ff21]">
                     {t("about.story.videoTitle")}
                   </p>
@@ -349,7 +323,6 @@ export default function AboutUs() {
                   <p className="mt-1 text-xs text-[#d1dae2]">
                     {t("about.story.videoSubtitle")}
                   </p>
-
                 </div>
 
                 <div className="text-[#a7ff21]">
@@ -359,19 +332,17 @@ export default function AboutUs() {
               </div>
 
             </div>
-
           </div>
 
         </div>
-
       </section>
+
 
       {/* =====================================
           FEATURES SECTION
       ====================================== */}
 
       <section className="border-b border-[#203445]">
-
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10 lg:px-16">
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -379,13 +350,11 @@ export default function AboutUs() {
             <div>
 
               <div className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
-
                 <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
                 <span>
                   {t("about.features.label")}
                 </span>
-
               </div>
 
               <h2 className="max-w-[530px] text-3xl font-bold leading-[1.4] sm:text-4xl">
@@ -400,10 +369,10 @@ export default function AboutUs() {
 
           </div>
 
+
           <div className="mt-10 grid grid-cols-1 border-t border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
 
             {/* QUALITY */}
-
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -420,8 +389,8 @@ export default function AboutUs() {
 
             </div>
 
-            {/* SUPPORT */}
 
+            {/* SUPPORT */}
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -438,8 +407,8 @@ export default function AboutUs() {
 
             </div>
 
-            {/* SUSTAINABLE */}
 
+            {/* SUSTAINABLE */}
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -456,8 +425,8 @@ export default function AboutUs() {
 
             </div>
 
-            {/* DELIVERY */}
 
+            {/* DELIVERY */}
             <div className="border-b border-[#203445] px-5 py-8 text-center sm:border-r lg:border-b-0">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -474,8 +443,8 @@ export default function AboutUs() {
 
             </div>
 
-            {/* PARTNERSHIP */}
 
+            {/* PARTNERSHIP */}
             <div className="px-5 py-8 text-center">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -495,8 +464,8 @@ export default function AboutUs() {
           </div>
 
         </div>
-
       </section>
+
 
       {/* =====================================
           STATS + MISSION
@@ -506,12 +475,11 @@ export default function AboutUs() {
 
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 px-6 py-6 sm:px-10 lg:grid-cols-2 lg:px-16">
 
-        
-              src:/pu
+          {/* STATS */}
           <div className="relative min-h-[280px] overflow-hidden border border-[#263c4e]">
 
             <img
-              src="/about-stats.jpg"
+              src="/img.png"
               alt={t("about.stats.title")}
               className="absolute inset-0 h-full w-full object-cover"
             />
@@ -521,23 +489,21 @@ export default function AboutUs() {
             <div className="relative z-10 flex min-h-[280px] flex-col justify-end p-6 sm:p-8">
 
               <div className="mb-3 flex items-center gap-3 text-xs font-medium text-[#a7ff21]">
-
                 <span className="h-2 w-2 rounded-full border border-[#a7ff21]" />
 
                 <span>
                   {t("about.stats.label")}
                 </span>
-
               </div>
 
               <h2 className="text-2xl font-bold leading-[1.5] sm:text-3xl">
                 {t("about.stats.title")}
               </h2>
 
+
               <div className="mt-7 grid grid-cols-4">
 
                 {/* YEARS */}
-
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -550,8 +516,8 @@ export default function AboutUs() {
 
                 </div>
 
-                {/* CUSTOMERS */}
 
+                {/* CUSTOMERS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -564,8 +530,8 @@ export default function AboutUs() {
 
                 </div>
 
-                {/* PRODUCTS */}
 
+                {/* PRODUCTS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -578,8 +544,8 @@ export default function AboutUs() {
 
                 </div>
 
-                {/* SATISFACTION */}
 
+                {/* SATISFACTION */}
                 <div className="text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -598,8 +564,8 @@ export default function AboutUs() {
 
           </div>
 
-          {/* MISSION */}
 
+          {/* MISSION */}
           <div className="relative min-h-[280px] overflow-hidden border border-[#244735] bg-[#08251b]">
 
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-[#a7ff21]/10" />
@@ -618,13 +584,16 @@ export default function AboutUs() {
 
               </div>
 
+
               <h2 className="max-w-[500px] text-2xl font-bold leading-[1.5] sm:text-3xl">
                 {t("about.mission.title")}
               </h2>
 
+
               <p className="mt-4 max-w-[520px] text-sm leading-7 text-[#b8c4cf]">
                 {t("about.mission.description")}
               </p>
+
 
               <button
                 type="button"
@@ -644,6 +613,7 @@ export default function AboutUs() {
         </div>
 
       </section>
+
     </main>
   );
 }
