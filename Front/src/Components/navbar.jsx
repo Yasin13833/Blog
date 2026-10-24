@@ -145,11 +145,7 @@ export default function Navbar() {
         transition={{ duration: 0.5 }}
         className="
           w-full
-          h-[64px]
-          sm:h-[70px]
-          md:h-[74px]
-          lg:h-[78px]
-          xl:h-[82px]
+          h-16
           bg-black
           border-b
           border-white/10

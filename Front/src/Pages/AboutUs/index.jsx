@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-
+import { motion } from 'motion/react'
+import { Link } from "react-router-dom";
 // =============================
 // Icons
 // =============================
@@ -207,49 +208,109 @@ const ShieldIcon = () => (
 
 export default function AboutUs() {
   const { t } = useTranslation();
-
   return (
-    <main className="min-h-screen overflow-hidden bg-[#031321] text-white">
-
+    <main className="min-h-screen overflow-hidden bg-[#031321] text-white mt-16 py-16">
+      <title>{t('seo.about.title')}</title>
+      <meta
+        name="description"
+        content={t('seo.about.description')}
+      />
       {/* =====================================
           HERO SECTION
       ====================================== */}
 
-      <section className="border-b border-[#203445]">
+      <section className="border-b border-[#203445] py-8">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 lg:grid-cols-2">
 
           {/* HERO TEXT */}
-          <div className="flex items-center px-6 py-16 sm:px-10 lg:px-16">
-            <div className="max-w-[560px]">
+          <div
 
-              <div className="mb-5 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
+            className="flex items-center px-6 py-16 sm:px-10 lg:px-16">
+            <div className="max-w-[560px] flex flex-col gap-5">
+
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: -40,
+                  x: 0,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                  x: 0,
+                }}
+                transition={{
+                  duration: .7
+                }}
+                className="mb-5 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
                 <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
                 <span>
                   {t("about.hero.label")}
                 </span>
-              </div>
+              </motion.div>
 
-              <h1 className="text-4xl font-bold leading-[1.25] sm:text-5xl lg:text-[58px]">
+              <motion.h1
+                initial={{
+                  y: -30,
+                  opacity: 0,
+                  scale: .80
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                  scale: 1
+                }}
+                transition={{
+                  duration: .7,
+                  delay: .1
+                }}
+                className="text-3xl font-bold leading-[1.25] sm:text-5xl lg:text-[45px]">
                 {t("about.hero.title")}
-              </h1>
+              </motion.h1>
 
-              <p className="mt-6 max-w-[540px] text-sm leading-8 text-[#b8c4cf] sm:text-base">
+              <motion.p
+                initial={{
+                  y: -40,
+                  scale: .8,
+                  opacity: 0
+                }}
+                whileInView={{
+                  y: 0,
+                  scale: 1,
+                  opacity: 1
+                }}
+                transition={{
+                  duration: .7,
+                  delay: .2
+                }}
+                className="mt-6 max-w-[540px] text-sm leading-8 text-[#b8c4cf] sm:text-base">
                 {t("about.hero.description")}
-              </p>
-
-              <div className="mt-7 h-[2px] w-20 bg-[#a7ff21]" />
+              </motion.p>
             </div>
           </div>
 
           {/* HERO IMAGE */}
-          <div className="min-h-[330px] lg:min-h-[430px]">
+          <motion.div
+            initial={{
+              scale: .6,
+              opacity: 0
+            }}
+            whileInView={{
+              scale: 1,
+              opacity: 1
+            }}
+            transition={{
+              duration: .7
+            }}
+            className="min-h-[330px] lg:min-h-[430px] mx-10 rounded-2xl overflow-hidden">
             <img
               src="/img.png"
               alt={t("about.hero.title")}
-              className="h-full min-h-[330px] w-full object-cover lg:min-h-[430px]"
+              decoding="async"
+              className="h-full min-h-[330px] w-full object-cover lg:min-h-[430px] brightness-80"
             />
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -263,75 +324,222 @@ export default function AboutUs() {
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.7fr_1.3fr] lg:px-16 lg:py-8">
 
           {/* STORY TEXT */}
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 flex flex-col gap-10">
 
-            <div className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
+            <motion.div
+              initial={{
+                y: -20,
+                opacity: 0
+              }}
+
+              whileInView={{
+                y: 0,
+                opacity: 1
+              }}
+
+              transition={{
+                duration: .7
+              }}
+
+              className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
               <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
               <span>
                 {t("about.story.label")}
               </span>
-            </div>
+            </motion.div>
 
-            <h2 className="max-w-[500px] text-3xl font-bold leading-[1.4] sm:text-4xl">
+            <motion.h2
+              initial={{
+                y: -40,
+                opacity: 0,
+                scale: .5
+              }}
+              whileInView={{
+                y: 0,
+                opacity: 1,
+                scale: 1
+              }}
+              transition={{
+                duration: .7
+              }}
+              className="text-4xl font-bold leading-[1.4]">
               {t("about.story.title")}
-            </h2>
+            </motion.h2>
 
             <div className="mt-5 max-w-[520px] space-y-4 text-sm leading-8 text-[#b8c4cf]">
 
-              <p>
-                {t("about.story.paragraph1")}
-              </p>
+              <motion.p
+                initial={{
+                  y: -40,
+                  opacity: 0,
+                  scale: .5
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                  scale: 1
+                }}
+                transition={{
+                  duration: .7,
+                  delay: .2
+                }}
+              >
+                {t("about.story.text1")}
+              </motion.p>
 
-              <p>
-                {t("about.story.paragraph2")}
-              </p>
+              <motion.p
+                initial={{
+                  y: -40,
+                  opacity: 0,
+                  scale: .5
+                }}
+                whileInView={{
+                  y: 0,
+                  opacity: 1,
+                  scale: 1
+                }}
+                transition={{
+                  duration: .7,
+                  delay: .3
+                }}
+              >
+                {t("about.story.text2")}
+              </motion.p>
 
             </div>
 
-            <button
-              type="button"
-              className="mt-6 inline-flex items-center gap-3 rounded-sm bg-[#a7ff21] px-6 py-3 text-sm font-bold text-[#07131d] transition hover:bg-[#b9ff4c]"
-            >
-              <span>
-                {t("about.story.button")}
-              </span>
+            <Link to={"products"}>
+              <motion.button
+                initial={{
+                  y: -10,
+                  rotate: 0,
+                  opacity: 0,
+                }}
+                animate={{
+                  y: [0, -1, 0, -1, 0],
+                  rotate: [0, 1, 0, -1, 0],
+                  opacity: 1,
+                }}
+                transition={{
+                  y: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
+                  rotate: {
+                    duration: 1,
+                    repeat: Infinity,
+                  },
+                  opacity: {
+                    duration: 1.1,
+                  },
+                }}
+              >
 
-              <ArrowIcon />
-            </button>
+                <span className="
+                        flex
+                        items-center
+                        justify-center
+
+                        text-[8px]
+                        text-nowrap
+
+                        px-4
+                        py-2
+
+                        rounded-2xl
+
+                        w-30
+                        h-5
+
+                        sm:text-[12px]
+
+                        md:h-max
+
+                        lg:text-[16px]
+
+                        font-bold
+                        text-center
+                        bg-(--accent)
+                        text-black
+                        cursor-pointer
+
+                        transition-all
+                        duration-200
+
+                        hover:shadow-2xl
+                        hover:shadow-[0_0_5px_1px_var(--accent)]
+                    ">
+                  {t("about.story.button")}
+                </span>
+              </motion.button>
+            </Link>
 
           </div>
 
 
-          {/* STORY IMAGE */}
+          {/* STORY VIDEO */}
           <div className="order-1 lg:order-2">
-            <div className="relative overflow-hidden">
+            <motion.div
+              initial={{
+                scale: .80,
+                opacity: 0
+              }}
+              whileInView={{
+                scale: 1,
+                opacity: 1
+              }}
+              transition={{
+                duration: .7
+              }}
 
-              <img
-                src="/img.png"
-                alt={t("about.story.title")}
+              className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[#101720] shadow-[0_25px_80px_rgba(0,0,0,0.4)]">
+
+              <video
+                src="/آبیاری.mp4"
                 className="aspect-[1.7/1] w-full object-cover"
+                autoPlay
+                poster="/img.png"
+                loop
+                muted
+                playsInline
               />
 
-              <div className="absolute right-5 top-5 flex items-center gap-4">
+              {/* Dark Overlay */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080d14]/90 via-[#080d14]/25 to-[#080d14]/10" />
 
-                <div className="text-right">
-                  <p className="text-sm font-bold text-[#a7ff21]">
+              {/* Video Info */}
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-7">
+
+                <div className="max-w-[85%] rounded-2xl border border-white/10 bg-[#080d14]/70 p-4 shadow-lg backdrop-blur-md sm:p-5">
+
+                  <p className="mb-2 text-xs font-semibold tracking-widest text-[#a7ff21]">
+                    {t("about.story.videoLabel")}
+                  </p>
+
+                  <h3 className="text-lg font-bold leading-relaxed text-white sm:text-2xl">
                     {t("about.story.videoTitle")}
+                  </h3>
+
+                  <p className="mt-2 text-xs leading-6 text-white/75 sm:text-sm">
+                    {t("about.story.videoText")}
                   </p>
 
-                  <p className="mt-1 text-xs text-[#d1dae2]">
-                    {t("about.story.videoSubtitle")}
-                  </p>
                 </div>
 
-                <div className="text-[#a7ff21]">
+                <div className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#a7ff21]/30 bg-[#a7ff21]/15 text-[#a7ff21] shadow-lg backdrop-blur-md sm:h-14 sm:w-14">
                   <PlayIcon />
                 </div>
 
               </div>
 
-            </div>
+              {/* Top Badge */}
+              <div className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/50 px-3 py-2 text-[10px] font-medium text-white/90 backdrop-blur-md sm:right-5 sm:top-5 sm:text-xs">
+                {t("about.story.videoBadge")}
+              </div>
+
+            </motion.div>
           </div>
 
         </div>
@@ -349,31 +557,92 @@ export default function AboutUs() {
 
             <div>
 
-              <div className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
+              <motion.div
+                initial={{
+                  y: -20,
+                  opacity: 0
+                }}
+
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
+
+                transition={{
+                  duration: .7
+                }}
+
+                className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
                 <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
                 <span>
                   {t("about.features.label")}
                 </span>
-              </div>
+              </motion.div>
 
-              <h2 className="max-w-[530px] text-3xl font-bold leading-[1.4] sm:text-4xl">
+              <motion.h2
+                initial={{
+                  y: -20,
+                  opacity: 0
+                }}
+
+                whileInView={{
+                  y: 0,
+                  opacity: 1
+                }}
+
+                transition={{
+                  duration: .7,
+                  delay: .1
+                }}
+                className="max-w-[530px] text-3xl font-bold leading-[1.4] sm:text-4xl">
                 {t("about.features.title")}
-              </h2>
+              </motion.h2>
 
             </div>
 
-            <p className="max-w-[520px] text-sm leading-8 text-[#b8c4cf] lg:justify-self-end">
-              {t("about.features.description")}
-            </p>
+
 
           </div>
 
 
-          <div className="mt-10 grid grid-cols-1 border-t border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
+          <motion.div
+            variants={{
+              hidden: {
+                opacity: 0,
+              },
+              visible: {
+                opacity: 1,
+                transition: {
+                  duration: 0.5,
+                  staggerChildren: 0.2,
+                },
+              },
+            }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+
+            className="mt-10 grid grid-cols-1 border-t border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
 
             {/* QUALITY */}
-            <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
+            <motion.div
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -30,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+
+              className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <ShieldIcon />
@@ -387,11 +656,27 @@ export default function AboutUs() {
                 {t("about.features.items.quality.description")}
               </p>
 
-            </div>
+            </motion.div>
 
 
             {/* SUPPORT */}
-            <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
+            <motion.div
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -30,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+
+              className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <SettingsIcon />
@@ -405,11 +690,27 @@ export default function AboutUs() {
                 {t("about.features.items.support.description")}
               </p>
 
-            </div>
+            </motion.div>
 
 
             {/* SUSTAINABLE */}
-            <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
+            <motion.div
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -30,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+
+              className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <LeafIcon />
@@ -423,11 +724,27 @@ export default function AboutUs() {
                 {t("about.features.items.sustainable.description")}
               </p>
 
-            </div>
+            </motion.div>
 
 
             {/* DELIVERY */}
-            <div className="border-b border-[#203445] px-5 py-8 text-center sm:border-r lg:border-b-0">
+            <motion.div
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -30,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+
+              className="border-b border-[#203445] px-5 py-8 text-center sm:border-r lg:border-b-0">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <TruckIcon />
@@ -441,11 +758,27 @@ export default function AboutUs() {
                 {t("about.features.items.delivery.description")}
               </p>
 
-            </div>
+            </motion.div>
 
 
             {/* PARTNERSHIP */}
-            <div className="px-5 py-8 text-center">
+            <motion.div
+              variants={{
+                hidden: {
+                  opacity: 0,
+                  y: -30,
+                },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: "easeOut",
+                  },
+                },
+              }}
+
+              className="px-5 py-8 text-center">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <UsersIcon />
@@ -459,9 +792,9 @@ export default function AboutUs() {
                 {t("about.features.items.partnership.description")}
               </p>
 
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -482,6 +815,8 @@ export default function AboutUs() {
               src="/img.png"
               alt={t("about.stats.title")}
               className="absolute inset-0 h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#031321] via-[#031321]/75 to-transparent" />
@@ -595,16 +930,15 @@ export default function AboutUs() {
               </p>
 
 
-              <button
-                type="button"
-                className="mt-6 inline-flex w-fit items-center gap-3 rounded-sm bg-[#a7ff21] px-6 py-3 text-sm font-bold text-[#07131d] transition hover:bg-[#b9ff4c]"
+              <Link to={'/contact'}
+                className="cursor-pointer mt-6 inline-flex w-fit items-center gap-3 rounded-sm bg-[#a7ff21] px-6 py-3 text-sm font-bold text-[#07131d] transition hover:bg-[#b9ff4c]"
               >
                 <span>
                   {t("about.mission.button")}
                 </span>
 
                 <ArrowIcon />
-              </button>
+              </Link>
 
             </div>
 

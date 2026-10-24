@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { fetchData, resolveMediaUrl } from '../../../Utils/fetchData';
 import Notify from '../../../Utils/Notify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export default function Products() {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
@@ -36,8 +36,8 @@ export default function Products() {
 
   const items = products?.map((e, index) => {
     return (
-      <SwiperSlide onClick={() => navigate(`detail-product/${e._id}`)} key={e._id} className="!h-auto">
-        <motion.div
+      <SwiperSlide key={e._id} className="!h-auto">
+        <motion.article
           initial={{
             opacity: 0,
             y: 50,
@@ -75,8 +75,9 @@ export default function Products() {
   "
         >
 
-          {/* Image */}
-          <div className="  relative
+          <Link to={`detail-product/${e._id}`}>
+            {/* Image */}
+            <div className="  relative
   h-56
   sm:h-64
   lg:h-72
@@ -84,10 +85,12 @@ export default function Products() {
   overflow-hidden
   bg-[#0b0f0c]">
 
-            <motion.img
-              src={resolveMediaUrl(e.thumbnail)}
-              alt={e.name}
-              className="
+              <motion.img
+                src={resolveMediaUrl(e.thumbnail)}
+                loading='lazy'
+                decoding='async'
+                alt={e.name}
+                className="
     absolute
     inset-0
     w-full
@@ -99,35 +102,35 @@ export default function Products() {
     ease-out
     group-hover:scale-105
   "
-              initial={{
-                scale: 1.08
-              }}
-              whileInView={{
-                scale: 1
-              }}
+                initial={{
+                  scale: 1.08
+                }}
+                whileInView={{
+                  scale: 1
+                }}
 
-              transition={{
-                duration: 1.2,
-                ease: "easeOut"
-              }}
-            />
+                transition={{
+                  duration: 1.2,
+                  ease: "easeOut"
+                }}
+              />
 
-            {/* Category */}
-            <motion.span
-              initial={{
-                opacity: 0,
-                x: 30
-              }}
-              whileInView={{
-                opacity: 1,
-                x: 0
-              }}
+              {/* Category */}
+              <motion.span
+                initial={{
+                  opacity: 0,
+                  x: 30
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0
+                }}
 
-              transition={{
-                duration: 0.2,
-                delay: 0.25 + index * 0.15
-              }}
-              className="
+                transition={{
+                  duration: 0.2,
+                  delay: 0.25 + index * 0.15
+                }}
+                className="
               absolute
               top-5
               right-5
@@ -141,31 +144,31 @@ export default function Products() {
               text-xs
               text-lime-400
             "
-            >
-              {e.categoryId?.name}
-            </motion.span>
+              >
+                {e.categoryId?.name}
+              </motion.span>
 
-          </div>
+            </div>
 
-          {/* Content */}
-          <div className="text-container p-6">
+            {/* Content */}
+            <div className="text-container p-6">
 
-            {/* Small title */}
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 15
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0
-              }}
+              {/* Small title */}
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 15
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
 
-              transition={{
-                duration: 0.2,
-                delay: 0.3 + index * 0.15
-              }}
-              className="
+                transition={{
+                  duration: 0.2,
+                  delay: 0.3 + index * 0.15
+                }}
+                className="
               text-[10px]
               sm:text-xs
               text-lime-400
@@ -173,81 +176,81 @@ export default function Products() {
               uppercase
               mb-3
             "
-            >
-              {e.model}
-            </motion.p>
+              >
+                {e.model}
+              </motion.p>
 
-            {/* Title */}
-            <motion.h3
-              initial={{
-                opacity: 0,
-                y: 20
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0
-              }}
+              {/* Title */}
+              <motion.h3
+                initial={{
+                  opacity: 0,
+                  y: 20
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
 
-              transition={{
-                duration: 0.2,
-                delay: 0.4 + index * 0.15
-              }}
-              className="
+                transition={{
+                  duration: 0.2,
+                  delay: 0.4 + index * 0.15
+                }}
+                className="
               text-xl
               sm:text-2xl
               font-semibold
               mb-3
               leading-tight
             "
-            >
-              {e.name}
-            </motion.h3>
+              >
+                {e.name}
+              </motion.h3>
 
-            {/* Description */}
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 20
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0
-              }}
+              {/* Description */}
+              <motion.p
+                initial={{
+                  opacity: 0,
+                  y: 20
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
 
-              transition={{
-                duration: 0.2,
-                delay: 0.5 + index * 0.15
-              }}
-              className="
+                transition={{
+                  duration: 0.2,
+                  delay: 0.5 + index * 0.15
+                }}
+                className="
               text-sm
               leading-7
               text-white/50
               mb-6
             "
-            >
-              {e.shortDescription}
-            </motion.p>
+              >
+                {e.shortDescription}
+              </motion.p>
 
-            {/* Tags / Info */}
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 15
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0
-              }}
+              {/* Tags / Info */}
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 15
+                }}
+                whileInView={{
+                  opacity: 1,
+                  y: 0
+                }}
 
-              transition={{
-                duration: 0.2,
-                delay: 0.6 + index * 0.15
-              }}
-              className="flex flex-wrap gap-2"
-            >
+                transition={{
+                  duration: 0.2,
+                  delay: 0.6 + index * 0.15
+                }}
+                className="flex flex-wrap gap-2"
+              >
 
-              <div
-                className="
+                <div
+                  className="
                 px-3
                 py-1
                 rounded-full
@@ -257,12 +260,12 @@ export default function Products() {
                 text-xs
                 text-white/60
               "
-              >
-                {e.sku}
-              </div>
+                >
+                  {e.sku}
+                </div>
 
-              <div
-                className="
+                <div
+                  className="
                 px-3
                 py-1
                 rounded-full
@@ -272,19 +275,22 @@ export default function Products() {
                 text-xs
                 text-white/60
               "
-              >
-                {e.brandId?.name}
-              </div>
+                >
+                  {e.brandId?.name}
+                </div>
 
-            </motion.div>
+              </motion.div>
 
-          </div>
-        </motion.div>
+            </div>
+          </Link>
+        </motion.article>
       </SwiperSlide>
     )
   })
   return (
-    <div className="w-full min-h-screen bg-black text-white px-6 py-16 sm:px-10 lg:px-20">
+    <section className="w-full min-h-screen bg-black text-white px-6 py-16 sm:px-10 lg:px-20"
+      aria-labelledby="products-heading"
+    >
 
       {/* Header */}
       <motion.div
@@ -334,7 +340,8 @@ export default function Products() {
 
 
         {/* Big Title */}
-        <motion.h1
+        <motion.h2
+          id="products-heading"
           variants={{
             hidden: {
               opacity: 0,
@@ -359,7 +366,7 @@ export default function Products() {
     "
         >
           {product.bigTitle}
-        </motion.h1>
+        </motion.h2>
 
 
         {/* View All */}
@@ -449,6 +456,6 @@ export default function Products() {
 
 
 
-    </div>
+    </section>
   )
 }
