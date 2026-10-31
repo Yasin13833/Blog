@@ -1,10 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-// =============================
-// Icons
-// =============================
-
 const ArrowIcon = () => (
   <svg
     width="18"
@@ -201,19 +197,15 @@ const ShieldIcon = () => (
   </svg>
 );
 
-// =============================
-// About Us
-// =============================
+
 
 export default function AboutUs() {
   const { t } = useTranslation();
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#031321] text-white">
+    <main className="min-h-screen overflow-hidden bg-[#031321] text-white py-[100px]">
 
-      {/* =====================================
-          HERO SECTION
-      ====================================== */}
+
 
       <section className="border-b border-[#203445]">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 lg:grid-cols-2">
@@ -242,7 +234,6 @@ export default function AboutUs() {
             </div>
           </div>
 
-          {/* HERO IMAGE */}
           <div className="min-h-[330px] lg:min-h-[430px]">
             <img
               src="/img.png"
@@ -254,15 +245,12 @@ export default function AboutUs() {
         </div>
       </section>
 
-
-      {/* =====================================
-          STORY SECTION
-      ====================================== */}
+      
 
       <section className="border-b border-[#203445]">
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.7fr_1.3fr] lg:px-16 lg:py-8">
 
-          {/* STORY TEXT */}
+          
           <div className="order-2 lg:order-1">
 
             <div className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
@@ -303,7 +291,6 @@ export default function AboutUs() {
           </div>
 
 
-          {/* STORY IMAGE */}
           <div className="order-1 lg:order-2">
             <div className="relative overflow-hidden">
 
@@ -338,9 +325,7 @@ export default function AboutUs() {
       </section>
 
 
-      {/* =====================================
-          FEATURES SECTION
-      ====================================== */}
+      
 
       <section className="border-b border-[#203445]">
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10 lg:px-16">
@@ -372,7 +357,6 @@ export default function AboutUs() {
 
           <div className="mt-10 grid grid-cols-1 border-t border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
 
-            {/* QUALITY */}
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -390,7 +374,6 @@ export default function AboutUs() {
             </div>
 
 
-            {/* SUPPORT */}
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -408,7 +391,6 @@ export default function AboutUs() {
             </div>
 
 
-            {/* SUSTAINABLE */}
             <div className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -426,7 +408,7 @@ export default function AboutUs() {
             </div>
 
 
-            {/* DELIVERY */}
+           
             <div className="border-b border-[#203445] px-5 py-8 text-center sm:border-r lg:border-b-0">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -444,7 +426,6 @@ export default function AboutUs() {
             </div>
 
 
-            {/* PARTNERSHIP */}
             <div className="px-5 py-8 text-center">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
@@ -467,15 +448,11 @@ export default function AboutUs() {
       </section>
 
 
-      {/* =====================================
-          STATS + MISSION
-      ====================================== */}
 
       <section className="border-b border-[#203445]">
 
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 px-6 py-6 sm:px-10 lg:grid-cols-2 lg:px-16">
 
-          {/* STATS */}
           <div className="relative min-h-[280px] overflow-hidden border border-[#263c4e]">
 
             <img
@@ -503,7 +480,6 @@ export default function AboutUs() {
 
               <div className="mt-7 grid grid-cols-4">
 
-                {/* YEARS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -517,7 +493,7 @@ export default function AboutUs() {
                 </div>
 
 
-                {/* CUSTOMERS */}
+                
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -531,7 +507,6 @@ export default function AboutUs() {
                 </div>
 
 
-                {/* PRODUCTS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -544,8 +519,6 @@ export default function AboutUs() {
 
                 </div>
 
-
-                {/* SATISFACTION */}
                 <div className="text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -565,7 +538,7 @@ export default function AboutUs() {
           </div>
 
 
-          {/* MISSION */}
+     
           <div className="relative min-h-[280px] overflow-hidden border border-[#244735] bg-[#08251b]">
 
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-[#a7ff21]/10" />
