@@ -1,6 +1,6 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
-
+import { motion } from "motion/react"
 export default function Contact() {
   const { t } = useTranslation()
 
@@ -8,24 +8,93 @@ export default function Contact() {
 
   return (
     <div>
-      <section className="min-h-screen bg-[#0a1119] py-[12vh] [background-image:radial-gradient(circle_at_85%_0%,rgba(25,65,140,0.65),transparent_55%)]">
+      <section className="flex justify-evenly items-center w-full h-[80vh] bg-[#0a1119] py-10 [background-image:radial-gradient(circle_at_85%_0%,rgba(25,65,140,0.65),transparent_55%)]">
         <div className="px-6 py-24 md:px-12">
-          <p className="mb-5 text-sm font-medium tracking-wide text-lime-400">
-            ○ {contact.label}
-          </p>
+          <motion.p
+            initial={{
+              y: -50,
+              opacity: 0
+            }}
 
-          <h1 className="text-4xl font-semibold leading-tight text-white md:text-6xl">
+            animate={{
+              y: 0,
+              opacity: 1
+            }}
+
+            transition={{
+              duration: .7
+            }}
+
+            className="mb-5 text-sm font-medium tracking-wide text-lime-400">
+            ○ {contact.label}
+          </motion.p>
+
+          <motion.h1
+            initial={{
+              y: -40,
+              opacity: 0
+            }}
+
+            animate={{
+              y: 0,
+              opacity: 1
+            }}
+
+            transition={{
+              duration: .7,
+              delay: .2
+            }}
+
+            className="text-4xl font-semibold leading-tight text-white md:text-5xl">
             {contact.title}
             <br />
             <span className="text-white">
               {contact.titleHighlight}
             </span>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-6 max-w-xl text-base leading-7 text-gray-400">
+          <motion.p
+            initial={{
+              y: -30,
+              opacity: 0
+            }}
+
+            animate={{
+              y: 0,
+              opacity: 1
+            }}
+
+            transition={{
+              duration: .7,
+              delay: .3
+            }}
+
+            className="mt-6 max-w-xl text-base leading-7 text-gray-400">
             {contact.description}
-          </p>
+          </motion.p>
         </div>
+
+
+        <motion.div
+          initial={{
+            x: -100,
+            opacity: 0,
+          }}
+
+          animate={{
+            x: 0,
+            opacity: 1,
+          }}
+
+          transition={{
+            duration: 1
+          }}
+
+          className="h-9/12 w-5/12 rounded-2xl overflow-hidden">
+          <img src="./contact.jpg" className="brightness-80 w-full h-full object-cover" alt="" />
+        </motion.div>
+
+
       </section>
 
       <section className="bg-[#07111c] px-5 py-20 text-white">
@@ -33,7 +102,7 @@ export default function Contact() {
 
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
 
-            <div className="rounded-md border border-[#1b344e] bg-[#091827] p-7 md:p-8">
+            <form className="rounded-md border border-[#1b344e] bg-[#091827] p-7 md:p-8">
               <h2 className="mb-2 text-3xl font-bold">
                 {contact.form.title}
               </h2>
@@ -118,7 +187,7 @@ export default function Contact() {
                 </button>
 
               </form>
-            </div>
+            </form>
 
             <div className="space-y-3">
 

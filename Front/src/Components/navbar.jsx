@@ -83,7 +83,7 @@ export default function Navbar() {
         );
 
         if (cancelled) return;
-
+        console.log(result)
         if (result?.data) {
           setSearchResult({
             products: Array.isArray(result.data.products)
@@ -145,11 +145,7 @@ export default function Navbar() {
         transition={{ duration: 0.5 }}
         className="
           w-full
-          h-[64px]
-          sm:h-[70px]
-          md:h-[74px]
-          lg:h-[78px]
-          xl:h-[82px]
+          h-16
           bg-black
           border-b
           border-white/10
@@ -199,6 +195,7 @@ export default function Navbar() {
               src="/Logo.png"
               alt="logo"
               className="w-full h-full object-contain"
+              onClick={()=>navigate('/')}
             />
           </div>
 
@@ -723,7 +720,7 @@ export default function Navbar() {
                           key={item._id}
                           onClick={() => {
                             navigate(
-                              `/products/${getLocalizedValue(item.slug)}`
+                              `detail-product/${item._id}`
                             );
                             closeSearch();
                           }}

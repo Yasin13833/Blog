@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Slider() {
     const { t } = useTranslation();
@@ -13,7 +13,7 @@ export default function Slider() {
     const navigate = useNavigate();
 
     return (
-        <div
+        <section
             className="
                 banner
                 relative
@@ -24,7 +24,7 @@ export default function Slider() {
                 border-b border-white/10
                 flex
             "
-            dir="rtl"
+
         >
             {/* Soft top fade */}
             <div
@@ -74,6 +74,7 @@ export default function Slider() {
                         src="/hero-image.png"
                         alt={slider.title}
                         draggable={false}
+                        fetchPriority="high"
                         className="
                             w-full
                             h-full
@@ -184,9 +185,34 @@ export default function Slider() {
                 </motion.p>
 
                 {/* Button */}
-                <motion.button
-                    onClick={() => navigate("products")}
-                    className="
+                <Link to={"products"}>
+                    <motion.button
+                        initial={{
+                            y: -10,
+                            rotate: 0,
+                            opacity: 0,
+                        }}
+                        animate={{
+                            y: [0, -4, 0, -4, 0],
+                            rotate: [0, 1, 0, -1, 0],
+                            opacity: 1,
+                        }}
+                        transition={{
+                            y: {
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut",
+                            },
+                            rotate: {
+                                duration: 1,
+                                repeat: Infinity,
+                            },
+                            opacity: {
+                                duration: 1.1,
+                            },
+                        }}
+                    >
+                        <span className="
                         flex
                         items-center
                         justify-center
@@ -222,35 +248,12 @@ export default function Slider() {
                         duration-200
 
                         hover:shadow-2xl
-                        hover:shadow-[0_0_10px_5px_var(--accent)]
-                    "
-                    initial={{
-                        y: -20,
-                        rotate: 0,
-                        opacity: 0,
-                    }}
-                    animate={{
-                        y: [0, -6, 0, -6, 0],
-                        rotate: [0, 2, 0, -2, 0],
-                        opacity: 1,
-                    }}
-                    transition={{
-                        y: {
-                            duration: 0.5,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        },
-                        rotate: {
-                            duration: 1,
-                            repeat: Infinity,
-                        },
-                        opacity: {
-                            duration: 1.1,
-                        },
-                    }}
-                >
-                    {slider.button}
-                </motion.button>
+                        hover:shadow-[0_0_5px_1px_var(--accent)]
+                    ">
+                            {slider.button}
+                        </span>
+                    </motion.button>
+                </Link>
 
                 {/* Left fade */}
                 <div
@@ -267,6 +270,6 @@ export default function Slider() {
                     "
                 />
             </div>
-        </div>
+        </section>
     );
 }

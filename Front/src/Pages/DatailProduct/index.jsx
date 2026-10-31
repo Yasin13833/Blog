@@ -11,7 +11,7 @@ import {
 
 import { motion } from "motion/react";
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 import { fetchData } from "../../Utils/fetchData";
 import { useTranslation } from "react-i18next";
@@ -22,33 +22,30 @@ import { useTranslation } from "react-i18next";
 // =====================================================
 
 export default function ProductDetail() {
-
     const { id } = useParams();
-
     const navigate = useNavigate();
 
     const [data, setData] = useState(null);
-
     const [loading, setLoading] = useState(true);
-
     const [error, setError] = useState(false);
-
     const [activeImage, setActiveImage] = useState(0);
-    const { i18n } = useTranslation()
+    const [seo, setSeo] = useState({
+        title: null,
+        description: null,
+        keywords: null
+    })
+    const { t, i18n } = useTranslation();
     const langue = i18n.language;
+    const isRTL = langue === "fa" || langue === "ar";
 
     // =====================================================
     // FETCH PRODUCT
     // =====================================================
 
     useEffect(() => {
-
         const getProduct = async () => {
-
             try {
-
                 setLoading(true);
-
                 setError(false);
 
                 const result = await fetchData(
@@ -58,72 +55,53 @@ export default function ProductDetail() {
                 console.log("PRODUCT DETAIL:", result);
 
                 if (result?.success) {
-
                     setData(result.data);
-
+                    setSeo({
+                        title: result.data.product.seo.title,
+                        description: result.data.product.seo.description,
+                        keywords: result.data.product.seo.keywords
+                    })
+                    console.log(result.data.product.seo)
                 } else {
-
                     setError(true);
-
                 }
-
             } catch (error) {
-
                 console.log("Product detail error:", error);
-
                 setError(true);
-
             } finally {
-
                 setLoading(false);
-
             }
-
         };
 
-
         if (id) {
-
             getProduct();
-
         }
-
-    }, [id,langue]);
-
+    }, [id, langue]);
 
     // =====================================================
     // MEDIA URL
     // =====================================================
 
     const resolveMediaUrl = (url) => {
-
         if (!url) {
-
             return "/hero-image.png";
-
         }
 
         if (url.startsWith("http")) {
-
             return url;
-
         }
 
         return `http://localhost:5001${url}`;
-
     };
-
 
     // =====================================================
     // LOADING
     // =====================================================
 
     if (loading) {
-
         return (
-
             <main
-                dir="rtl"
+                dir={isRTL ? "rtl" : "ltr"}
                 className="
                     min-h-screen
                     w-full
@@ -134,9 +112,16 @@ export default function ProductDetail() {
                     justify-center
                 "
             >
-
+                <title>{seo.title}</title>
+                <meta
+                    name="description"
+                    content={seo.description}
+                />
+                <meta
+                    name="keywords"
+                    content={seo.keywords}
+                />
                 <div className="flex flex-col items-center gap-5">
-
                     <div
                         className="
                             w-12
@@ -150,30 +135,21 @@ export default function ProductDetail() {
                     />
 
                     <p className="text-sm text-white/40">
-
-                        در حال دریافت اطلاعات محصول...
-
+                        {t("detailProduct.loading")}
                     </p>
-
                 </div>
-
             </main>
-
         );
-
     }
-
 
     // =====================================================
     // ERROR
     // =====================================================
 
     if (error || !data?.product) {
-
         return (
-
             <main
-                dir="rtl"
+                dir={isRTL ? "rtl" : "ltr"}
                 className="
                     min-h-screen
                     w-full
@@ -185,19 +161,13 @@ export default function ProductDetail() {
                     px-6
                 "
             >
-
                 <div className="text-center">
-
                     <p className="text-lime-400 text-sm mb-4">
-
-                        PRODUCT NOT FOUND
-
+                        {t("detailProduct.notFoundLabel")}
                     </p>
 
                     <h1 className="text-3xl font-semibold mb-6">
-
-                        محصول پیدا نشد
-
+                        {t("detailProduct.notFound")}
                     </h1>
 
                     <button
@@ -212,54 +182,35 @@ export default function ProductDetail() {
                             font-semibold
                         "
                     >
-
-                        بازگشت به محصولات
-
+                        {t("detailProduct.backToProducts")}
                     </button>
-
                 </div>
-
             </main>
-
         );
-
     }
-
 
     // =====================================================
     // REAL DATA
     // =====================================================
 
     const product = data.product;
-
     const brand = data.brand;
-
     const category = data.category;
-
     const relatedProducts = data.relatedProducts || [];
-
 
     // =====================================================
     // IMAGES
     // =====================================================
 
     const images = [
-
         product.thumbnail,
-
         ...(product.images || []),
-
     ].filter(Boolean);
 
-
     // اگر فقط thumbnail داشت
-
     if (images.length === 0) {
-
         images.push("");
-
     }
-
 
     // =====================================================
     // SPECIFICATIONS
@@ -267,18 +218,15 @@ export default function ProductDetail() {
 
     const specifications = product.specifications || {};
 
-
     // =====================================================
     // FEATURES
     // =====================================================
 
     const features = product.features || [];
 
-
     return (
-
         <main
-            dir="rtl"
+            dir={isRTL ? "rtl" : "ltr"}
             className="
                 min-h-screen
                 w-full
@@ -287,7 +235,6 @@ export default function ProductDetail() {
                 overflow-hidden
             "
         >
-
             {/* =================================================
                 HERO
             ================================================= */}
@@ -301,7 +248,6 @@ export default function ProductDetail() {
                     overflow-hidden
                 "
             >
-
                 {/* Background */}
 
                 <div
@@ -314,7 +260,6 @@ export default function ProductDetail() {
                         to-[#080d14]
                     "
                 />
-
 
                 {/* Main Glow */}
 
@@ -332,7 +277,6 @@ export default function ProductDetail() {
                     "
                 />
 
-
                 {/* Small Glow */}
 
                 <div
@@ -348,7 +292,6 @@ export default function ProductDetail() {
                     "
                 />
 
-
                 <div
                     className="
                         relative
@@ -363,7 +306,6 @@ export default function ProductDetail() {
                         pb-24
                     "
                 >
-
                     <div
                         className="
                             grid
@@ -373,7 +315,6 @@ export default function ProductDetail() {
                             items-center
                         "
                     >
-
                         {/* =================================================
                             PRODUCT IMAGE
                         ================================================= */}
@@ -396,7 +337,6 @@ export default function ProductDetail() {
                                 lg:order-1
                             "
                         >
-
                             {/* Image Box */}
 
                             <div
@@ -409,9 +349,12 @@ export default function ProductDetail() {
                                     border
                                     border-white/10
                                     shadow-[0_30px_100px_rgba(0,0,0,0.4)]
+                                    md:w-full
+                                    md:h-100
+                                    sm:w-full
+                                    sm:h-80
                                 "
                             >
-
                                 {/* Image Glow */}
 
                                 <div
@@ -429,7 +372,6 @@ export default function ProductDetail() {
                                     "
                                 />
 
-
                                 {/* Grid */}
 
                                 <div
@@ -441,7 +383,6 @@ export default function ProductDetail() {
                                         bg-size-[40px_40px]
                                     "
                                 />
-
 
                                 {/* Product Image */}
 
@@ -473,11 +414,9 @@ export default function ProductDetail() {
                                     "
                                 />
 
-
                                 {/* Featured */}
 
                                 {product.isFeatured && (
-
                                     <div
                                         className="
                                             absolute
@@ -494,18 +433,13 @@ export default function ProductDetail() {
                                             tracking-wider
                                         "
                                     >
-
-                                        FEATURED
-
+                                        {t("detailProduct.featured")}
                                     </div>
-
                                 )}
-
 
                                 {/* SKU */}
 
                                 {product.sku && (
-
                                     <div
                                         className="
                                             absolute
@@ -523,20 +457,14 @@ export default function ProductDetail() {
                                             text-white/50
                                         "
                                     >
-
                                         {product.sku}
-
                                     </div>
-
                                 )}
-
                             </div>
-
 
                             {/* Thumbnails */}
 
                             {images.length > 1 && (
-
                                 <div
                                     className="
                                         flex
@@ -545,9 +473,7 @@ export default function ProductDetail() {
                                         flex-wrap
                                     "
                                 >
-
                                     {images.map((image, index) => (
-
                                         <button
                                             key={index}
                                             onClick={() =>
@@ -569,7 +495,6 @@ export default function ProductDetail() {
                                                 }
                                             `}
                                         >
-
                                             <img
                                                 src={resolveMediaUrl(image)}
                                                 alt=""
@@ -580,17 +505,11 @@ export default function ProductDetail() {
                                                     p-2
                                                 "
                                             />
-
                                         </button>
-
                                     ))}
-
                                 </div>
-
                             )}
-
                         </motion.div>
-
 
                         {/* =================================================
                             PRODUCT INFO
@@ -613,13 +532,12 @@ export default function ProductDetail() {
                             className="
                                 order-1
                                 lg:order-2
+                             
                             "
                         >
-
                             {/* Category */}
 
                             {category?.name && (
-
                                 <div
                                     className="
                                         flex
@@ -628,7 +546,6 @@ export default function ProductDetail() {
                                         mb-6
                                     "
                                 >
-
                                     <span
                                         className="
                                             w-10
@@ -644,20 +561,14 @@ export default function ProductDetail() {
                                             tracking-[0.18em]
                                         "
                                     >
-
                                         {category.name}
-
                                     </span>
-
                                 </div>
-
                             )}
-
 
                             {/* Model */}
 
                             {product.model && (
-
                                 <p
                                     className="
                                         text-xs
@@ -666,13 +577,9 @@ export default function ProductDetail() {
                                         mb-4
                                     "
                                 >
-
-                                    MODEL / {product.model}
-
+                                    {t("detailProduct.model")} / {product.model}
                                 </p>
-
                             )}
-
 
                             {/* Title */}
 
@@ -685,16 +592,12 @@ export default function ProductDetail() {
                                     leading-[1.15]
                                 "
                             >
-
                                 {product.name}
-
                             </h1>
-
 
                             {/* Description */}
 
                             {product.shortDescription && (
-
                                 <p
                                     className="
                                         mt-7
@@ -705,13 +608,9 @@ export default function ProductDetail() {
                                         text-white/50
                                     "
                                 >
-
                                     {product.shortDescription}
-
                                 </p>
-
                             )}
-
 
                             {/* Info Tags */}
 
@@ -723,46 +622,34 @@ export default function ProductDetail() {
                                     mt-8
                                 "
                             >
-
                                 {product.model && (
-
                                     <InfoTag>
                                         {product.model}
                                     </InfoTag>
-
                                 )}
 
                                 {product.sku && (
-
                                     <InfoTag>
                                         {product.sku}
                                     </InfoTag>
-
                                 )}
 
                                 {brand?.name && (
-
                                     <InfoTag>
                                         {brand.name}
                                     </InfoTag>
-
                                 )}
 
                                 {category?.name && (
-
                                     <InfoTag>
                                         {category.name}
                                     </InfoTag>
-
                                 )}
-
                             </div>
-
 
                             {/* Brand */}
 
                             {brand?.name && (
-
                                 <div
                                     className="
                                         flex
@@ -775,16 +662,13 @@ export default function ProductDetail() {
                                         border-white/10
                                     "
                                 >
-
                                     <span
                                         className="
                                             text-xs
                                             text-white/30
                                         "
                                     >
-
-                                        برند
-
+                                        {t("detailProduct.brand")}
                                     </span>
 
                                     <span
@@ -793,15 +677,10 @@ export default function ProductDetail() {
                                             font-medium
                                         "
                                     >
-
                                         {brand.name}
-
                                     </span>
-
                                 </div>
-
                             )}
-
 
                             {/* CTA */}
 
@@ -823,9 +702,6 @@ export default function ProductDetail() {
                                     transition-colors
                                 "
                             >
-
-                                درخواست مشاوره
-
                                 <FiArrowUpRight
                                     className="
                                         text-lg
@@ -834,165 +710,20 @@ export default function ProductDetail() {
                                         transition-transform
                                     "
                                 />
+                                {t("detailProduct.consultation")}
+
 
                             </button>
-
                         </motion.div>
-
                     </div>
-
                 </div>
-
             </section>
-
-
-            {/* =================================================
-                DESCRIPTION
-            ================================================= */}
-
-            {product.description && (
-
-                <section
-                    className="
-                        border-y
-                        border-white/10
-                        bg-[#0b1119]
-                    "
-                >
-
-                    <div
-                        className="
-                            max-w-7xl
-                            mx-auto
-                            px-6
-                            sm:px-10
-                            lg:px-16
-                            py-24
-                        "
-                    >
-
-                        <SectionTitle
-                            eyebrow="PRODUCT DESCRIPTION"
-                            title="درباره محصول"
-                        />
-
-                        <p
-                            className="
-                                max-w-4xl
-                                text-sm
-                                sm:text-base
-                                leading-9
-                                text-white/50
-                            "
-                        >
-
-                            {product.description}
-
-                        </p>
-
-                    </div>
-
-                </section>
-
-            )}
-
-
-            {/* =================================================
-                SPECIFICATIONS
-            ================================================= */}
-
-            {Object.keys(specifications).length > 0 && (
-
-                <section
-                    className="
-                        bg-[#0b1119]
-                        border-b
-                        border-white/10
-                    "
-                >
-
-                    <div
-                        className="
-                            max-w-7xl
-                            mx-auto
-                            px-6
-                            sm:px-10
-                            lg:px-16
-                            py-24
-                        "
-                    >
-
-                        <SectionTitle
-                            eyebrow="TECHNICAL DATA"
-                            title="مشخصات فنی"
-                        />
-
-
-                        <div
-                            className="
-                                grid
-                                grid-cols-2
-                                lg:grid-cols-4
-                                border
-                                border-white/10
-                            "
-                        >
-
-                            {specifications.connection && (
-
-                                <SpecItem
-                                    icon={<FiDroplet />}
-                                    title="نوع اتصال"
-                                    value={specifications.connection}
-                                />
-
-                            )}
-
-                            {specifications.filtration && (
-
-                                <SpecItem
-                                    icon={<FiLayers />}
-                                    title="میزان فیلتراسیون"
-                                    value={specifications.filtration}
-                                />
-
-                            )}
-
-                            {specifications.pressure && (
-
-                                <SpecItem
-                                    icon={<FiShield />}
-                                    title="فشار کاری"
-                                    value={specifications.pressure}
-                                />
-
-                            )}
-
-                            {specifications.material && (
-
-                                <SpecItem
-                                    icon={<FiMaximize />}
-                                    title="جنس"
-                                    value={specifications.material}
-                                />
-
-                            )}
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-            )}
-
 
             {/* =================================================
                 FEATURES
             ================================================= */}
 
             {features.length > 0 && (
-
                 <section
                     className="
                         max-w-7xl
@@ -1003,12 +734,10 @@ export default function ProductDetail() {
                         py-24
                     "
                 >
-
                     <SectionTitle
-                        eyebrow="WHY THIS PRODUCT"
-                        title="ویژگی‌های محصول"
+                        eyebrow={t("detailProduct.featuresLabel")}
+                        title={t("detailProduct.featuresTitle")}
                     />
-
 
                     <div
                         className="
@@ -1019,9 +748,7 @@ export default function ProductDetail() {
                             gap-5
                         "
                     >
-
                         {features.map((feature, index) => (
-
                             <motion.div
                                 key={feature._id || index}
                                 initial={{
@@ -1054,7 +781,6 @@ export default function ProductDetail() {
                                     duration-500
                                 "
                             >
-
                                 <div
                                     className="
                                         w-12
@@ -1071,17 +797,11 @@ export default function ProductDetail() {
                                         transition-colors
                                     "
                                 >
-
                                     {index === 0 && <FiShield />}
-
                                     {index === 1 && <FiDroplet />}
-
                                     {index === 2 && <FiLayers />}
-
                                     {index === 3 && <FiTool />}
-
                                 </div>
-
 
                                 <h3
                                     className="
@@ -1090,14 +810,10 @@ export default function ProductDetail() {
                                         mb-3
                                     "
                                 >
-
                                     {feature.title}
-
                                 </h3>
 
-
                                 {feature.description && (
-
                                     <p
                                         className="
                                             text-sm
@@ -1105,23 +821,14 @@ export default function ProductDetail() {
                                             leading-7
                                         "
                                     >
-
                                         {feature.description}
-
                                     </p>
-
                                 )}
-
                             </motion.div>
-
                         ))}
-
                     </div>
-
                 </section>
-
             )}
-
 
             {/* =================================================
                 PRODUCT INFORMATION
@@ -1134,7 +841,6 @@ export default function ProductDetail() {
                     bg-[#0b1119]
                 "
             >
-
                 <div
                     className="
                         max-w-7xl
@@ -1145,7 +851,6 @@ export default function ProductDetail() {
                         py-20
                     "
                 >
-
                     <div
                         className="
                             flex
@@ -1156,9 +861,7 @@ export default function ProductDetail() {
                             gap-8
                         "
                     >
-
                         <div>
-
                             <p
                                 className="
                                     text-xs
@@ -1167,9 +870,7 @@ export default function ProductDetail() {
                                     mb-4
                                 "
                             >
-
-                                PRODUCT INFORMATION
-
+                                {t("detailProduct.informationLabel")}
                             </p>
 
                             <h2
@@ -1179,13 +880,9 @@ export default function ProductDetail() {
                                     font-semibold
                                 "
                             >
-
-                                اطلاعات محصول
-
+                                {t("detailProduct.informationTitle")}
                             </h2>
-
                         </div>
-
 
                         <div
                             className="
@@ -1194,38 +891,32 @@ export default function ProductDetail() {
                                 gap-3
                             "
                         >
-
                             {product.sku && (
-
                                 <InfoTag>
                                     SKU: {product.sku}
                                 </InfoTag>
-
                             )}
 
                             {product.model && (
-
                                 <InfoTag>
-                                    MODEL: {product.model}
+                                    {t("detailProduct.model")}: {product.model}
                                 </InfoTag>
-
                             )}
 
                             {product._id && (
-
                                 <InfoTag>
                                     ID: {product._id.slice(-8)}
                                 </InfoTag>
-
                             )}
-
                         </div>
-
                     </div>
-
                 </div>
-
             </section>
+
+            {/* =================================================
+                CATEGORY DESCRIPTION
+            ================================================= */}
+
 
 
             {/* =================================================
@@ -1233,7 +924,6 @@ export default function ProductDetail() {
             ================================================= */}
 
             {relatedProducts.length > 0 && (
-
                 <section
                     className="
                         max-w-7xl
@@ -1244,12 +934,10 @@ export default function ProductDetail() {
                         py-24
                     "
                 >
-
                     <SectionTitle
-                        eyebrow="YOU MAY ALSO LIKE"
-                        title="محصولات مرتبط"
+                        eyebrow={t("detailProduct.relatedLabel")}
+                        title={t("detailProduct.relatedTitle")}
                     />
-
 
                     <div
                         className="
@@ -1260,59 +948,53 @@ export default function ProductDetail() {
                             gap-6
                         "
                     >
-
                         {relatedProducts.map((item, index) => (
-
-                            <motion.div
-                                key={item._id}
-                                initial={{
-                                    opacity: 0,
-                                    y: 25,
-                                }}
-                                whileInView={{
-                                    opacity: 1,
-                                    y: 0,
-                                }}
-                                viewport={{
-                                    once: true,
-                                }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: index * 0.1,
-                                }}
-                                whileHover={{
-                                    y: -8,
-                                }}
-                                onClick={() =>
-                                    navigate(`/detail-product/${item._id}`)
-                                }
-                                className="
-                                    group
-                                    cursor-pointer
-                                    rounded-2xl
-                                    overflow-hidden
-                                    bg-[#101720]
-                                    border
-                                    border-white/10
-                                    hover:border-lime-400/30
+                            <Link to={`/detail-product/${item._id}`}>
+                                <motion.div
+                                    key={item._id}
+                                    initial={{
+                                        opacity: 0,
+                                        y: 25,
+                                    }}
+                                    whileInView={{
+                                        opacity: 1,
+                                        y: 0,
+                                    }}
+                                    viewport={{
+                                        once: true,
+                                    }}
+                                    transition={{
+                                        duration: 0.5,
+                                        delay: index * 0.1,
+                                    }}
+                                    whileHover={{
+                                        y: -8,
+                                    }}
+                                    className="
+                                group
+                                cursor-pointer
+                                rounded-2xl
+                                overflow-hidden
+                                bg-[#101720]
+                                border
+                                border-white/10
+                                hover:border-lime-400/30
                                     transition-all
                                     duration-500
                                 "
-                            >
+                                >
+                                    {/* Image */}
 
-                                {/* Image */}
-
-                                <div
-                                    className="
+                                    <div
+                                        className="
                                         relative
                                         h-64
                                         bg-[#0d141d]
                                         overflow-hidden
                                     "
-                                >
-
-                                    <div
-                                        className="
+                                    >
+                                        <div
+                                            className="
                                             absolute
                                             w-40
                                             h-40
@@ -1324,15 +1006,13 @@ export default function ProductDetail() {
                                             -translate-x-1/2
                                             -translate-y-1/2
                                         "
-                                    />
+                                        />
 
-                                    <img
-                                        src={resolveMediaUrl(
-                                            item.thumbnail
-                                        )}
-                                        alt={item.name}
-                                        className="
-                                            relative
+                                        <img
+                                            src={resolveMediaUrl(item.thumbnail)}
+                                            alt={item.name}
+                                            className="
+                                        relative
                                             z-10
                                             w-full
                                             h-full
@@ -1341,96 +1021,73 @@ export default function ProductDetail() {
                                             group-hover:scale-105
                                             transition-transform
                                             duration-500
-                                        "
-                                    />
+                                            "
+                                        />
+                                    </div>
 
-                                </div>
+                                    {/* Content */}
 
-
-                                {/* Content */}
-
-                                <div className="p-6">
-
-                                    <div
-                                        className="
+                                    <div className="p-6">
+                                        <div
+                                            className="
                                             flex
                                             items-center
                                             justify-between
                                             gap-4
                                             mb-4
-                                        "
-                                    >
-
-                                        <span
-                                            className="
+                                            "
+                                        >
+                                            <span
+                                                className="
                                                 text-[10px]
                                                 text-lime-400
                                                 tracking-wider
                                             "
-                                        >
+                                            >
+                                                {item.model || t("detailProduct.product")}
+                                            </span>
 
-                                            {item.model || "PRODUCT"}
-
-                                        </span>
-
-
-                                        <FiArrowUpRight
-                                            className="
+                                            <FiArrowUpRight
+                                                className="
                                                 text-white/30
                                                 group-hover:text-lime-400
                                                 transition-colors
-                                            "
-                                        />
+                                                "
+                                            />
+                                        </div>
 
-                                    </div>
-
-
-                                    <h3
-                                        className="
-                                            text-lg
-                                            font-semibold
+                                        <h3
+                                            className="
+                                        text-lg
+                                        font-semibold
                                             leading-7
                                             line-clamp-2
                                         "
-                                    >
+                                        >
+                                            {item.name}
+                                        </h3>
 
-                                        {item.name}
-
-                                    </h3>
-
-
-                                    {item.shortDescription && (
-
-                                        <p
-                                            className="
+                                        {item.shortDescription && (
+                                            <p
+                                                className="
                                                 mt-3
                                                 text-sm
                                                 text-white/40
                                                 leading-7
                                                 line-clamp-2
                                             "
-                                        >
-
-                                            {item.shortDescription}
-
-                                        </p>
-
-                                    )}
-
-                                </div>
-
-                            </motion.div>
-
+                                            >
+                                                {item.shortDescription}
+                                            </p>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            </Link>
                         ))}
-
                     </div>
-
                 </section>
-
             )}
-
         </main>
-
     );
 }
 
@@ -1443,11 +1100,8 @@ function SectionTitle({
     eyebrow,
     title,
 }) {
-
     return (
-
         <div className="mb-12">
-
             <p
                 className="
                     text-xs
@@ -1456,11 +1110,8 @@ function SectionTitle({
                     mb-4
                 "
             >
-
                 {eyebrow}
-
             </p>
-
 
             <h2
                 className="
@@ -1469,15 +1120,10 @@ function SectionTitle({
                     font-semibold
                 "
             >
-
                 {title}
-
             </h2>
-
         </div>
-
     );
-
 }
 
 
@@ -1488,9 +1134,7 @@ function SectionTitle({
 function InfoTag({
     children,
 }) {
-
     return (
-
         <span
             className="
                 px-4
@@ -1503,13 +1147,9 @@ function InfoTag({
                 text-white/60
             "
         >
-
             {children}
-
         </span>
-
     );
-
 }
 
 
@@ -1522,9 +1162,7 @@ function SpecItem({
     title,
     value,
 }) {
-
     return (
-
         <div
             className="
                 p-6
@@ -1534,7 +1172,6 @@ function SpecItem({
                 border-white/10
             "
         >
-
             <div
                 className="
                     w-11
@@ -1549,11 +1186,8 @@ function SpecItem({
                     mb-5
                 "
             >
-
                 {icon}
-
             </div>
-
 
             <p
                 className="
@@ -1562,11 +1196,8 @@ function SpecItem({
                     mb-2
                 "
             >
-
                 {title}
-
             </p>
-
 
             <p
                 className="
@@ -1575,14 +1206,8 @@ function SpecItem({
                     font-semibold
                 "
             >
-
                 {value}
-
             </p>
-
         </div>
-
     );
-
 }
-

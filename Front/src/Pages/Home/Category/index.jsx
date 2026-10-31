@@ -11,10 +11,11 @@ import { motion } from "motion/react";
 
 import { useTranslation } from "react-i18next";
 
-import { fetchData } from "../../../Utils/fetchData";
+import { fetchData, resolveMediaUrl } from "../../../Utils/fetchData";
 
 import Notify from "../../../Utils/Notify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import HomeCategorySkeleton from "../../../Components/Skeleton/HomeCategorySkeleton";
 
 export default function Category() {
   const { t, i18n } = useTranslation();
@@ -22,6 +23,7 @@ export default function Category() {
   const lang = i18n.language;
 
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
   useEffect(() => {
     (async () => {
@@ -31,9 +33,11 @@ export default function Category() {
 
       if (!result?.success) {
         Notify("error", "خطا در بارگزاری دسته بندی ها");
+        setLoading(false)
         return;
       }
-
+      console.log(result)
+      setLoading(false)
       setCategories(result?.data || []);
     })();
   }, [lang]);
@@ -138,7 +142,7 @@ export default function Category() {
 
           {/* Big Title */}
 
-          <h1
+          <h2
             className="
               text-2xl
               leading-[1.2]
@@ -155,7 +159,7 @@ export default function Category() {
             "
           >
             {category.bigTitle}
-          </h1>
+          </h2>
 
           {/* Description */}
 
@@ -251,33 +255,34 @@ export default function Category() {
             shadow-[0_20px_60px_rgba(0,0,0,0.15)]
           "
         >
-          {categories.map((item, index) => (
-            <motion.div
-              key={item._id}
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: 18,
-                },
-
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.35,
-                    ease: [0.22, 1, 0.36, 1],
+          {loading ? <HomeCategorySkeleton /> : categories.map((item, index) => (
+            <Link to={`detail-categories/${item._id}`}>
+              <motion.div
+                key={item._id}
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    y: 18,
                   },
-                },
-              }}
-              whileHover={{
-                backgroundColor: "rgba(255,255,255,0.06)",
-              }}
-              transition={{
-                backgroundColor: {
-                  duration: 0.2,
-                },
-              }}
-              className="
+
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: 0.35,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                  },
+                }}
+                whileHover={{
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                }}
+                transition={{
+                  backgroundColor: {
+                    duration: 0.2,
+                  },
+                }}
+                className="
                 group
                 min-h-80
 
@@ -302,11 +307,11 @@ export default function Category() {
                 flex
                 flex-col
               "
-            >
-              {/* ================= IMAGE ================= */}
+              >
+                {/* ================= IMAGE ================= */}
 
-              <div
-                className="
+                <div
+                  className="
                   w-full
 
                   h-36
@@ -329,13 +334,13 @@ export default function Category() {
 
                   relative
                 "
-              >
-                <img
-                  src={`http://localhost:5001${item.image}`}
-                  alt={item.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="
+                >
+                  <img
+                    src={resolveMediaUrl(item.image)}
+                    alt={item.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="
                     w-full
                     h-full
                     object-cover
@@ -346,12 +351,12 @@ export default function Category() {
 
                     group-hover:scale-110
                   "
-                />
+                  />
 
-                {/* Image Overlay */}
+                  {/* Image Overlay */}
 
-                <div
-                  className="
+                  <div
+                    className="
                     absolute
                     inset-0
 
@@ -366,13 +371,13 @@ export default function Category() {
                     transition-opacity
                     duration-300
                   "
-                />
-              </div>
+                  />
+                </div>
 
-              {/* ================= ICON ================= */}
+                {/* ================= ICON ================= */}
 
-              <div
-                className="
+                <div
+                  className="
                   w-9
                   h-9
 
@@ -404,18 +409,18 @@ export default function Category() {
                   group-hover:text-[#1643a0]
                   group-hover:scale-110
                 "
-              >
-                {index === 0 && <FiDroplet />}
-                {index === 1 && <FiDroplet />}
-                {index === 2 && <FiTruck />}
-                {index === 3 && <FiLink />}
-                {index >= 4 && <FiDroplet />}
-              </div>
+                >
+                  {index === 0 && <FiDroplet />}
+                  {index === 1 && <FiDroplet />}
+                  {index === 2 && <FiTruck />}
+                  {index === 3 && <FiLink />}
+                  {index >= 4 && <FiDroplet />}
+                </div>
 
-              {/* ================= TITLE ================= */}
+                {/* ================= TITLE ================= */}
 
-              <h3
-                className="
+                <h3
+                  className="
                   text-xs
 
                   sm:text-sm
@@ -433,14 +438,14 @@ export default function Category() {
 
                   group-hover:text-lime-300
                 "
-              >
-                {item.name}
-              </h3>
+                >
+                  {item.name}
+                </h3>
 
-              {/* ================= DESCRIPTION ================= */}
+                {/* ================= DESCRIPTION ================= */}
 
-              <p
-                className="
+                <p
+                  className="
                   text-[9px]
 
                   sm:text-[10px]
@@ -453,14 +458,14 @@ export default function Category() {
 
                   mb-5
                 "
-              >
-                {item.description}
-              </p>
+                >
+                  {item.description}
+                </p>
 
-              {/* ================= ARROW ================= */}
+                {/* ================= ARROW ================= */}
 
-              <div
-                className="
+                <div
+                  className="
                   mt-auto
 
                   w-7
@@ -486,18 +491,18 @@ export default function Category() {
 
                   group-hover:translate-x-1
                 "
-              >
-                <FiArrowRight
-                  className="
+                >
+                  <FiArrowRight
+                    className="
                     text-xs
                   "
-                />
-              </div>
+                  />
+                </div>
 
-              {/* ================= DECORATIVE GLOW ================= */}
+                {/* ================= DECORATIVE GLOW ================= */}
 
-              <div
-                className="
+                <div
+                  className="
                   absolute
 
                   -bottom-16
@@ -521,8 +526,9 @@ export default function Category() {
 
                   pointer-events-none
                 "
-              />
-            </motion.div>
+                />
+              </motion.div>
+            </Link>
           ))}
         </motion.div>
       </motion.div>

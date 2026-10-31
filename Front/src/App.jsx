@@ -3,6 +3,7 @@ import { RouterProvider } from 'react-router-dom'
 import router from './Router'
 import { Toaster } from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
+import ScrollToTop from './Components/ScrollTop'
 document.documentElement.dir = 'rtl'
 
 export default function App() {
@@ -17,8 +18,8 @@ export default function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
-      <Toaster />
+        <RouterProvider router={router} />
+        <Toaster />
     </>
   )
 }

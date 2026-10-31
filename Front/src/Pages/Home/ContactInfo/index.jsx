@@ -142,7 +142,7 @@ export default function ContactInfo() {
                     </p>
 
                     {/* Title */}
-                    <h1
+                    <h2
                         className="
                             w-full
                             max-w-xl
@@ -155,7 +155,7 @@ export default function ContactInfo() {
                         "
                     >
                         {contactInfo.bigTitle}
-                    </h1>
+                    </h2>
 
                     {/* Description */}
                     <p

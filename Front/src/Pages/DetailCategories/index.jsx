@@ -13,7 +13,7 @@ import { motion } from "motion/react";
 
 import { useParams, useNavigate } from "react-router-dom";
 
-import { fetchData } from "../../Utils/fetchData";
+import { fetchData, resolveMediaUrl } from "../../Utils/fetchData";
 
 import { useTranslation } from "react-i18next";
 
@@ -33,6 +33,11 @@ export default function CategoryDetail() {
 
     const [error, setError] = useState(false);
 
+    const [seo, setSeo] = useState({
+        title: null,
+        description: null,
+        keywords: null
+    })
     const { i18n, t } = useTranslation();
 
     const langue = i18n.language;
@@ -61,9 +66,12 @@ export default function CategoryDetail() {
                 console.log("CATEGORY DETAIL:", result);
 
                 if (result?.success) {
-
                     setData(result.data);
-
+                    setSeo({
+                        title: result.data.category.seo.title,
+                        description: result.data.category.seo.description,
+                        keywords: result.data.category.seo.keywords
+                    })
                 } else {
 
                     setError(true);
@@ -97,23 +105,7 @@ export default function CategoryDetail() {
     // MEDIA URL
     // =====================================================
 
-    const resolveMediaUrl = (url) => {
 
-        if (!url) {
-
-            return "/hero-image.png";
-
-        }
-
-        if (url.startsWith("http")) {
-
-            return url;
-
-        }
-
-        return `http://localhost:5001${url}`;
-
-    };
 
 
     // =====================================================
@@ -186,6 +178,8 @@ export default function CategoryDetail() {
                 "
             >
 
+
+
                 <div className="text-center">
 
                     <p className="text-lime-400 text-sm mb-4">
@@ -244,6 +238,16 @@ export default function CategoryDetail() {
             "
         >
 
+
+            <title>{category.name}</title>
+            <meta
+                name="description"
+                content={seo.description}
+            />
+            <meta
+                name="keywords"
+                content={seo.keywords}
+            />
             {/* =================================================
                 HERO
             ================================================= */}
@@ -406,6 +410,8 @@ export default function CategoryDetail() {
                                     transition={{
                                         duration: 0.6,
                                     }}
+                                    loading="lazy"
+                                    decoding="async"
                                     src={resolveMediaUrl(category.image)}
                                     alt={category.name}
                                     className="
@@ -505,6 +511,8 @@ export default function CategoryDetail() {
                                         <img
                                             src={resolveMediaUrl(category.icon)}
                                             alt=""
+                                            loading="lazy"
+                                            decoding="async"
                                             className="
                                                 w-full
                                                 h-full
@@ -791,353 +799,21 @@ export default function CategoryDetail() {
                 DESCRIPTION
             ================================================= */}
 
-            {category.description && (
 
-                <section
-                    className="
-                        border-y
-                        border-white/10
-                        bg-[#0b1119]
-                    "
-                >
-
-                    <div
-                        className="
-                            max-w-7xl
-                            mx-auto
-                            px-6
-                            sm:px-10
-                            lg:px-16
-                            py-24
-                        "
-                    >
-
-                        <SectionTitle
-                            eyebrow={t("detailCategory.descriptionLabel")}
-                            title={t("detailCategory.aboutCategory")}
-                        />
-
-                        <p
-                            className="
-                                max-w-4xl
-                                text-sm
-                                sm:text-base
-                                leading-9
-                                text-white/50
-                            "
-                        >
-                            {category.description}
-                        </p>
-
-                    </div>
-
-                </section>
-
-            )}
 
 
             {/* =================================================
                 CATEGORY INFORMATION
             ================================================= */}
 
-            <section
-                className="
-                    bg-[#0b1119]
-                    border-b
-                    border-white/10
-                "
-            >
-
-                <div
-                    className="
-                        max-w-7xl
-                        mx-auto
-                        px-6
-                        sm:px-10
-                        lg:px-16
-                        py-24
-                    "
-                >
-
-                    <SectionTitle
-                        eyebrow={t("detailCategory.informationLabel")}
-                        title={t("detailCategory.categoryInformation")}
-                    />
-
-                    <div
-                        className="
-                            grid
-                            grid-cols-2
-                            lg:grid-cols-4
-                            border
-                            border-white/10
-                        "
-                    >
-
-                        <InfoBox
-                            icon={<FiGrid />}
-                            title={t("detailCategory.name")}
-                            value={category.name}
-                        />
-
-                        <InfoBox
-                            icon={<FiLink />}
-                            title={t("detailCategory.slug")}
-                            value={category.slug}
-                        />
-
-                        <InfoBox
-                            icon={<FiLayers />}
-                            title={t("detailCategory.sortOrder")}
-                            value={category.sortOrder ?? 0}
-                        />
-
-                        <InfoBox
-                            icon={<FiCheck />}
-                            title={t("detailCategory.status")}
-                            value={
-                                category.isPublished
-                                    ? t("detailCategory.published")
-                                    : t("detailCategory.draft")
-                            }
-                        />
-
-                    </div>
-
-                </div>
-
-            </section>
-
 
             {/* =================================================
                 SEO
             ================================================= */}
 
-            {category.seo && (
-
-                <section
-                    className="
-                        max-w-7xl
-                        mx-auto
-                        px-6
-                        sm:px-10
-                        lg:px-16
-                        py-24
-                    "
-                >
-
-                    <SectionTitle
-                        eyebrow={t("detailCategory.seoLabel")}
-                        title={t("detailCategory.seoInformation")}
-                    />
 
 
-                    <div
-                        className="
-                            grid
-                            grid-cols-1
-                            lg:grid-cols-2
-                            gap-6
-                        "
-                    >
 
-                        {/* SEO TITLE */}
-
-                        {category.seo.title && (
-
-                            <div
-                                className="
-                                    p-7
-                                    rounded-2xl
-                                    bg-[#101720]
-                                    border
-                                    border-white/10
-                                "
-                            >
-
-                                <p
-                                    className="
-                                        text-xs
-                                        text-lime-400
-                                        mb-4
-                                    "
-                                >
-                                    {t("detailCategory.seoTitle")}
-                                </p>
-
-                                <p className="text-lg font-semibold">
-                                    {category.seo.title}
-                                </p>
-
-                            </div>
-
-                        )}
-
-
-                        {/* SEO DESCRIPTION */}
-
-                        {category.seo.description && (
-
-                            <div
-                                className="
-                                    p-7
-                                    rounded-2xl
-                                    bg-[#101720]
-                                    border
-                                    border-white/10
-                                "
-                            >
-
-                                <p
-                                    className="
-                                        text-xs
-                                        text-lime-400
-                                        mb-4
-                                    "
-                                >
-                                    {t("detailCategory.seoDescription")}
-                                </p>
-
-                                <p
-                                    className="
-                                        text-sm
-                                        text-white/50
-                                        leading-7
-                                    "
-                                >
-                                    {category.seo.description}
-                                </p>
-
-                            </div>
-
-                        )}
-
-                    </div>
-
-
-                    {/* Keywords */}
-
-                    {category.seo.keywords?.length > 0 && (
-
-                        <div
-                            className="
-                                flex
-                                flex-wrap
-                                gap-2
-                                mt-6
-                            "
-                        >
-
-                            {category.seo.keywords.map(
-                                (keyword, index) => (
-
-                                    <InfoTag key={index}>
-                                        #{keyword}
-                                    </InfoTag>
-
-                                )
-                            )}
-
-                        </div>
-
-                    )}
-
-                </section>
-
-            )}
-
-
-            {/* =================================================
-                CATEGORY ID
-            ================================================= */}
-
-            <section
-                className="
-                    border-t
-                    border-white/10
-                    bg-[#0b1119]
-                "
-            >
-
-                <div
-                    className="
-                        max-w-7xl
-                        mx-auto
-                        px-6
-                        sm:px-10
-                        lg:px-16
-                        py-20
-                    "
-                >
-
-                    <div
-                        className="
-                            flex
-                            flex-col
-                            md:flex-row
-                            md:items-center
-                            md:justify-between
-                            gap-8
-                        "
-                    >
-
-                        <div>
-
-                            <p
-                                className="
-                                    text-xs
-                                    text-lime-400
-                                    tracking-[0.2em]
-                                    mb-4
-                                "
-                            >
-                                {t("detailCategory.informationLabel")}
-                            </p>
-
-                            <h2
-                                className="
-                                    text-2xl
-                                    sm:text-3xl
-                                    font-semibold
-                                "
-                            >
-                                {t("detailCategory.categoryId")}
-                            </h2>
-
-                        </div>
-
-
-                        <div
-                            className="
-                                flex
-                                flex-wrap
-                                gap-3
-                            "
-                        >
-
-                            {category._id && (
-
-                                <InfoTag>
-                                    ID: {category._id.slice(-8)}
-                                </InfoTag>
-
-                            )}
-
-                            {category.slug && (
-
-                                <InfoTag>
-                                    {category.slug}
-                                </InfoTag>
-
-                            )}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
 
         </main>
 
@@ -1145,42 +821,9 @@ export default function CategoryDetail() {
 }
 
 
-// =====================================================
-// SECTION TITLE
-// =====================================================
 
-function SectionTitle({ eyebrow, title }) {
 
-    return (
 
-        <div className="mb-12">
-
-            <p
-                className="
-                    text-xs
-                    text-lime-400
-                    tracking-[0.2em]
-                    mb-4
-                "
-            >
-                {eyebrow}
-            </p>
-
-            <h2
-                className="
-                    text-3xl
-                    sm:text-4xl
-                    font-semibold
-                "
-            >
-                {title}
-            </h2>
-
-        </div>
-
-    );
-
-}
 
 
 // =====================================================
@@ -1210,65 +853,3 @@ function InfoTag({ children }) {
 
 }
 
-
-// =====================================================
-// INFO BOX
-// =====================================================
-
-function InfoBox({ icon, title, value }) {
-
-    return (
-
-        <div
-            className="
-                p-6
-                sm:p-8
-                border-l
-                border-b
-                border-white/10
-            "
-        >
-
-            <div
-                className="
-                    w-11
-                    h-11
-                    rounded-xl
-                    bg-lime-400/10
-                    text-lime-400
-                    flex
-                    items-center
-                    justify-center
-                    text-lg
-                    mb-5
-                "
-            >
-                {icon}
-            </div>
-
-            <p
-                className="
-                    text-xs
-                    text-white/30
-                    mb-2
-                "
-            >
-                {title}
-            </p>
-
-            <p
-                className="
-                    text-base
-                    sm:text-lg
-                    font-semibold
-                    break-all
-                "
-            >
-                {value}
-            </p>
-
-        </div>
-
-    );
-
-}

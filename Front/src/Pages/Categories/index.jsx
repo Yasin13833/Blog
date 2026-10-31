@@ -9,11 +9,12 @@ import {
   FiChevronRight,
 } from "react-icons/fi";
 
-import { fetchData } from "../../Utils/fetchData";
+import { fetchData, resolveMediaUrl } from "../../Utils/fetchData";
 import Notify from "../../Utils/Notify";
 
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import CategorySkeleton from "../../Components/Skeleton/CategorySkeleton";
 
 export default function Categories() {
   const LIMIT = 6
@@ -22,33 +23,342 @@ export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState()
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
   useEffect(() => {
+    const getCategories = async () => {
+      setLoading(true);
 
-    (async () => {
-      const params = new URLSearchParams()
-      params.set('page', page)
-      params.set('limit', LIMIT)
-      params.set('lang', lang)
-      const result = await fetchData(
-        `/public/product-categories?${params}`
-      );
+      try {
+        const params = new URLSearchParams();
 
-      if (!result?.success) {
-        Notify("error", "خطا در باگزاری محصولات");
-        return;
+        params.set("page", page);
+        params.set("limit", LIMIT);
+        params.set("lang", lang);
+
+        const result = await fetchData(
+          `/public/product-categories?${params.toString()}`
+        );
+
+        if (!result?.success) {
+          Notify("error", "خطا در دریافت دسته‌بندی‌ها");
+          setCategories([]);
+          return;
+        }
+
+        setTotalPage(
+          Math.ceil(result.meta.pagination.total / LIMIT)
+        );
+
+        setCategories(result?.data || []);
+      } catch (error) {
+        console.error(error);
+
+        Notify("error", "خطا در دریافت دسته‌بندی‌ها");
+        setCategories([]);
+      } finally {
+        setLoading(false);
       }
-      setTotalPage(Math.ceil(result.meta.pagination.total / LIMIT))
-      setCategories(result?.data || []);
-      console.log(result.data)
+    };
 
-    })();
-
+    getCategories();
   }, [lang, LIMIT, page]);
+
+
+  const item = categories.map((item) => (
+
+    <Link to={`/detail-categories/${item._id}`}>
+      <article
+        key={item._id}
+        className="
+                  group
+                  relative
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-white/[0.08]
+                  bg-[#101720]
+                  cursor-pointer
+                "
+      >
+
+        {/* =========================================
+                    IMAGE
+                ========================================= */}
+
+        <div
+          className="
+                    relative
+                    h-56
+                    overflow-hidden
+                  "
+        >
+
+          <img
+            src={resolveMediaUrl(item.image)}
+            alt={item.name}
+            loading="lazy"
+            decoding="async"
+
+            className="
+                      w-full
+                      h-full
+                      object-cover
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-105
+                    "
+          />
+
+
+          {/* Dark Gradient */}
+
+          <div
+            className="
+                      absolute
+                      inset-0
+                      bg-gradient-to-t
+                      from-[#101720]
+                      via-black/10
+                      to-transparent
+                    "
+          />
+
+
+          {/* Featured */}
+
+          {item.isFeatured && (
+
+            <div
+              className="
+                        absolute
+                        top-4
+                        left-4
+                        flex
+                        items-center
+                        gap-1.5
+                        px-2.5
+                        py-1.5
+                        rounded-full
+                        bg-black/40
+                        backdrop-blur-md
+                        border
+                        border-white/10
+                        text-[10px]
+                        text-lime-300
+                      "
+            >
+
+              <FiStar />
+
+              {t("categoriesPage.card.featured")}
+
+            </div>
+
+          )}
+
+
+          {/* Icon */}
+
+          {item.icon && (
+
+            <div
+              className="
+                        absolute
+                        bottom-4
+                        left-4
+                        w-11
+                        h-11
+                        rounded-xl
+                        overflow-hidden
+                        border
+                        border-white/20
+                        bg-black/40
+                        backdrop-blur-md
+                        shadow-lg
+                      "
+            >
+
+              <img
+                src={resolveMediaUrl(item.icon)}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="
+                          w-full
+                          h-full
+                          object-cover
+                        "
+              />
+
+            </div>
+
+          )}
+
+        </div>
+
+
+        {/* =========================================
+                    CONTENT
+                ========================================= */}
+
+        <div className="p-5">
+
+          {/* Name */}
+
+          <div
+            className="
+                      flex
+                      items-start
+                      justify-between
+                      gap-4
+                    "
+          >
+
+            <h3
+              className="
+                        text-base
+                        sm:text-lg
+                        font-semibold
+                        leading-6
+                        transition-colors
+                        duration-300
+                        group-hover:text-lime-400
+                      "
+            >
+
+              {item.name}
+
+            </h3>
+
+
+            <div
+              className="
+                        shrink-0
+                        w-9
+                        h-9
+                        rounded-full
+                        border
+                        border-white/10
+                        flex
+                        items-center
+                        justify-center
+                        text-white/40
+                        transition-all
+                        duration-300
+                        group-hover:bg-lime-400
+                        group-hover:text-[#080d14]
+                        group-hover:border-lime-400
+                      "
+            >
+
+              <FiArrowUpRight />
+
+            </div>
+
+          </div>
+
+
+          {/* Description */}
+
+          <p
+            className="
+                      mt-3
+                      text-xs
+                      sm:text-sm
+                      leading-6
+                      text-white/40
+                      line-clamp-3
+                    "
+          >
+
+            {item.description}
+
+          </p>
+
+
+          {/* Bottom */}
+
+          <div
+            className="
+                      mt-5
+                      pt-4
+                      border-t
+                      border-white/[0.06]
+                      flex
+                      items-center
+                      justify-between
+                    "
+          >
+
+            <span
+              className="
+                        text-[10px]
+                        uppercase
+                        tracking-widest
+                        text-white/25
+                      "
+            >
+
+              {t("categoriesPage.card.explore")}
+
+            </span>
+
+
+            <FiChevronRight
+              className="
+                        text-white/30
+                        transition-transform
+                        duration-300
+                        group-hover:translate-x-1
+                        group-hover:text-lime-400
+                      "
+            />
+
+          </div>
+
+        </div>
+
+
+        {/* =========================================
+                    HOVER GLOW
+                ========================================= */}
+
+        <div
+          className="
+                    pointer-events-none
+                    absolute
+                    -bottom-20
+                    -right-20
+                    w-40
+                    h-40
+                    rounded-full
+                    bg-lime-400/10
+                    blur-3xl
+                    opacity-0
+                    group-hover:opacity-100
+                    transition-opacity
+                    duration-500
+                  "
+        />
+
+      </article>
+    </Link>
+
+  ))
 
   return (
     <main className="min-h-screen bg-[#080d14] text-white">
 
+
+
+      <title>{t('seo.categories.title')}</title>
+      <meta
+        name="description"
+        content={t('seo.categories.description')}
+      />
       {/* =====================================================
           HERO
       ===================================================== */}
@@ -284,287 +594,8 @@ export default function Categories() {
             "
           >
 
-            {categories.map((item) => (
 
-              <article
-                key={item._id}
-                onClick={() => navigate(`/detail-categories/${item._id}`)}
-                className="
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-white/[0.08]
-                  bg-[#101720]
-                  cursor-pointer
-                "
-              >
-
-                {/* =========================================
-                    IMAGE
-                ========================================= */}
-
-                <div
-                  className="
-                    relative
-                    h-56
-                    overflow-hidden
-                  "
-                >
-
-                  <img
-                    src={`http://localhost:5001${item.image}`}
-                    alt={item.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="
-                      w-full
-                      h-full
-                      object-cover
-                      transition-transform
-                      duration-700
-                      ease-out
-                      group-hover:scale-105
-                    "
-                  />
-
-
-                  {/* Dark Gradient */}
-
-                  <div
-                    className="
-                      absolute
-                      inset-0
-                      bg-gradient-to-t
-                      from-[#101720]
-                      via-black/10
-                      to-transparent
-                    "
-                  />
-
-
-                  {/* Featured */}
-
-                  {item.isFeatured && (
-
-                    <div
-                      className="
-                        absolute
-                        top-4
-                        left-4
-                        flex
-                        items-center
-                        gap-1.5
-                        px-2.5
-                        py-1.5
-                        rounded-full
-                        bg-black/40
-                        backdrop-blur-md
-                        border
-                        border-white/10
-                        text-[10px]
-                        text-lime-300
-                      "
-                    >
-
-                      <FiStar />
-
-                      {t("categoriesPage.card.featured")}
-
-                    </div>
-
-                  )}
-
-
-                  {/* Icon */}
-
-                  {item.icon && (
-
-                    <div
-                      className="
-                        absolute
-                        bottom-4
-                        left-4
-                        w-11
-                        h-11
-                        rounded-xl
-                        overflow-hidden
-                        border
-                        border-white/20
-                        bg-black/40
-                        backdrop-blur-md
-                        shadow-lg
-                      "
-                    >
-
-                      <img
-                        src={`http://localhost:5001${item.icon}`}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                        className="
-                          w-full
-                          h-full
-                          object-cover
-                        "
-                      />
-
-                    </div>
-
-                  )}
-
-                </div>
-
-
-                {/* =========================================
-                    CONTENT
-                ========================================= */}
-
-                <div className="p-5">
-
-                  {/* Name */}
-
-                  <div
-                    className="
-                      flex
-                      items-start
-                      justify-between
-                      gap-4
-                    "
-                  >
-
-                    <h3
-                      className="
-                        text-base
-                        sm:text-lg
-                        font-semibold
-                        leading-6
-                        transition-colors
-                        duration-300
-                        group-hover:text-lime-400
-                      "
-                    >
-
-                      {item.name}
-
-                    </h3>
-
-
-                    <div
-                      className="
-                        shrink-0
-                        w-9
-                        h-9
-                        rounded-full
-                        border
-                        border-white/10
-                        flex
-                        items-center
-                        justify-center
-                        text-white/40
-                        transition-all
-                        duration-300
-                        group-hover:bg-lime-400
-                        group-hover:text-[#080d14]
-                        group-hover:border-lime-400
-                      "
-                    >
-
-                      <FiArrowUpRight />
-
-                    </div>
-
-                  </div>
-
-
-                  {/* Description */}
-
-                  <p
-                    className="
-                      mt-3
-                      text-xs
-                      sm:text-sm
-                      leading-6
-                      text-white/40
-                      line-clamp-3
-                    "
-                  >
-
-                    {item.description}
-
-                  </p>
-
-
-                  {/* Bottom */}
-
-                  <div
-                    className="
-                      mt-5
-                      pt-4
-                      border-t
-                      border-white/[0.06]
-                      flex
-                      items-center
-                      justify-between
-                    "
-                  >
-
-                    <span
-                      className="
-                        text-[10px]
-                        uppercase
-                        tracking-widest
-                        text-white/25
-                      "
-                    >
-
-                      {t("categoriesPage.card.explore")}
-
-                    </span>
-
-
-                    <FiChevronRight
-                      className="
-                        text-white/30
-                        transition-transform
-                        duration-300
-                        group-hover:translate-x-1
-                        group-hover:text-lime-400
-                      "
-                    />
-
-                  </div>
-
-                </div>
-
-
-                {/* =========================================
-                    HOVER GLOW
-                ========================================= */}
-
-                <div
-                  className="
-                    pointer-events-none
-                    absolute
-                    -bottom-20
-                    -right-20
-                    w-40
-                    h-40
-                    rounded-full
-                    bg-lime-400/10
-                    blur-3xl
-                    opacity-0
-                    group-hover:opacity-100
-                    transition-opacity
-                    duration-500
-                  "
-                />
-
-              </article>
-
-            ))}
-
+            {loading ? <CategorySkeleton count={6} /> : item}
           </motion.div>
 
         </div>

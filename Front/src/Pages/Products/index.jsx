@@ -10,11 +10,12 @@ import {
 
 import { motion } from "motion/react";
 
-import { fetchData } from "../../Utils/fetchData";
+import { fetchData, resolveMediaUrl } from "../../Utils/fetchData";
 
 import Notify from "../../Utils/Notify";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import ProductSkeleton from "../../Components/Skeleton/ProductSekeleton";
 
 export default function Products() {
 
@@ -121,7 +122,7 @@ export default function Products() {
                     `/public/products?${params.toString()}`
                 );
 
-
+                console.log(result)
                 if (!result?.success) {
 
                     Notify(
@@ -181,32 +182,29 @@ export default function Products() {
 
     // ================= CATEGORIES =================
 
+
     const categories = useMemo(() => {
-
-        const allCategories = products
-            ?.map((item) => item?.category)
-            ?.filter(Boolean);
-
-
-        const uniqueCategories = allCategories.filter(
-            (category, index, self) =>
-                index ===
-                self.findIndex(
-                    (item) =>
-                        item?._id === category?._id
-                )
-        );
-
-
-        return uniqueCategories;
-
+        return [
+            ...new Map(
+                products
+                    .filter((item) => item.categoryId?._id)
+                    .map((item) => [
+                        item.categoryId._id,
+                        item.categoryId,
+                    ])
+            ).values(),
+        ];
     }, [products]);
-
 
     return (
 
-        <main className="w-full min-h-screen bg-[#080d14] text-white">
 
+        <main className="w-full min-h-screen bg-[#080d14] text-white">
+            <title>{t("seo.products.title")}</title>
+            <meta
+                name="description"
+                content={t("seo.products.description")}
+            />
             {/* ================= HERO ================= */}
 
             <section
@@ -377,72 +375,50 @@ export default function Products() {
                             items-center
                             gap-2
                             flex-wrap
+                            h-max
                         "
                     >
 
-                        <FiFilter
-                            className="
-                                text-lime-400
-                                mr-2
-                            "
-                        />
+
 
 
                         {/* All */}
 
-                        <button
-                            onClick={() =>
-                                setActiveCategory("all")
-                            }
-                            className={`
-                                px-4
-                                py-2
-                                text-xs
-                                border
-                                transition-all
-                                duration-300
-                                ${
-                                    activeCategory === "all"
-                                        ? "bg-lime-400 text-black border-lime-400"
-                                        : "border-white/15 text-white/60 hover:border-lime-400/50"
-                                }
-                            `}
-                        >
-                            همه
-                        </button>
+                        <div className="w-full flex flex-wrap items-center gap-3">
 
+                            <button
+                                onClick={() => setActiveCategory("all")}
+                                className="px-5 py-2.5 rounded-xl text-xs font-medium cursor-pointer
+        bg-white/[0.03] border border-white/10
+        text-white/60 hover:text-lime-400
+        hover:bg-lime-400/10 transition-all"
+                            >
+                                {t('product.viewAll')}
+                            </button>
+
+                            {categories.map((category) => (
+                                <button
+                                    key={category._id}
+                                    onClick={() => {
+                                        setActiveCategory(category._id);
+                                        setPage(1);
+                                    }}
+                                    className={`px-5 py-2.5 rounded-xl text-xs font-medium cursor-pointer
+            border transition-all duration-300
+            ${activeCategory === category._id
+                                            ? "bg-lime-400 text-black border-lime-400"
+                                            : "bg-white/[0.03] border-white/10 text-white/60 hover:text-lime-400 hover:bg-lime-400/10"
+                                        }`}
+                                >
+                                    {category.name}
+                                </button>
+                            ))}
+
+                        </div>
 
                         {/* Categories */}
 
-                        {categories?.map(
-                            (category) => (
 
-                                <button
-                                    key={category?._id}
-                                    onClick={() =>
-                                        setActiveCategory(
-                                            category?._id
-                                        )
-                                    }
-                                    className={`
-                                        px-4
-                                        py-2
-                                        text-xs
-                                        border
-                                        transition-all
-                                        duration-300
-                                        ${
-                                            activeCategory === category?._id
-                                                ? "bg-lime-400 text-black border-lime-400"
-                                                : "border-white/15 text-white/60 hover:border-lime-400/50"
-                                        }
-                                    `}
-                                >
-                                    {category?.name}
-                                </button>
-
-                            )
-                        )}
 
                     </div>
 
@@ -488,7 +464,7 @@ export default function Products() {
                                         e.target.value
                                     )
                                 }
-                                placeholder="جستجوی محصول..."
+                                placeholder={t('product.searchPlaceholder')}
                                 className="
                                     w-full
                                     h-11
@@ -536,28 +512,28 @@ export default function Products() {
                                 value="order"
                                 className="bg-[#101720]"
                             >
-                                مرتب‌سازی پیش‌فرض
+                                {t('product.sort.default')}
                             </option>
 
                             <option
                                 value="newest"
                                 className="bg-[#101720]"
                             >
-                                جدیدترین
+                                {t('product.sort.newest')}
                             </option>
 
                             <option
                                 value="oldest"
                                 className="bg-[#101720]"
                             >
-                                قدیمی‌ترین
+                                {t('product.sort.oldest')}
                             </option>
 
                             <option
                                 value="name"
                                 className="bg-[#101720]"
                             >
-                                بر اساس نام
+                                {t('product.sort.name')}
                             </option>
 
                         </select>
@@ -569,22 +545,7 @@ export default function Products() {
 
                 {/* ================= LOADING ================= */}
 
-                {loading && (
-
-                    <div
-                        className="
-                            py-24
-                            flex
-                            items-center
-                            justify-center
-                            text-white/40
-                            text-sm
-                        "
-                    >
-                        در حال دریافت محصولات...
-                    </div>
-
-                )}
+                {loading && <ProductSkeleton />}
 
 
                 {/* ================= PRODUCT GRID ================= */}
@@ -604,34 +565,30 @@ export default function Products() {
 
                             {products.map(
                                 (item, index) => (
+                                    <Link to={`/detail-product/${item?._id}`}>
+                                        <motion.div
 
-                                    <motion.div
-                                        onClick={() =>
-                                            navigate(
-                                                `/detail-product/${item?._id}`
-                                            )
-                                        }
-                                        key={item?._id}
-                                        initial={{
-                                            opacity: 0,
-                                            y: 50,
-                                        }}
-                                        whileInView={{
-                                            opacity: 1,
-                                            y: 0,
-                                        }}
-                                        viewport={{
-                                            once: true,
-                                            amount: 0.15,
-                                        }}
-                                        transition={{
-                                            duration: 0.6,
-                                            delay: index * 0.1,
-                                        }}
-                                        whileHover={{
-                                            y: -8,
-                                        }}
-                                        className="
+                                            key={item?._id}
+                                            initial={{
+                                                opacity: 0,
+                                                y: 50,
+                                            }}
+                                            whileInView={{
+                                                opacity: 1,
+                                                y: 0,
+                                            }}
+                                            viewport={{
+                                                once: true,
+                                                amount: 0.15,
+                                            }}
+                                            transition={{
+                                                duration: 0.6,
+                                                delay: index * 0.1,
+                                            }}
+                                            whileHover={{
+                                                y: -8,
+                                            }}
+                                            className="
                                             cursor-pointer
                                             group
                                             relative
@@ -643,46 +600,44 @@ export default function Products() {
                                             transition-colors
                                             duration-500
                                         "
-                                    >
+                                        >
 
-                                        {/* Product Image */}
+                                            {/* Product Image */}
 
-                                        <div
-                                            className="
+                                            <div
+                                                className="
                                                 relative
                                                 h-72
                                                 overflow-hidden
                                                 bg-[#0b1119]
                                             "
-                                        >
+                                            >
 
-                                            <motion.img
-                                                src={
-                                                    item?.thumbnail
-                                                        ? `http://localhost:5001${item.thumbnail}`
-                                                        : "/hero-image.png"
-                                                }
-                                                alt={
-                                                    item?.name || ""
-                                                }
-                                                whileHover={{
-                                                    scale: 1.06,
-                                                }}
-                                                transition={{
-                                                    duration: 0.6,
-                                                }}
-                                                className="
+                                                <motion.img
+                                                    src={
+                                                       resolveMediaUrl(item.thumbnail)
+                                                    }
+                                                    alt={
+                                                        item?.name || ""
+                                                    }
+                                                    whileHover={{
+                                                        scale: 1.06,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.6,
+                                                    }}
+                                                    className="
                                                     w-full
                                                     h-full
                                                     object-cover
                                                 "
-                                            />
+                                                />
 
 
-                                            {/* Overlay */}
+                                                {/* Overlay */}
 
-                                            <div
-                                                className="
+                                                <div
+                                                    className="
                                                     absolute
                                                     inset-0
                                                     bg-linear-to-t
@@ -690,16 +645,16 @@ export default function Products() {
                                                     via-transparent
                                                     to-transparent
                                                 "
-                                            />
+                                                />
 
 
-                                            {/* Category */}
+                                                {/* Category */}
 
-                                            {(item?.category?.name ||
-                                                item?.category) && (
+                                                {(item?.category?.name ||
+                                                    item?.category) && (
 
-                                                <span
-                                                    className="
+                                                        <span
+                                                            className="
                                                         absolute
                                                         top-5
                                                         right-5
@@ -712,37 +667,27 @@ export default function Products() {
                                                         text-[10px]
                                                         text-lime-400
                                                     "
-                                                >
-                                                    {item?.category?.name ||
-                                                        item?.category}
-                                                </span>
+                                                        >
+                                                            {item?.category?.name ||
+                                                                item?.category}
+                                                        </span>
 
-                                            )}
+                                                    )}
 
-                                        </div>
-
-
-                                        {/* Content */}
-
-                                        <div className="p-6">
-
-                                            <p
-                                                className="
-                                                    text-[10px]
-                                                    tracking-[0.2em]
-                                                    text-lime-400
-                                                    uppercase
-                                                    mb-3
-                                                "
-                                            >
-                                                PRODUCT
-                                            </p>
+                                            </div>
 
 
-                                            {/* Name */}
+                                            {/* Content */}
 
-                                            <h2
-                                                className="
+                                            <div className="p-6">
+
+
+
+
+                                                {/* Name */}
+
+                                                <h2
+                                                    className="
                                                     text-xl
                                                     font-semibold
                                                     leading-tight
@@ -751,34 +696,34 @@ export default function Products() {
                                                     transition-colors
                                                     duration-300
                                                 "
-                                            >
-                                                {item?.name}
-                                            </h2>
+                                                >
+                                                    {item?.name}
+                                                </h2>
 
 
-                                            {/* Description */}
+                                                {/* Description */}
 
-                                            <p
-                                                className="
+                                                <p
+                                                    className="
                                                     text-sm
                                                     text-white/50
                                                     leading-7
                                                     min-h-14
                                                     mb-6
                                                 "
-                                            >
-                                                {item?.shortDescription ||
-                                                    item?.description}
-                                            </p>
+                                                >
+                                                    {item?.shortDescription ||
+                                                        item?.description}
+                                                </p>
 
 
-                                            {/* Details */}
+                                                {/* Details */}
 
-                                            <motion.div
-                                                whileHover={{
-                                                    x: 5,
-                                                }}
-                                                className="
+                                                <motion.div
+                                                    whileHover={{
+                                                        x: 5,
+                                                    }}
+                                                    className="
                                                     flex
                                                     items-center
                                                     gap-2
@@ -788,17 +733,17 @@ export default function Products() {
                                                     cursor-pointer
                                                     w-fit
                                                 "
-                                            >
-                                                مشاهده جزئیات
+                                                >
+                                                    <FiArrowUpRight />
+                                                    {t('product.viewDetails')}
 
-                                                <FiArrowUpRight />
 
-                                            </motion.div>
+                                                </motion.div>
 
-                                        </div>
+                                            </div>
 
-                                    </motion.div>
-
+                                        </motion.div>
+                                    </Link>
                                 )
                             )}
 
@@ -809,66 +754,45 @@ export default function Products() {
 
                 {/* ================= PAGINATION ================= */}
 
-                {totalPage > 1 && (
-
-                    <div
-                        className="
-                            mt-14
-                            flex
-                            items-center
-                            justify-center
-                            gap-2
-                        "
-                    >
-
-                        {Array.from({
-                            length: totalPage
-                        }).map((_, index) => (
-
-                            <button
-                                key={index}
-                                onClick={() =>
-                                    setPage(index + 1)
+                <div className="mt-14 flex items-center justify-center gap-2">
+                    {Array.from({ length: totalPage }).map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setPage(index + 1)}
+                            className={`
+                relative
+                w-10
+                h-10
+                flex
+                items-center
+                justify-center
+                text-sm
+                font-medium
+                border
+                transition-all
+                duration-300
+                ${page === index + 1
+                                    ? `
+                            bg-lime-400
+                            text-black
+                            border-lime-400
+                            shadow-[0_0_20px_rgba(163,230,53,0.2)]
+                        `
+                                    : `
+                            bg-[#101720]
+                            text-white/50
+                            border-white/10
+                            hover:text-lime-400
+                            hover:border-lime-400/50
+                            hover:bg-lime-400/5
+                        `
                                 }
-                                className={`
-                                    relative
-                                    w-10
-                                    h-10
-                                    flex
-                                    items-center
-                                    justify-center
-                                    text-sm
-                                    font-medium
-                                    border
-                                    transition-all
-                                    duration-300
-                                    ${
-                                        page === index + 1
-                                            ? `
-                                                bg-lime-400
-                                                text-black
-                                                border-lime-400
-                                                shadow-[0_0_20px_rgba(163,230,53,0.2)]
-                                            `
-                                            : `
-                                                bg-[#101720]
-                                                text-white/50
-                                                border-white/10
-                                                hover:text-lime-400
-                                                hover:border-lime-400/50
-                                                hover:bg-lime-400/5
-                                            `
-                                    }
-                                `}
-                            >
-                                {index + 1}
-                            </button>
-
-                        ))}
-
-                    </div>
-
-                )}
+            `}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
 
 
                 {/* ================= EMPTY ================= */}
