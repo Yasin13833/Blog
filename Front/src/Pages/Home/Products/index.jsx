@@ -427,7 +427,6 @@ export default function Products() {
         dir="rtl"
         slidesPerView={1}
         spaceBetween={12}
-        loop={products.length > 3}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,

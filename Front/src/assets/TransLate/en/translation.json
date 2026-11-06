@@ -8,35 +8,37 @@
 
   "contact": {
     "label": "Contact Us",
-    "title": "Tell us",
-    "titleHighlight": "how we can help.",
+    "title": "Tell Us",
+    "titleHighlight": "How We Can Help You.",
     "description": "Send us your questions and we will get back to you as soon as possible.",
-
+    "imageAlt": "Contact the AgriFlow team for support and consultation",
     "form": {
       "title": "Send a Message",
-      "description": "Please complete the required information so we can respond to you faster.",
+      "description": "Please fill in the required information so we can respond to you more quickly.",
       "fullName": "Full Name",
       "email": "Email",
       "phone": "Phone Number",
       "subject": "Subject",
+      "subjectPlaceholder": "Select a message subject",
       "message": "Your Message",
       "send": "Send Message",
       "subjects": [
-        "Question about a product",
+        "Product Inquiry",
         "Support",
         "Partnership",
+        "Price Inquiry",
+        "Irrigation System Consultation",
         "Other"
       ]
     },
-
     "info": {
       "office": {
         "title": "Head Office",
-        "address": "Mashhad, Ibn Sina, between Ibn Sina 15 and 17"
+        "address": "Mashhad, Ibn Sina Street, Between Ibn Sina 15 and 17"
       },
       "phone": {
         "title": "Phone",
-        "numbers": ["989105645615+", "989029523634+"]
+        "numbers": ["+989105645615", "+989029523634"]
       },
       "email": {
         "title": "Email",
@@ -44,18 +46,30 @@
       },
       "hours": {
         "title": "Working Hours",
-        "time": "Saturday - Thursday 08:00 - 16:00"
-      }
+        "time": "Saturday – Thursday, 08:00 AM – 04:00 PM"
+      },
+      "mapAlt": "Location of AgriFlow head office in Mashhad"
     },
-
     "faq": {
       "label": "Frequently Asked Questions",
-      "title": "Before you write, read this.",
+      "title": "Before You Contact Us, Read This.",
       "items": [
-        "How do I choose the right pipe size?",
-        "Do you provide services for farms and agricultural sites?",
-        "Can I get a price quote for a project?",
-        "Do you provide installation support?"
+        {
+          "question": "How do I choose the right pipe size?",
+          "answer": "Choosing the right pipe size depends on several factors, including the type of irrigation system, water flow rate, required pressure, and pipeline length. For more accurate guidance, send your project specifications to the AgriFlow team."
+        },
+        {
+          "question": "Do you provide services for farms and agricultural sites?",
+          "answer": "AgriFlow specializes in providing products and equipment for irrigation systems and agricultural applications. Contact our team to learn more about the products and services available for your project."
+        },
+        {
+          "question": "Can I request a price quotation for a project?",
+          "answer": "Yes. You can send your project details, required products, and technical specifications through our contact form or call us directly. Our team will review your quotation request."
+        },
+        {
+          "question": "Do you provide installation support?",
+          "answer": "To learn more about technical guidance and equipment installation support, contact the AgriFlow team. We will provide the relevant information based on your products and project requirements."
+        }
       ]
     }
   },
@@ -311,6 +325,11 @@
     "about": {
       "title": "About Us",
       "description": "Discover AgriFlow, providing irrigation and agricultural products and solutions to support better water management and improved efficiency."
+    },
+    "contact": {
+      "title": "Contact AgriFlow | Irrigation and Agricultural Solutions",
+      "description": "Get in touch with AgriFlow for expert advice, price inquiries, and information about irrigation products, agricultural equipment, and support.",
+      "keywords": "Contact AgriFlow, irrigation consultation, agricultural equipment, irrigation products, price inquiry, irrigation support"
     }
   }
 }
