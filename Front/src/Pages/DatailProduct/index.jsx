@@ -664,8 +664,9 @@ export default function ProductDetail() {
                                 >
                                     <span
                                         className="
-                                            text-xs
-                                            text-white/30
+                                            text-[16px]
+                                            font-bold
+                                            text-white/50
                                         "
                                     >
                                         {t("detailProduct.brand")}
@@ -682,38 +683,7 @@ export default function ProductDetail() {
                                 </div>
                             )}
 
-                            {/* CTA */}
 
-                            <button
-                                className="
-                                    group
-                                    mt-8
-                                    flex
-                                    items-center
-                                    gap-4
-                                    px-7
-                                    py-4
-                                    rounded-xl
-                                    bg-lime-400
-                                    text-black
-                                    text-sm
-                                    font-semibold
-                                    hover:bg-lime-300
-                                    transition-colors
-                                "
-                            >
-                                <FiArrowUpRight
-                                    className="
-                                        text-lg
-                                        group-hover:-translate-y-1
-                                        group-hover:translate-x-1
-                                        transition-transform
-                                    "
-                                />
-                                {t("detailProduct.consultation")}
-
-
-                            </button>
                         </motion.div>
                     </div>
                 </div>
@@ -836,7 +806,7 @@ export default function ProductDetail() {
 
             <section
                 className="
-                    border-t
+                    border
                     border-white/10
                     bg-[#0b1119]
                 "
@@ -848,20 +818,19 @@ export default function ProductDetail() {
                         px-6
                         sm:px-10
                         lg:px-16
-                        py-20
+                        py-10
                     "
                 >
                     <div
                         className="
                             flex
                             flex-col
-                            md:flex-row
-                            md:items-center
-                            md:justify-between
-                            gap-8
+                            justify-center
+                            items-center
+                            gap-10
                         "
                     >
-                        <div>
+                        <div className="flex flex-col items-center">
                             <p
                                 className="
                                     text-xs

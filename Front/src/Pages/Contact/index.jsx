@@ -4,7 +4,7 @@ import React, { useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { motion } from "motion/react";
-
+import contactImg from '../../assets/image/contact.jpg'
 export default function Contact() {
   const { t } = useTranslation();
 
@@ -75,7 +75,7 @@ export default function Contact() {
           className="h-[300px] w-full overflow-hidden rounded-2xl md:h-[400px] md:w-5/12"
         >
           <img
-            src="/contact.jpg"
+            src={contactImg}
             className="h-full w-full object-cover brightness-80"
             alt={contact.imageAlt || contact.title}
             loading="eager"

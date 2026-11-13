@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
+import Arabic from "../assets/image/Arabic.png";
+import English from "../assets/image/English.png";
+import Persian from "../assets/image/Persian.png";
 import {
   FiMenu,
   FiSearch,
@@ -176,15 +179,12 @@ export default function Navbar() {
             className="
               logo-container
               shrink-0
-              w-20
-              sm:w-24
-              md:w-28
-              lg:w-32
-              xl:w-36
-              h-10
-              sm:h-11
-              md:h-12
-              lg:h-14
+              w-12
+              h-full
+              sm:w-15
+              md:w-16
+              lg:w-17
+              xl:w-15
               transition-all
               duration-200
               hover:scale-105
@@ -194,7 +194,7 @@ export default function Navbar() {
             <img
               src="/Logo.png"
               alt="logo"
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               onClick={()=>navigate('/')}
             />
           </div>
@@ -209,8 +209,7 @@ export default function Navbar() {
               gap-4
               lg:gap-6
               xl:gap-8
-              min-w-0
-              flex-1
+              w-max              
             "
           >
             {Object.keys(navbar).map((item, index) => (
@@ -260,12 +259,12 @@ export default function Navbar() {
               lg:flex
               items-center
               gap-2
-              xl:gap-3
+              xl:gap-8
               shrink-0
             "
           >
             <img
-              src="Arabic.png"
+              src={Arabic}
               alt="العربية"
               onClick={() => i18n.changeLanguage("ar")}
               className="
@@ -279,7 +278,7 @@ export default function Navbar() {
             />
 
             <img
-              src="English.png"
+              src={English}
               alt="English"
               onClick={() => i18n.changeLanguage("en")}
               className="
@@ -293,7 +292,7 @@ export default function Navbar() {
             />
 
             <img
-              src="Persian.png"
+              src={Persian}
               alt="فارسی"
               onClick={() => i18n.changeLanguage("fa")}
               className="

@@ -36,7 +36,7 @@ export default function Products() {
 
   const items = products?.map((e, index) => {
     return (
-      <SwiperSlide key={e._id} className="!h-auto">
+      <SwiperSlide key={e._id}>
         <motion.article
           initial={{
             opacity: 0,
@@ -226,6 +226,8 @@ export default function Products() {
               leading-7
               text-white/50
               mb-6
+              max-w-95
+              truncate
             "
               >
                 {e.shortDescription}
@@ -415,17 +417,14 @@ export default function Products() {
           >
             <FiArrowDownRight className="text-lg" />
           </motion.div>
-
         </motion.div>
-
       </motion.div>
-
-
       {/* Products */}
-
       <Swiper
         dir="rtl"
+        className='px-15!'
         slidesPerView={1}
+        loop={true}
         spaceBetween={12}
         autoplay={{
           delay: 3000,
@@ -439,22 +438,18 @@ export default function Products() {
             spaceBetween: 16,
           },
 
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 16,
-          },
-
           1024: {
-            slidesPerView: 3,
+            slidesPerView: 2,
             spaceBetween: 20,
           },
+          1500: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          }
         }}
       >
         {items}
       </Swiper>
-
-
-
     </section>
   )
 }

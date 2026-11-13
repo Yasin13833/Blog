@@ -328,6 +328,7 @@ export default function Footer() {
                 tracking-[0.15em]
                 transition-colors
                 duration-300
+                rounded-2xl
               "
             >
 

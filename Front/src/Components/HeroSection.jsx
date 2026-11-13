@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
-
+import headerImg from '../assets/image/hero-image.png'
 export default function Slider() {
     const { t } = useTranslation();
 
@@ -10,7 +10,6 @@ export default function Slider() {
         returnObjects: true,
     });
 
-    const navigate = useNavigate();
 
     return (
         <section
@@ -18,8 +17,10 @@ export default function Slider() {
                 banner
                 relative
                 w-full
-                h-[70vh]
-                sm:h-screen
+                h-[60vh]
+                md:h-[80vh]
+                lg:h-[90vh]
+                xl:h-screen
                 overflow-hidden
                 border-b border-white/10
                 flex
@@ -58,7 +59,7 @@ export default function Slider() {
             />
 
             {/* IMAGE - RIGHT */}
-            <div className="w-7/12 h-full ml-auto shrink-0">
+            <div className="w-7/12 h-full ml-auto">
                 <div
                     className="
                         w-full
@@ -71,7 +72,7 @@ export default function Slider() {
                     "
                 >
                     <img
-                        src="/hero-image.png"
+                        src={headerImg}
                         alt={slider.title}
                         draggable={false}
                         fetchPriority="high"
@@ -92,7 +93,6 @@ export default function Slider() {
                     z-10
                     w-5/12
                     h-full
-                    shrink-0
                     bg-black
                     text-white
                     flex
@@ -100,9 +100,10 @@ export default function Slider() {
                     items-center
                     justify-center
                     gap-5
-                    sm:gap-14
-                    md:gap-12
+                    sm:gap-3
+                    md:gap-10
                     lg:gap-15
+                    xl:gap-20
                     pt-15
                 "
             >
@@ -112,6 +113,9 @@ export default function Slider() {
                         font-medium
                         tracking-wide
                         text-lime-400
+                        text-[10px]
+                        md:text-[15px]
+                        xl:text-[18px]
                     "
                     initial={{
                         y: -50,
@@ -134,11 +138,14 @@ export default function Slider() {
                         w-10/12
                         h-max
                         text-center
-                        text-xl
+                        text-[14px]
                         leading-8
-                        sm:text-3xl
-                        sm:leading-15
-                        lg:text-4xl
+                        sm:text-[15px]
+                        md:text-[18px]
+                        sm:leading-10
+                        lg:leading-12                   
+                        lg:text-3xl
+                        xl:text-4xl
                     "
                     initial={{
                         y: -50,
@@ -164,10 +171,10 @@ export default function Slider() {
                         text-[10px]
                         leading-5
                         text-white/50
-                        sm:text-[18px]
-                        sm:leading-12
-                        md:text-[20px]
-                        lg:text-2xl
+                        sm:text-[12px]
+                        sm:leading-8
+                        md:text-[14px]
+                        lg:text-[17px]
                     "
                     initial={{
                         y: -60,
@@ -186,73 +193,36 @@ export default function Slider() {
 
                 {/* Button */}
                 <Link to={"products"}>
-                    <motion.button
-                        initial={{
-                            y: -10,
-                            rotate: 0,
-                            opacity: 0,
-                        }}
-                        animate={{
-                            y: [0, -4, 0, -4, 0],
-                            rotate: [0, 1, 0, -1, 0],
-                            opacity: 1,
-                        }}
-                        transition={{
-                            y: {
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                            },
-                            rotate: {
-                                duration: 1,
-                                repeat: Infinity,
-                            },
-                            opacity: {
-                                duration: 1.1,
-                            },
-                        }}
-                    >
+                    
                         <span className="
                         flex
                         items-center
                         justify-center
-
+                        bg-[#a7ff21]
                         text-[8px]
                         text-nowrap
-
                         px-4
                         py-2
-
                         rounded-2xl
-
                         w-20
                         h-5
-
                         sm:h-8
                         sm:w-30
                         sm:text-[12px]
-
                         md:h-max
-
                         lg:h-12
                         lg:w-40
                         lg:text-[16px]
-
-                        font-bold
                         text-center
                         bg-(--accent)
                         text-black
                         cursor-pointer
-
                         transition-all
                         duration-200
-
-                        hover:shadow-2xl
-                        hover:shadow-[0_0_5px_1px_var(--accent)]
                     ">
                             {slider.button}
                         </span>
-                    </motion.button>
+                
                 </Link>
 
                 {/* Left fade */}

@@ -2,6 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from 'motion/react'
 import { Link } from "react-router-dom";
+import img from '../../assets/image/img.png'
+import video from '../../assets/image/آبیاری.mp4'
 // =============================
 // Icons
 // =============================
@@ -209,7 +211,7 @@ const ShieldIcon = () => (
 export default function AboutUs() {
   const { t } = useTranslation();
   return (
-    <main className="min-h-screen overflow-hidden bg-[#031321] text-white mt-16 py-16">
+    <main className="min-h-screen overflow-hidden bg-[#031321] text-white mt-16 ">
       <title>{t('seo.about.title')}</title>
       <meta
         name="description"
@@ -220,14 +222,13 @@ export default function AboutUs() {
       ====================================== */}
 
       <section className="border-b border-[#203445] py-8">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 lg:grid-cols-2">
+        <div className="mx-auto flex w-full max-w-350 flex-col items-center justify-center gap-10 px-6 sm:px-10 lg:gap-15 lg:px-20 lg:py-13 xl:flex-row xl:gap-10">
 
           {/* HERO TEXT */}
           <div
 
-            className="flex items-center px-6 py-16 sm:px-10 lg:px-16">
-            <div className="max-w-[560px] flex flex-col gap-5">
-
+            className="flex justify-center items-center sm:px-10 lg:w-10/12">
+            <div className="w-full flex flex-col items-center gap-5 xl:gap-8">
               <motion.div
                 initial={{
                   opacity: 0,
@@ -242,15 +243,17 @@ export default function AboutUs() {
                 transition={{
                   duration: .7
                 }}
-                className="mb-5 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
+                viewport={{ once: true }}
+                className=" flex justify-center items-center gap-3 text-sm font-medium text-[#a7ff21]">
                 <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
-                <span>
+                <span className="text-2xl">
                   {t("about.hero.label")}
                 </span>
               </motion.div>
 
               <motion.h1
+                viewport={{ once: true }}
                 initial={{
                   y: -30,
                   opacity: 0,
@@ -265,11 +268,12 @@ export default function AboutUs() {
                   duration: .7,
                   delay: .1
                 }}
-                className="text-3xl font-bold leading-[1.25] sm:text-5xl lg:text-[45px]">
+                className="text-center text-3xl font-bold leading sm:text-4xl md:text-[40px] lg:text-[45px] xl:text-nowrap xl:text-4xl">
                 {t("about.hero.title")}
               </motion.h1>
 
               <motion.p
+                viewport={{ once: true }}
                 initial={{
                   y: -40,
                   scale: .8,
@@ -284,7 +288,7 @@ export default function AboutUs() {
                   duration: .7,
                   delay: .2
                 }}
-                className="mt-6 max-w-[540px] text-sm leading-8 text-[#b8c4cf] sm:text-base">
+                className="text-center mt-6 max-w-10/12 text-sm leading-8 text-[#b8c4cf] sm:text-base lg:text-2xl lg:leading-15 xl:text-xl xl:leading-12">
                 {t("about.hero.description")}
               </motion.p>
             </div>
@@ -292,6 +296,7 @@ export default function AboutUs() {
 
           {/* HERO IMAGE */}
           <motion.div
+            viewport={{ once: true }}
             initial={{
               scale: .6,
               opacity: 0
@@ -303,12 +308,12 @@ export default function AboutUs() {
             transition={{
               duration: .7
             }}
-            className="min-h-[330px] lg:min-h-[430px] mx-10 rounded-2xl overflow-hidden">
+            className="h-[330px] w-full max-w-[620px] lg:max-w-[850px] xl:max-w-[620px] shrink-0 overflow-hidden rounded-2xl lg:h-[430px]">
             <img
-              src="/img.png"
+              src={img}
               alt={t("about.hero.title")}
               decoding="async"
-              className="h-full min-h-[330px] w-full object-cover lg:min-h-[430px] brightness-80"
+              className="h-full w-full object-cover brightness-80"
             />
           </motion.div>
 
@@ -321,12 +326,13 @@ export default function AboutUs() {
       ====================================== */}
 
       <section className="border-b border-[#203445]">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[0.7fr_1.3fr] lg:px-16 lg:py-8">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center justify-evenly gap-10 px-6 py-10 sm:px-10 xl:flex-row-reverse lg:gap-10 lg:px-20">
 
           {/* STORY TEXT */}
-          <div className="order-2 lg:order-1 flex flex-col gap-10">
+          <div className="flex w-full flex-col gap-10 items-center justify-center lg:flex-1">
 
             <motion.div
+              viewport={{ once: true }}
               initial={{
                 y: -20,
                 opacity: 0
@@ -341,15 +347,16 @@ export default function AboutUs() {
                 duration: .7
               }}
 
-              className="mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
+              className=" mb-4 flex items-center gap-3 text-sm font-medium text-[#a7ff21]">
               <span className="h-2.5 w-2.5 rounded-full border-2 border-[#a7ff21]" />
 
-              <span>
+              <span className="text-2xl">
                 {t("about.story.label")}
               </span>
             </motion.div>
 
             <motion.h2
+              viewport={{ once: true }}
               initial={{
                 y: -40,
                 opacity: 0,
@@ -363,32 +370,16 @@ export default function AboutUs() {
               transition={{
                 duration: .7
               }}
-              className="text-4xl font-bold leading-[1.4]">
+              className="text-2xl sm:text-4xl font-bold leading-[1.4] text-center">
               {t("about.story.title")}
             </motion.h2>
 
-            <div className="mt-5 max-w-[520px] space-y-4 text-sm leading-8 text-[#b8c4cf]">
+            <div className="mt-5 max-w-10/12 space-y-4 text-sm leading-8 text-[#b8c4cf]">
+
+
 
               <motion.p
-                initial={{
-                  y: -40,
-                  opacity: 0,
-                  scale: .5
-                }}
-                whileInView={{
-                  y: 0,
-                  opacity: 1,
-                  scale: 1
-                }}
-                transition={{
-                  duration: .7,
-                  delay: .2
-                }}
-              >
-                {t("about.story.text1")}
-              </motion.p>
-
-              <motion.p
+                viewport={{ once: true }}
                 initial={{
                   y: -40,
                   opacity: 0,
@@ -403,6 +394,7 @@ export default function AboutUs() {
                   duration: .7,
                   delay: .3
                 }}
+                className="text-center text-[15px]"
               >
                 {t("about.story.text2")}
               </motion.p>
@@ -410,78 +402,46 @@ export default function AboutUs() {
             </div>
 
             <Link to={"products"}>
-              <motion.button
-                initial={{
-                  y: -10,
-                  rotate: 0,
-                  opacity: 0,
-                }}
-                animate={{
-                  y: [0, -1, 0, -1, 0],
-                  rotate: [0, 1, 0, -1, 0],
-                  opacity: 1,
-                }}
-                transition={{
-                  y: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                  rotate: {
-                    duration: 1,
-                    repeat: Infinity,
-                  },
-                  opacity: {
-                    duration: 1.1,
-                  },
-                }}
-              >
 
-                <span className="
-                        flex
-                        items-center
-                        justify-center
+              <span className="
+                                  flex
+                                  items-center
+                                  justify-center
+                                  bg-[#a7ff21]
+                                  text-[13px]
+                                  font-bold
+                                  text-nowrap
+                                  px-15
+                                  py-4
+                                  rounded-2xl
+                                  w-20
+                                  h-5
+                                  sm:h-8
+                                  sm:w-30
+                                  sm:text-[12px]
+                                  md:h-max
+                                  lg:h-12
+                                  lg:w-40
+                                  lg:text-[16px]
+                                  text-center
+                                  bg-(--accent)
+                                  text-black
+                                  cursor-pointer
+                                  transition-all
+                                  duration-200
+                              ">
+                {t('about.story.button')}
+              </span>
 
-                        text-[8px]
-                        text-nowrap
-
-                        px-4
-                        py-2
-
-                        rounded-2xl
-
-                        w-30
-                        h-5
-
-                        sm:text-[12px]
-
-                        md:h-max
-
-                        lg:text-[16px]
-
-                        font-bold
-                        text-center
-                        bg-(--accent)
-                        text-black
-                        cursor-pointer
-
-                        transition-all
-                        duration-200
-
-                        hover:shadow-2xl
-                        hover:shadow-[0_0_5px_1px_var(--accent)]
-                    ">
-                  {t("about.story.button")}
-                </span>
-              </motion.button>
             </Link>
 
           </div>
 
 
           {/* STORY VIDEO */}
-          <div className="order-1 lg:order-2">
+          <div className="h-[330px] w-full max-w-[620px] lg:max-w-[850px] xl:max-w-[620px] shrink-0 lg:h-[430px]">
             <motion.div
+              viewport={{ once: true }}
               initial={{
                 scale: .80,
                 opacity: 0
@@ -494,11 +454,11 @@ export default function AboutUs() {
                 duration: .7
               }}
 
-              className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[#101720] shadow-[0_25px_80px_rgba(0,0,0,0.4)]">
+              className="relative h-full w-full overflow-hidden rounded-3xl border border-white/10 bg-[#101720] shadow-[0_25px_80px_rgba(0,0,0,0.4)]">
 
               <video
-                src="/آبیاری.mp4"
-                className="aspect-[1.7/1] w-full object-cover"
+                src={video}
+                className="h-full w-full object-cover"
                 autoPlay
                 poster="/img.png"
                 loop
@@ -510,29 +470,31 @@ export default function AboutUs() {
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#080d14]/90 via-[#080d14]/25 to-[#080d14]/10" />
 
               {/* Video Info */}
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-7">
 
-                <div className="max-w-[85%] rounded-2xl border border-white/10 bg-[#080d14]/70 p-4 shadow-lg backdrop-blur-md sm:p-5">
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-3 sm:gap-4 sm:p-5 lg:p-7">
 
-                  <p className="mb-2 text-xs font-semibold tracking-widest text-[#a7ff21]">
+                <div className="hidden h-max max-w-[75%] flex-col items-center justify-center rounded-2xl border border-white/10 bg-[#080d14]/70 px-3 py-3 shadow-lg backdrop-blur-md sm:flex sm:px-5 md:max-w-[65%] lg:px-8">
+
+                  <p className="mb-2 text-center text-xs font-semibold tracking-widest text-[#a7ff21]">
                     {t("about.story.videoLabel")}
                   </p>
 
-                  <h3 className="text-lg font-bold leading-relaxed text-white sm:text-2xl">
+                  <h3 className="text-center text-base font-bold leading-relaxed text-white sm:text-lg lg:text-2xl">
                     {t("about.story.videoTitle")}
                   </h3>
 
-                  <p className="mt-2 text-xs leading-6 text-white/75 sm:text-sm">
+                  <p className="mt-2 hidden text-center text-xs leading-6 text-white/75 lg:block">
                     {t("about.story.videoText")}
                   </p>
 
                 </div>
 
-                <div className="mb-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#a7ff21]/30 bg-[#a7ff21]/15 text-[#a7ff21] shadow-lg backdrop-blur-md sm:h-14 sm:w-14">
+                <div className="mb-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#a7ff21]/30 bg-[#a7ff21]/15 text-[#a7ff21] shadow-lg backdrop-blur-md sm:h-12 sm:w-12 lg:h-14 lg:w-14">
                   <PlayIcon />
                 </div>
 
               </div>
+
 
               {/* Top Badge */}
               <div className="absolute right-4 top-4 rounded-full border border-white/15 bg-black/50 px-3 py-2 text-[10px] font-medium text-white/90 backdrop-blur-md sm:right-5 sm:top-5 sm:text-xs">
@@ -558,6 +520,7 @@ export default function AboutUs() {
             <div>
 
               <motion.div
+                viewport={{ once: true }}
                 initial={{
                   y: -20,
                   opacity: 0
@@ -581,6 +544,7 @@ export default function AboutUs() {
               </motion.div>
 
               <motion.h2
+                viewport={{ once: true }}
                 initial={{
                   y: -20,
                   opacity: 0
@@ -623,10 +587,11 @@ export default function AboutUs() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
 
-            className="mt-10 grid grid-cols-1 border-t border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
+            className="mt-10 grid grid-cols-1 border-t border-b rounded-2xl overflow-hidden border-[#203445] sm:grid-cols-2 lg:grid-cols-5">
 
             {/* QUALITY */}
             <motion.div
+              viewport={{ once: true }}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -661,6 +626,7 @@ export default function AboutUs() {
 
             {/* SUPPORT */}
             <motion.div
+              viewport={{ once: true }}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -695,6 +661,7 @@ export default function AboutUs() {
 
             {/* SUSTAINABLE */}
             <motion.div
+              viewport={{ once: true }}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -729,6 +696,7 @@ export default function AboutUs() {
 
             {/* DELIVERY */}
             <motion.div
+              viewport={{ once: true }}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -744,7 +712,7 @@ export default function AboutUs() {
                 },
               }}
 
-              className="border-b border-[#203445] px-5 py-8 text-center sm:border-r lg:border-b-0">
+              className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-l lg:border-r">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <TruckIcon />
@@ -763,6 +731,7 @@ export default function AboutUs() {
 
             {/* PARTNERSHIP */}
             <motion.div
+            viewport={{ once: true }}
               variants={{
                 hidden: {
                   opacity: 0,
@@ -778,7 +747,7 @@ export default function AboutUs() {
                 },
               }}
 
-              className="px-5 py-8 text-center">
+              className="border-b border-[#203445] px-5 py-8 text-center lg:border-b-0 lg:border-l">
 
               <div className="mb-5 flex justify-center text-[#a7ff21]">
                 <UsersIcon />

@@ -110,7 +110,6 @@
     "model": "Model",
     "category": "Category",
     "brand": "Brand",
-    "consultation": "Request a Consultation",
     "descriptionLabel": "PRODUCT OVERVIEW",
     "descriptionTitle": "About the Product",
     "technicalData": "TECHNICAL DATA",
@@ -197,7 +196,6 @@
     "story": {
       "label": "Our Story",
       "title": "From the Soil, for a Better Future.",
-      "text1": "AgriFlow was founded on knowledge and experience, with the goal of providing smart solutions for water resource management and improving agricultural productivity.",
       "text2": "We work alongside farmers and local communities, providing high-quality products, expert consultation, and long-term support to make agriculture more efficient and sustainable.",
       "button": "Our Products",
       "videoLabel": "AGRIFLOW · IRRIGATION",
@@ -308,28 +306,28 @@
     "seoDescription": "SEO Description",
     "categoryId": "Category ID"
   },
-  "seo": {
-    "home": {
-      "title": "AgriFlow | Modern Irrigation and Agricultural Solutions",
-      "description": "Explore AgriFlow's irrigation and agricultural products, including practical solutions for efficient irrigation systems and improved agricultural productivity.",
-      "keywords": "AgriFlow, irrigation, agriculture, irrigation equipment, agricultural products, PVC pipes, irrigation fittings"
-    },
-    "products": {
-      "title": "Agricultural Products & Irrigation Equipment | AgriFlow",
-      "description": "Explore agricultural products and irrigation equipment, compare specifications, and find the right solutions for your farming needs."
-    },
-    "categories": {
-      "title": "Agricultural Products & Irrigation Categories | AgriFlow",
-      "description": "Explore agricultural product and irrigation equipment categories to find the right products for your farming and irrigation needs."
-    },
-    "about": {
-      "title": "About Us",
-      "description": "Discover AgriFlow, providing irrigation and agricultural products and solutions to support better water management and improved efficiency."
-    },
-    "contact": {
-      "title": "Contact AgriFlow | Irrigation and Agricultural Solutions",
-      "description": "Get in touch with AgriFlow for expert advice, price inquiries, and information about irrigation products, agricultural equipment, and support.",
-      "keywords": "Contact AgriFlow, irrigation consultation, agricultural equipment, irrigation products, price inquiry, irrigation support"
-    }
+"seo": {
+  "home": {
+    "title": "Modern Irrigation and Agricultural Solutions",
+    "description": "Explore AgriFlow's specialized irrigation and agricultural products and equipment. Discover practical solutions to improve irrigation systems and increase agricultural productivity.",
+    "keywords": "AgriFlow, irrigation, agriculture, irrigation equipment, agricultural products, PVC pipes, irrigation fittings"
+  },
+  "products": {
+    "title": "Agricultural and Irrigation Products",
+    "description": "Explore agricultural and irrigation products and equipment, review their specifications, and find the right solutions for your needs."
+  },
+  "categories": {
+    "title": "Product Categories",
+    "description": "Explore categories of agricultural products and irrigation equipment to find the products you need for agriculture and irrigation."
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Get to know AgriFlow, a provider of agricultural and irrigation products and solutions dedicated to improving water management and increasing productivity."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Contact AgriFlow's experts for professional advice, price inquiries, and information about agricultural and irrigation products and equipment.",
+    "keywords": "Contact AgriFlow, Get in touch with AgriFlow, irrigation consultation, irrigation equipment price inquiry, agricultural product support, irrigation equipment"
   }
+}
 }
