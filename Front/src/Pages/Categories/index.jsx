@@ -46,7 +46,7 @@ export default function Categories() {
           setCategories([]);
           return;
         }
-
+        console.log(result)
         setTotalPage(
           Math.ceil(result.meta.pagination.total / LIMIT)
         );

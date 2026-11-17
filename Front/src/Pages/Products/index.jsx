@@ -479,6 +479,7 @@ export default function Products() {
                                     placeholder:text-white/30
                                     focus:border-lime-400/50
                                     transition-colors
+                                    rounded-2xl
                                 "
                             />
 
@@ -500,11 +501,15 @@ export default function Products() {
                                 border
                                 border-white/10
                                 outline-none
-                                px-4
+                                px-3
                                 text-sm
                                 text-white/70
                                 focus:border-lime-400/50
                                 cursor-pointer
+                                rounded-2xl
+                                flex
+                                items-center
+                                justify-center
                             "
                         >
 

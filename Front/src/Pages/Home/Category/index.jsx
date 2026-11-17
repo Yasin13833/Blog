@@ -125,13 +125,13 @@ export default function Category() {
             transition={{
               duration: 0.35,
               delay: 0.08,
-              ease: "easeOut",
+              ease: "easeOut"
             }}
             className="
               text-lime-400
               text-[9px]
               sm:text-[10px]
-              md:text-xs
+              md:text-[16px]
               font-medium
               tracking-[0.2em]
               mb-4
@@ -208,9 +208,9 @@ export default function Category() {
               cursor-pointer
             "
           >
+            <FiArrowRight />
             <span>{category.viewAll}</span>
 
-            <FiArrowRight />
           </motion.div>
         </div>
 
@@ -233,26 +233,13 @@ export default function Category() {
           }}
           className="
             w-full
-
             grid
-
             grid-cols-1
-
             sm:grid-cols-2
-
             lg:grid-cols-3
-
-            xl:grid-cols-4
-
-            border
-            border-white/10
-
-            rounded-xl
+            xl:grid-cols-4   
             overflow-hidden
-
-            bg-black/5
-
-            shadow-[0_20px_60px_rgba(0,0,0,0.15)]
+            gap-5
           "
         >
           {loading ? <HomeCategorySkeleton /> : categories.map((item, index) => (
@@ -284,28 +271,20 @@ export default function Category() {
                 }}
                 className="
                 group
-                min-h-80
-
+                h-full
                 p-4
-
                 sm:p-5
-
                 lg:p-6
-
-                border-r
-                border-b
-                border-white/10
-
+                border
+                border-white/15
                 cursor-pointer
-
                 transition-colors
                 duration-300
-
                 relative
                 overflow-hidden
-
                 flex
                 flex-col
+                rounded-2xl
               "
               >
                 {/* ================= IMAGE ================= */}

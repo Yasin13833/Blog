@@ -98,6 +98,7 @@ export default function ContactInfo() {
                             w-full
                             h-full
                             object-cover
+                            rounded-2xl
                         "
                     />
                 </motion.div>

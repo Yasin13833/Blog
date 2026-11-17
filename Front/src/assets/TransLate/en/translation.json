@@ -8,35 +8,37 @@
 
   "contact": {
     "label": "Contact Us",
-    "title": "Tell us",
-    "titleHighlight": "how we can help.",
+    "title": "Tell Us",
+    "titleHighlight": "How We Can Help You.",
     "description": "Send us your questions and we will get back to you as soon as possible.",
-
+    "imageAlt": "Contact the AgriFlow team for support and consultation",
     "form": {
       "title": "Send a Message",
-      "description": "Please complete the required information so we can respond to you faster.",
+      "description": "Please fill in the required information so we can respond to you more quickly.",
       "fullName": "Full Name",
       "email": "Email",
       "phone": "Phone Number",
       "subject": "Subject",
+      "subjectPlaceholder": "Select a message subject",
       "message": "Your Message",
       "send": "Send Message",
       "subjects": [
-        "Question about a product",
+        "Product Inquiry",
         "Support",
         "Partnership",
+        "Price Inquiry",
+        "Irrigation System Consultation",
         "Other"
       ]
     },
-
     "info": {
       "office": {
         "title": "Head Office",
-        "address": "Mashhad, Ibn Sina, between Ibn Sina 15 and 17"
+        "address": "Mashhad, Ibn Sina Street, Between Ibn Sina 15 and 17"
       },
       "phone": {
         "title": "Phone",
-        "numbers": ["989105645615+", "989029523634+"]
+        "numbers": ["+989105645615", "+989029523634"]
       },
       "email": {
         "title": "Email",
@@ -44,18 +46,30 @@
       },
       "hours": {
         "title": "Working Hours",
-        "time": "Saturday - Thursday 08:00 - 16:00"
-      }
+        "time": "Saturday – Thursday, 08:00 AM – 04:00 PM"
+      },
+      "mapAlt": "Location of AgriFlow head office in Mashhad"
     },
-
     "faq": {
       "label": "Frequently Asked Questions",
-      "title": "Before you write, read this.",
+      "title": "Before You Contact Us, Read This.",
       "items": [
-        "How do I choose the right pipe size?",
-        "Do you provide services for farms and agricultural sites?",
-        "Can I get a price quote for a project?",
-        "Do you provide installation support?"
+        {
+          "question": "How do I choose the right pipe size?",
+          "answer": "Choosing the right pipe size depends on several factors, including the type of irrigation system, water flow rate, required pressure, and pipeline length. For more accurate guidance, send your project specifications to the AgriFlow team."
+        },
+        {
+          "question": "Do you provide services for farms and agricultural sites?",
+          "answer": "AgriFlow specializes in providing products and equipment for irrigation systems and agricultural applications. Contact our team to learn more about the products and services available for your project."
+        },
+        {
+          "question": "Can I request a price quotation for a project?",
+          "answer": "Yes. You can send your project details, required products, and technical specifications through our contact form or call us directly. Our team will review your quotation request."
+        },
+        {
+          "question": "Do you provide installation support?",
+          "answer": "To learn more about technical guidance and equipment installation support, contact the AgriFlow team. We will provide the relevant information based on your products and project requirements."
+        }
       ]
     }
   },
@@ -96,7 +110,6 @@
     "model": "Model",
     "category": "Category",
     "brand": "Brand",
-    "consultation": "Request a Consultation",
     "descriptionLabel": "PRODUCT OVERVIEW",
     "descriptionTitle": "About the Product",
     "technicalData": "TECHNICAL DATA",
@@ -183,7 +196,6 @@
     "story": {
       "label": "Our Story",
       "title": "From the Soil, for a Better Future.",
-      "text1": "AgriFlow was founded on knowledge and experience, with the goal of providing smart solutions for water resource management and improving agricultural productivity.",
       "text2": "We work alongside farmers and local communities, providing high-quality products, expert consultation, and long-term support to make agriculture more efficient and sustainable.",
       "button": "Our Products",
       "videoLabel": "AGRIFLOW · IRRIGATION",
@@ -294,23 +306,28 @@
     "seoDescription": "SEO Description",
     "categoryId": "Category ID"
   },
-  "seo": {
-    "home": {
-      "title": "AgriFlow | Modern Irrigation and Agricultural Solutions",
-      "description": "Explore AgriFlow's irrigation and agricultural products, including practical solutions for efficient irrigation systems and improved agricultural productivity.",
-      "keywords": "AgriFlow, irrigation, agriculture, irrigation equipment, agricultural products, PVC pipes, irrigation fittings"
-    },
-    "products": {
-      "title": "Agricultural Products & Irrigation Equipment | AgriFlow",
-      "description": "Explore agricultural products and irrigation equipment, compare specifications, and find the right solutions for your farming needs."
-    },
-    "categories": {
-      "title": "Agricultural Products & Irrigation Categories | AgriFlow",
-      "description": "Explore agricultural product and irrigation equipment categories to find the right products for your farming and irrigation needs."
-    },
-    "about": {
-      "title": "About Us",
-      "description": "Discover AgriFlow, providing irrigation and agricultural products and solutions to support better water management and improved efficiency."
-    }
+"seo": {
+  "home": {
+    "title": "Modern Irrigation and Agricultural Solutions",
+    "description": "Explore AgriFlow's specialized irrigation and agricultural products and equipment. Discover practical solutions to improve irrigation systems and increase agricultural productivity.",
+    "keywords": "AgriFlow, irrigation, agriculture, irrigation equipment, agricultural products, PVC pipes, irrigation fittings"
+  },
+  "products": {
+    "title": "Agricultural and Irrigation Products",
+    "description": "Explore agricultural and irrigation products and equipment, review their specifications, and find the right solutions for your needs."
+  },
+  "categories": {
+    "title": "Product Categories",
+    "description": "Explore categories of agricultural products and irrigation equipment to find the products you need for agriculture and irrigation."
+  },
+  "about": {
+    "title": "About Us",
+    "description": "Get to know AgriFlow, a provider of agricultural and irrigation products and solutions dedicated to improving water management and increasing productivity."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Contact AgriFlow's experts for professional advice, price inquiries, and information about agricultural and irrigation products and equipment.",
+    "keywords": "Contact AgriFlow, Get in touch with AgriFlow, irrigation consultation, irrigation equipment price inquiry, agricultural product support, irrigation equipment"
   }
+}
 }
