@@ -1,3 +1,7 @@
+
+
+
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from 'motion/react'
@@ -204,9 +208,7 @@ const ShieldIcon = () => (
   </svg>
 );
 
-// =============================
-// About Us
-// =============================
+
 
 export default function AboutUs() {
   const { t } = useTranslation();
@@ -220,7 +222,6 @@ export default function AboutUs() {
       {/* =====================================
           HERO SECTION
       ====================================== */}
-
       <section className="border-b border-[#203445] py-8">
         <div className="mx-auto flex w-full max-w-350 flex-col items-center justify-center gap-10 px-6 sm:px-10 lg:gap-15 lg:px-20 lg:py-13 xl:flex-row xl:gap-10">
 
@@ -321,9 +322,6 @@ export default function AboutUs() {
       </section>
 
 
-      {/* =====================================
-          STORY SECTION
-      ====================================== */}
 
       <section className="border-b border-[#203445]">
         <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center justify-evenly gap-10 px-6 py-10 sm:px-10 xl:flex-row-reverse lg:gap-10 lg:px-20">
@@ -508,9 +506,7 @@ export default function AboutUs() {
       </section>
 
 
-      {/* =====================================
-          FEATURES SECTION
-      ====================================== */}
+
 
       <section className="border-b border-[#203445]">
         <div className="mx-auto max-w-[1400px] px-6 py-12 sm:px-10 lg:px-16">
@@ -622,8 +618,6 @@ export default function AboutUs() {
               </p>
 
             </motion.div>
-
-
             {/* SUPPORT */}
             <motion.div
               viewport={{ once: true }}
@@ -658,7 +652,6 @@ export default function AboutUs() {
 
             </motion.div>
 
-
             {/* SUSTAINABLE */}
             <motion.div
               viewport={{ once: true }}
@@ -692,8 +685,6 @@ export default function AboutUs() {
               </p>
 
             </motion.div>
-
-
             {/* DELIVERY */}
             <motion.div
               viewport={{ once: true }}
@@ -727,8 +718,6 @@ export default function AboutUs() {
               </p>
 
             </motion.div>
-
-
             {/* PARTNERSHIP */}
             <motion.div
             viewport={{ once: true }}
@@ -769,15 +758,11 @@ export default function AboutUs() {
       </section>
 
 
-      {/* =====================================
-          STATS + MISSION
-      ====================================== */}
 
       <section className="border-b border-[#203445]">
 
         <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-4 px-6 py-6 sm:px-10 lg:grid-cols-2 lg:px-16">
 
-          {/* STATS */}
           <div className="relative min-h-[280px] overflow-hidden border border-[#263c4e]">
 
             <img
@@ -807,7 +792,6 @@ export default function AboutUs() {
 
               <div className="mt-7 grid grid-cols-4">
 
-                {/* YEARS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -821,7 +805,7 @@ export default function AboutUs() {
                 </div>
 
 
-                {/* CUSTOMERS */}
+
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -835,7 +819,6 @@ export default function AboutUs() {
                 </div>
 
 
-                {/* PRODUCTS */}
                 <div className="border-r border-[#43505b]/70 text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -848,8 +831,6 @@ export default function AboutUs() {
 
                 </div>
 
-
-                {/* SATISFACTION */}
                 <div className="text-center">
 
                   <p className="text-xl font-bold text-[#a7ff21] sm:text-2xl">
@@ -869,7 +850,7 @@ export default function AboutUs() {
           </div>
 
 
-          {/* MISSION */}
+
           <div className="relative min-h-[280px] overflow-hidden border border-[#244735] bg-[#08251b]">
 
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-[#a7ff21]/10" />
