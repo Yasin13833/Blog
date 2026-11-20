@@ -1,5 +1,5 @@
 import React from "react";
-
+import img from '../../../assets/image/hero-image.png'
 import { useTranslation } from "react-i18next";
 
 import {
@@ -79,7 +79,7 @@ export default function ContactInfo() {
                     "
                 >
                     <motion.img
-                        src="/hero-image.png"
+                        src={img}
                         alt={contactInfo.bigTitle}
                         initial={{
                             scale: 1.1,
